@@ -109,6 +109,10 @@ export default function SiteNav({ links, onQuizOpen, homeHref = "/", darkFrom = 
                 </div>
 
                 <div className="flex items-center gap-3 sm:gap-4 lg:gap-6 shrink-0">
+                    <a href="/" className={`hidden sm:flex items-center gap-1.5 font-mono text-[10px] sm:text-xs uppercase tracking-widest transition-colors ${dark ? "text-bone hover:text-lime" : "text-mute hover:text-vanta"}`}>
+                        Alle Leistungen
+                        <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 11L11 1M11 1H3.5M11 1V8.5" /></svg>
+                    </a>
                     {cta}
                     <button
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -129,13 +133,16 @@ export default function SiteNav({ links, onQuizOpen, homeHref = "/", darkFrom = 
                 }`}
             >
                 <div className="flex flex-col gap-8 text-center px-10">
+                    <a href="/" onClick={closeMenu} className="mobile-menu-link text-xl font-bold uppercase tracking-widest text-lime hover:text-white transition-colors" style={{ transitionDelay: "0ms" }}>
+                        Alle Leistungen
+                    </a>
                     {links.map((link, i) => (
                         <a
                             key={link.name}
                             href={link.href}
                             onClick={closeMenu}
                             className="mobile-menu-link text-3xl font-bold uppercase tracking-tighter text-white hover:text-lime transition-colors"
-                            style={{ transitionDelay: `${i * 100}ms` }}
+                            style={{ transitionDelay: `${(i + 1) * 100}ms` }}
                         >
                             {link.name}
                         </a>
