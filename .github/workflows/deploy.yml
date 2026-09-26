@@ -33,8 +33,9 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          NEXT_PUBLIC_SITE_URL: https://leoquent.github.io
-          NEXT_PUBLIC_BASE_PATH: /leoquentaddequat
+          NEXT_PUBLIC_SITE_URL: https://lqnt.de
+          NEXT_PUBLIC_BASE_PATH: ""
+          # NEXT_PUBLIC_WEB3FORMS_KEY: ${{ secrets.WEB3FORMS_KEY }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
