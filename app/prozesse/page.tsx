@@ -620,7 +620,7 @@ export default function Page() {
                         <span className="brutalist-marker text-vanta">Strategic Agentic Excellence</span>
                     </div>
 
-                    <h1 className="hero-headline text-vanta uppercase mb-8 md:mb-8" style={{ transformStyle: 'preserve-3d' }}>
+                    <h1 className="hero-headline text-vanta  mb-8 md:mb-8" style={{ transformStyle: 'preserve-3d' }}>
                         <span className="hero-word inline-block">KI-Systeme,</span>
                         <br />
                         <span className="hero-word inline-block">die</span>{" "}
@@ -708,7 +708,7 @@ export default function Page() {
                         </div>
 
                         <div className="w-full max-w-4xl reveal" style={{ transitionDelay: '200ms' }}>
-                            <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight text-white/90">
+                            <h3 className="text-xl md:text-2xl font-bold  tracking-tight text-white/90">
                                 Software sollte Zeit sparen. Nicht Zeit kosten.
                             </h3>
                             <p className="text-base md:text-lg text-bone/80 leading-relaxed font-light">
@@ -756,7 +756,7 @@ export default function Page() {
                                     className="group relative bg-vanta p-8 lg:p-10 transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col overflow-hidden hover:bg-lime h-auto min-h-[300px]"
                                 >
                                 
-                                    <h3 className="text-xl md:text-2xl uppercase font-bold mb-4 text-white group-hover:text-vanta transition-colors duration-500 relative z-10">{sol.title}</h3>
+                                    <h3 className="text-xl md:text-2xl  font-bold mb-4 text-white group-hover:text-vanta transition-colors duration-500 relative z-10">{sol.title}</h3>
                                     
                                     <div className="flex flex-wrap gap-2 mb-4 relative z-10">
                                         {sol.badges.map(b => (
@@ -788,7 +788,7 @@ export default function Page() {
                                 
                                     <div className="flex flex-row items-center justify-between gap-4 relative z-10 w-full">
                                         <div className="flex flex-col gap-4 w-full">
-                                            <h3 className={`text-xl uppercase font-bold transition-colors duration-500 shrink-0 ${openSolution === sol.id ? 'text-vanta' : 'text-white'}`}>
+                                            <h3 className={`text-xl  font-bold transition-colors duration-500 shrink-0 ${openSolution === sol.id ? 'text-vanta' : 'text-white'}`}>
                                                 {sol.title}
                                             </h3>
                                             
@@ -833,7 +833,7 @@ export default function Page() {
                                 <p className="font-mono text-xs uppercase tracking-widest">
                                     <span className="brutalist-marker text-vanta">Prozess</span>
                                 </p>
-                                <h2 className="text-2xl uppercase font-bold leading-tight text-vanta">Unser Weg zu<br />Ihrer Lösung.</h2>
+                                <h2 className="text-2xl  font-bold leading-tight text-vanta">Unser Weg zu<br />Ihrer Lösung.</h2>
                                 <p className="text-mute text-xs leading-relaxed font-light">Transparente Meilensteine von der Analyse bis zum Betrieb. Keine Blackbox.</p>
                                 
                                 {/* Mobile Horizontal Progress bar */}
@@ -867,7 +867,7 @@ export default function Page() {
                                     >
                                         <div className="flex items-center gap-3 mb-1">
                                             <span className="font-mono bg-lime text-vanta px-1 text-base font-bold">{s.n}</span>
-                                            <h3 className="text-sm uppercase font-bold text-vanta">{s.title}</h3>
+                                            <h3 className="text-sm  font-bold text-vanta">{s.title}</h3>
                                         </div>
                                         <p className="text-mute text-[11px] sm:text-xs leading-normal font-light">{s.text}</p>
                                     </div>
@@ -984,7 +984,7 @@ export default function Page() {
                                             className={`desktop-card-${i} absolute left-0 w-full p-8 lg:p-10 flex flex-col justify-center ${i === prozessData.length - 1 ? '' : 'border-b'} border-gridline ${zIndexClass} ${cardBgClass}`}
                                         >
                                             <div className={`prozess-number font-mono mb-4 text-2xl w-fit px-1.5 -ml-1.5 transition-colors duration-500 ${numberColorClass}`}>{s.n}</div>
-                                            <h3 className={`prozess-title text-xl uppercase font-bold mb-3 transition-colors duration-500 ${titleColorClass}`}>{s.title}</h3>
+                                            <h3 className={`prozess-title text-xl  font-bold mb-3 transition-colors duration-500 ${titleColorClass}`}>{s.title}</h3>
                                             <p className={`prozess-text text-sm leading-relaxed font-light max-w-md transition-colors duration-500 ${textColorClass}`}>{s.text}</p>
                                         </div>
                                     );
@@ -1040,7 +1040,7 @@ export default function Page() {
                                     onClick={() => setLockedIndustry(lockedIndustry === ind.id ? null : ind.id)}
                                     onKeyDown={(e) => onKeyToggle(e, () => setLockedIndustry(lockedIndustry === ind.id ? null : ind.id))}
                                 >
-                                    <h3 className={`text-sm lg:text-base uppercase font-bold transition-colors ${
+                                    <h3 className={`text-sm lg:text-base  font-bold transition-colors ${
                                         isActive ? 'text-vanta' : 'text-white/50 hover:text-white/80'
                                     }`}>
                                         {ind.name}
@@ -1069,7 +1069,7 @@ export default function Page() {
                                             <div className="font-mono text-[10px] uppercase text-lime mb-3 tracking-widest">
                                                 {"//"} {activeIndustry.name} Profile
                                             </div>
-                                            <h3 className="text-3xl lg:text-4xl uppercase font-black text-white mb-2 tracking-tight">
+                                            <h3 className="text-3xl lg:text-4xl  font-black text-white mb-2 tracking-tight">
                                                 {activeIndustry.name}
                                             </h3>
                                             {activeIndustry.subtitle && (
@@ -1111,7 +1111,7 @@ export default function Page() {
                                 onKeyDown={(e) => onKeyToggle(e, () => setOpenIndustry(openIndustry === ind.id ? null : ind.id))}
                                 className={`group border-b border-gridline last:border-b-0 px-6 py-5 transition-all duration-300 cursor-pointer ${openIndustry === ind.id ? 'bg-lime' : ''}`}
                             >
-                                <h3 className={`text-lg uppercase font-bold transition-colors ${openIndustry === ind.id ? 'text-vanta' : 'text-mute'}`}>{ind.name}</h3>
+                                <h3 className={`text-lg  font-bold transition-colors ${openIndustry === ind.id ? 'text-vanta' : 'text-mute'}`}>{ind.name}</h3>
                                 <div className={`grid transition-all duration-500 ${openIndustry === ind.id ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
                                     <div className="overflow-hidden">
                                         <div className="flex flex-col gap-4 pt-4">
@@ -1173,7 +1173,7 @@ export default function Page() {
                             >
 
                                 {/* Title — stays fixed, color transitions */}
-                                <h3 className="font-mono text-sm md:text-base text-vanta uppercase font-bold mb-2 md:mb-4 group-hover:text-white transition-colors duration-500">{item.title}</h3>
+                                <h3 className="font-mono text-sm md:text-base text-vanta  font-bold mb-2 md:mb-4 group-hover:text-white transition-colors duration-500">{item.title}</h3>
 
                                 {/* Text — read-first on mobile, slides up on hover for desktop */}
                                 <div className="translate-y-0 opacity-100 lg:translate-y-[120%] lg:opacity-0 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
@@ -1190,7 +1190,7 @@ export default function Page() {
                                 <p className="font-mono text-xs uppercase mb-4">
                                     <span className="brutalist-marker text-vanta">Über uns</span>
                                 </p>
-                                <h2 className="text-3xl lg:text-4xl uppercase font-bold mb-0 lg:mb-6 leading-tight">
+                                <h2 className="text-3xl lg:text-4xl  font-bold mb-0 lg:mb-6 leading-tight">
                                     Strategische <br className="lg:hidden" />
                                     Kreativität trifft <br className="hidden lg:inline" /><br className="lg:hidden" />
                                     <span className="text-lime/90">unzerstörbares</span> <br className="lg:hidden" />
@@ -1235,7 +1235,7 @@ export default function Page() {
                                 {/* Title (Always visible) */}
                                 <div className="pointer-events-auto shrink-0 flex justify-between items-end w-full">
                                     <div>
-                                        <h3 className="text-4xl uppercase font-black mb-1 text-white/90 group-hover:text-white transition-colors duration-500">Leonid</h3>
+                                        <h3 className="text-4xl  font-black mb-1 text-white/90 group-hover:text-white transition-colors duration-500">Leonid</h3>
                                         <p className="font-mono text-lime/80 text-[10px] sm:text-xs tracking-widest uppercase mb-0 group-hover:text-lime transition-colors duration-500">The Architect of Intent</p>
                                     </div>
                                     <div className={`lg:hidden w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-500 mb-1 ${openMember === 'leonid' ? 'rotate-45 border-lime text-lime' : 'border-white/30 text-white/70'}`}>
@@ -1273,7 +1273,7 @@ export default function Page() {
                     </div>
 
                     <div className="relative z-10 w-full max-w-2xl mx-auto reveal">
-                        <h2 className="text-5xl md:text-7xl uppercase font-bold mb-6">Bereit für echte<br /><span className="brutalist-marker">Freiräume?</span></h2>
+                        <h2 className="text-5xl md:text-7xl  font-bold mb-6">Bereit für echte<br /><span className="brutalist-marker">Freiräume?</span></h2>
                         <p className="text-bone/70 mb-12">Der erste Schritt ist menschlich: Eine unverbindliche Potenzialanalyse. Wir zeigen Ihnen, wo Sie Zeit bluten. Der zweite Schritt: Automatisierung.</p>
 
                         <button onClick={openQuiz} className="bg-lime text-vanta font-mono font-bold uppercase px-10 py-5 hover:bg-white hover:text-vanta transition-colors duration-300 btn-glitch border border-lime cursor-pointer text-lg">
@@ -1290,3 +1290,4 @@ export default function Page() {
         </div>
     );
 }
+
