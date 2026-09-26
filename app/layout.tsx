@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title,
     description:
-      'Webdesign, das beeindruckt. Prozesse & Automatisierung, die Ihnen den Rücken freihalten. Hochwertige Websites und intelligente Workflows für Ihr Unternehmen.',
+      'Hochwertige Websites und intelligente Workflows für Ihr Unternehmen.',
     applicationName: 'Leoquent',
     alternates: {
       canonical: `${siteUrl}${basePath}/`,
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
       siteName: 'Leoquent',
       title,
       description:
-        'Webdesign, das beeindruckt. Prozesse & Automatisierung, die Ihnen den Rücken freihalten. Hochwertige Websites und intelligente Workflows für Ihr Unternehmen.',
+        'Hochwertige Websites und intelligente Workflows für Ihr Unternehmen.',
       url: `${siteUrl}${basePath}/`,
     images: [
       {
