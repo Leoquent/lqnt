@@ -261,7 +261,7 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                 body: JSON.stringify({
                     access_key: process.env.NEXT_PUBLIC_WEB3FORMS_KEY,
                     subject: `Neue Potenzialanalyse-Anfrage – ${answers.name || "Website-Lead"}`,
-                    from_name: "leoquent & addequat Website",
+                    from_name: "Leoquent Website",
                     replyto: answers.email,
                     Name: answers.name,
                     "E-Mail": answers.email,
@@ -310,10 +310,14 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                         <div className="font-mono text-[10px] uppercase tracking-widest text-lime/70 mb-4">Anfrage erhalten</div>
                         <h2 className="text-2xl sm:text-3xl uppercase font-bold text-white mb-3 tracking-tight">Danke, wir melden uns.</h2>
                         <p className="text-sm text-bone/60 font-light mb-8 leading-relaxed">
-                            Ihre Angaben sind bei uns eingegangen. Buchen Sie jetzt direkt Ihren unverbindlichen & kostenlosen 30-Minuten-Slot für unser Gespräch.
+                            Ihre Angaben sind eingegangen. Wir melden uns. Wenn es schneller gehen soll, schreiben Sie direkt.
                         </p>
-                        <a href="https://calendly.com/ofxffm/30min" target="_blank" rel="noopener noreferrer" className="inline-block bg-lime text-vanta font-mono font-bold uppercase px-8 py-4 border border-lime btn-glitch text-sm">
-                            Jetzt Termin buchen →
+                        {/* Der frühere Button führte auf einen fremden Calendly-Account
+                            (calendly.com/ofxffm) und ist deshalb entfernt. Sobald ein eigener
+                            Account steht, kommt der Termin-Button hier zurück — siehe PLAN.md A4.
+                            Telefonnummer ergänzen, sobald sie feststeht. */}
+                        <a href="mailto:hi@lqnt.de" className="inline-block bg-lime text-vanta font-mono font-bold uppercase px-8 py-4 border border-lime btn-glitch text-sm">
+                            hi@lqnt.de
                         </a>
                         <button onClick={onClose} className="block mx-auto mt-6 font-mono text-xs uppercase tracking-widest text-bone/60 hover:text-white transition-colors">
                             Schließen
@@ -617,10 +621,19 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                         </button>
                     ) : (
                         <div className="flex flex-col items-end gap-2">
+                            {/* Sichtbarer Ausweichweg statt stillem Lead-Verlust: wenn der Versand
+                                scheitert (fehlender Key, Netzfehler, Web3Forms down), muss der
+                                Interessent uns trotzdem erreichen können. Siehe PLAN.md D4. */}
                             {submitState === "error" && (
-                                <span role="alert" className="font-mono text-[10px] uppercase tracking-wider text-red-400">
-                                    Senden fehlgeschlagen. Bitte erneut versuchen.
-                                </span>
+                                <div role="alert" className="text-right font-mono text-[10px] uppercase tracking-wider">
+                                    <span className="text-red-400 block mb-1">Senden fehlgeschlagen.</span>
+                                    <span className="text-bone/60 block normal-case tracking-normal">
+                                        Bitte erneut versuchen — oder direkt:{" "}
+                                        <a href="mailto:hi@lqnt.de" className="text-lime hover:underline">hi@lqnt.de</a>
+                                        {" · "}
+                                        <a href="tel:+4917647177623" className="text-lime hover:underline">+49 176 47 177 623</a>
+                                    </span>
+                                </div>
                             )}
                             {submitState !== "sending" && (
                                 <span className="font-mono text-[9px] uppercase tracking-widest text-lime/80 select-none mb-1">

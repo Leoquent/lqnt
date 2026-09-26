@@ -3,15 +3,14 @@ import type { Metadata } from "next";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export const metadata: Metadata = {
-  title: "Impressum | leoquent & addequat",
+  title: "Impressum | Leoquent",
   robots: { index: false, follow: true },
 };
 
-// ⚠️ TODO vor Launch: Alle [eckigen Klammern] mit den echten Angaben füllen.
 // Rechtsgrundlage: § 5 DDG (Digitale-Dienste-Gesetz) + § 18 Abs. 2 MStV.
-// Bei einer GbR (zwei Gründer ohne GmbH/UG) beide Namen + eine ladungsfähige
-// Anschrift angeben. Ein Postfach genügt NICHT. Bei Arbeit von zu Hause ist das
-// in der Regel die Privatadresse. Im Zweifel Impressum-Generator/Anwalt prüfen.
+// Einzelunternehmen: keine Rechtsformangabe, kein Vertretungsberechtigter.
+// USt-IdNr. steht auf "in Beantragung" — nach Erteilung hier eintragen.
+// Vor dem Livegang einmal über den IHK-Gründungsservice prüfen lassen.
 
 export default function ImpressumPage() {
   return (
@@ -25,22 +24,17 @@ export default function ImpressumPage() {
 
         <h2 className="text-lg font-bold uppercase tracking-tight mb-3">Angaben gemäß § 5 DDG</h2>
         <p className="text-sm text-bone/70 leading-relaxed mb-6">
-          leoquent &amp; addequat GbR<br />
-          [Vorname Nachname Leonid] &amp; [Vorname Nachname Admir]<br />
-          [Straße und Hausnummer]<br />
-          [PLZ und Ort]<br />
+          Leoquent<br />
+          Inhaber: Leonid Ryazanskiy<br />
+          Uerdinger Str. 75<br />
+          40474 Düsseldorf<br />
           Deutschland
-        </p>
-
-        <h2 className="text-lg font-bold uppercase tracking-tight mb-3">Vertreten durch</h2>
-        <p className="text-sm text-bone/70 leading-relaxed mb-6">
-          [Vorname Nachname Leonid], [Vorname Nachname Admir]
         </p>
 
         <h2 className="text-lg font-bold uppercase tracking-tight mb-3">Kontakt</h2>
         <p className="text-sm text-bone/70 leading-relaxed mb-6">
-          E-Mail: <a href="mailto:info@lunda-ki.de" className="text-lime hover:opacity-80">info@lunda-ki.de</a><br />
-          Telefon: [optional, aber empfohlen]
+          Telefon: <a href="tel:+4917647177623" className="text-lime hover:opacity-80">+49 176 47 177 623</a><br />
+          E-Mail: <a href="mailto:hi@lqnt.de" className="text-lime hover:opacity-80">hi@lqnt.de</a>
         </p>
 
         <h2 className="text-lg font-bold uppercase tracking-tight mb-3">Umsatzsteuer-ID</h2>
@@ -53,17 +47,12 @@ export default function ImpressumPage() {
           Redaktionell verantwortlich (§ 18 Abs. 2 MStV)
         </h2>
         <p className="text-sm text-bone/70 leading-relaxed mb-6">
-          [Vorname Nachname], [Anschrift wie oben]
+          Leonid Ryazanskiy, Anschrift wie oben
         </p>
 
-        <h2 className="text-lg font-bold uppercase tracking-tight mb-3">EU-Streitschlichtung</h2>
-        <p className="text-sm text-bone/70 leading-relaxed mb-6">
-          Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:{" "}
-          <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer" className="text-lime hover:opacity-80">
-            https://ec.europa.eu/consumers/odr/
-          </a>
-          . Unsere E-Mail-Adresse finden Sie oben im Impressum.
-        </p>
+        {/* Der frühere EU-Streitschlichtungs-Block ist bewusst entfernt: die OS-Plattform der
+            EU-Kommission wurde eingestellt, der Verweis ginge ins Leere und wäre damit eher
+            ein Risiko als eine Absicherung. Begründung in brand/IMPRESSUM_VORLAGE.md. */}
 
         <h2 className="text-lg font-bold uppercase tracking-tight mb-3">
           Verbraucherstreitbeilegung / Universalschlichtungsstelle
@@ -73,10 +62,6 @@ export default function ImpressumPage() {
           Verbraucherschlichtungsstelle teilzunehmen.
         </p>
 
-        <p className="text-xs text-mute/60 leading-relaxed mt-12 border-t border-gridline pt-6 font-mono">
-          Hinweis: Diese Seite ist eine Vorlage. Bitte vor dem Launch mit den echten Angaben
-          vervollständigen und rechtlich prüfen lassen.
-        </p>
       </div>
     </main>
   );

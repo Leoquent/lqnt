@@ -1,0 +1,763 @@
+"use client";
+
+import { useState } from "react";
+import QuizModal from "@/components/QuizModal";
+import SiteNav from "@/components/SiteNav";
+import SiteFooter from "@/components/SiteFooter";
+
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
+const navLinks = [
+    { name: "Problem", href: "#problem" },
+    { name: "Leistung", href: "#leistung" },
+    { name: "Referenz", href: "#referenz" },
+    { name: "Preise", href: "#preise" },
+    { name: "Ablauf", href: "#ablauf" },
+    { name: "FAQ", href: "#faq" },
+    { name: "Prozesse", href: `${basePath}/prozesse/` }
+];
+
+const trustBadges = [
+    "Festpreis, vorher und schriftlich",
+    "Texte von mir geschrieben",
+    "Server in Deutschland",
+    "Ein Ansprechpartner: ich"
+];
+
+const leistungen = [
+    {
+        title: "Texte, geschrieben statt angefordert",
+        text: "Sie liefern Fotos, Logo und ein Gespräch. Den Rest schreibe ich — in jedem Paket, ohne Aufpreis."
+    },
+    {
+        title: "Individuelles Design",
+        text: "Kein Baukasten von der Stange. Ihre Seite sieht aus wie Ihr Betrieb, nicht wie zehntausend andere."
+    },
+    {
+        title: "Schnell auf dem Telefon",
+        text: "Dort kommen die meisten Besucher an. Wenn die Seite dort ruckelt, ist der Rest egal."
+    },
+    {
+        title: "Anfragen, die ankommen",
+        text: "Formular, Klick-zum-Anruf, WhatsApp — und auf Wunsch ein geführtes Anfragemodul, das gleich die Angaben einsammelt, aus denen ein Angebot entsteht."
+    },
+    {
+        title: "Gefunden werden",
+        text: "Sauberer technischer Aufbau, eine eigene Seite je Leistung, Google-Unternehmensprofil eingerichtet."
+    },
+    {
+        title: "Bilder, auch ohne Fotoshooting",
+        text: "Fehlende oder schwache Fotos baue ich mit KI nach. Dieselben Menschen, nur seriös in Szene gesetzt — statt Handyfoto vom Firmenwagen."
+    },
+    {
+        title: "Server in Deutschland",
+        text: "DSGVO-konform gehostet, ohne Umweg über Drittländer."
+    },
+    {
+        title: "Alles gehört Ihnen",
+        text: "Dateien, Texte, Zugänge. Kein Lock-in — jeder andere Dienstleister kann jederzeit übernehmen."
+    }
+];
+
+const pakete = [
+    {
+        name: "Präsenz",
+        preis: "ab 1.900 €",
+        empfohlen: false,
+        zeilen: [
+            ["Aufbau", "One-Pager"],
+            ["Design", "Baukasten in Ihren Farben"],
+            ["Anfrage", "Formular + Klick-zum-Anruf"],
+            ["Google-Profil", "—"],
+            ["Stellenanzeigen", "—"]
+        ]
+    },
+    {
+        name: "Auftritt",
+        preis: "ab 3.900 €",
+        empfohlen: true,
+        zeilen: [
+            ["Aufbau", "One-Pager + 4–6 Leistungsseiten"],
+            ["Design", "individuell, animiert"],
+            ["Anfrage", "+ geführtes Anfragemodul"],
+            ["Google-Profil", "eingerichtet"],
+            ["Stellenanzeigen", "—"]
+        ]
+    },
+    {
+        name: "Wachstum",
+        preis: "ab 6.900 €",
+        empfohlen: false,
+        zeilen: [
+            ["Aufbau", "+ Ortsseiten + Karriereseite"],
+            ["Design", "individuell, eigene Grafiken, Scrollytelling"],
+            ["Anfrage", "+ Anbindung an Ihr System"],
+            ["Google-Profil", "eingerichtet, mit Ortsseiten verknüpft"],
+            ["Stellenanzeigen", "mit Google-Jobs-Auszeichnung"]
+        ]
+    }
+];
+
+const ablauf = [
+    {
+        n: "01",
+        title: "Gespräch",
+        text: "Wir gehen durch, was Sie heute haben, woher Anfragen kommen und wo sie verloren gehen. Kostenlos und unverbindlich. Danach wissen Sie, ob sich das lohnt."
+    },
+    {
+        n: "02",
+        title: "Festpreis und Konzept",
+        text: "Sie bekommen den Preis schriftlich und den Aufbau vor dem Design: welche Seiten, welche Reihenfolge, welche Botschaften. Erst wenn das steht, wird gestaltet."
+    },
+    {
+        n: "03",
+        title: "Umsetzung",
+        text: "Ich schreibe, gestalte und baue. Sie sehen den Stand laufend und sagen früh, was nicht passt — nicht am Ende. Nachbesserung bis zur Abnahme ohne Mehrkosten."
+    },
+    {
+        n: "04",
+        title: "Livegang",
+        text: "Online stellen, einweisen, übergeben. Was danach passiert, entscheiden Sie: selbst kümmern oder betreuen lassen."
+    }
+];
+
+const branchen = [
+    {
+        id: "handwerk",
+        name: "Handwerk",
+        claim: "Weniger Büro. Mehr Baustelle.",
+        intro: "Bei den meisten Betrieben ist nicht zu wenig zu tun — es ist das Falsche. Die gut bezahlte Anfrage liegt zwischen zwanzig kleinen, und wer zuerst antwortet, bekommt den Auftrag.",
+        punkte: [
+            ["Gefunden werden, wo gearbeitet wird", "Eine Seite je Leistung und Einzugsgebiet statt einer Seite für alles."],
+            ["Das Große vom Kleinen trennen", "Schon das Anfrageformular unterscheidet, ob jemand eine Wallbox oder einen Glühbirnenwechsel will. Das Große steht oben."],
+            ["Angebote schneller rausbekommen", "Wiederkehrende Anfragen kommen strukturiert an, fehlende Angaben fallen sofort auf."],
+            ["Mitarbeiter finden", "Karriereseite mit Google-Jobs-Auszeichnung. Für viele Betriebe wichtiger als die nächste Kundenanfrage."]
+        ]
+    },
+    {
+        id: "praxen",
+        name: "Praxen",
+        claim: "Weniger Dokumentation. Mehr Zeit für Patienten.",
+        intro: "Sensible Daten bleiben in Ihrer Umgebung und gehen nicht an offene Onlinedienste.",
+        punkte: [
+            ["Sichtbar für Neupatienten", "Website und Google-Profil so aufgestellt, dass Sie gefunden werden. Auch für Stellenausschreibungen."],
+            ["Termine ohne Telefonschleife", "Online-Terminanfrage, die Ihr Team nicht mehr Zeit kostet, sondern weniger."],
+            ["Unterlagen zusammenführen", "Formulare, Werte, Vorbefunde und Freitext aus verschiedenen Quellen an einer Stelle."],
+            ["Vor Ort verarbeitet", "Die Systeme laufen in Ihrer Infrastruktur, nicht in einer offenen Cloud."]
+        ]
+    },
+    {
+        id: "immobilien",
+        name: "Immobilien",
+        claim: "Verwaltung und Vermittlung, ohne im Posteingang zu leben.",
+        intro: "Mieteranfragen, Schadensmeldungen, Besichtigungswünsche, Handwerkerkoordination — vier Kanäle, ein Postfach, kein System.",
+        punkte: [
+            ["Objekte zeigen", "Exposés auf der Website mit Anfragestrecke und Terminbuchung statt PDF-Anhang per Mail."],
+            ["Anliegen vorsortieren", "Eingehende Meldungen werden erfasst und dem Objekt zugeordnet, bevor jemand sie liest."],
+            ["Eigentümer gewinnen", "Eine eigene Seite für Verkäufer und Vermieter, mit Bewertungsanfrage als Einstieg."],
+            ["Anrufe auffangen", "Was außerhalb der Sprechzeiten reinkommt, wird protokolliert und wartet als Vorgang."]
+        ]
+    }
+];
+
+const faq = [
+    {
+        q: "Was kostet eine Website bei Ihnen?",
+        a: "Ab 1.900 € für einen One-Pager, ab 3.900 € für den üblichen Umfang mit eigenen Leistungsseiten, ab 6.900 € mit Ortsseiten und Karriereseite. Der genaue Festpreis steht nach dem Erstgespräch — vorher, schriftlich, ohne Nachforderung."
+    },
+    {
+        q: "Muss ich die Texte liefern?",
+        a: "Nein. In keinem Paket. Ich schreibe sie — und zwar nicht nebenbei: über zehn Jahre Agenturerfahrung, ausgezeichnet unter anderem in Cannes und beim Art Directors Club. Genau daran bleiben die meisten Website-Projekte hängen, und bei mir fällt dieser Schritt weg."
+    },
+    {
+        q: "Ich habe keine guten Fotos. Ist das ein Problem?",
+        a: "Nein. Fehlende oder schwache Bilder baue ich mit KI nach — dieselben Menschen, nur seriös in Szene gesetzt. Das spart die Fotoproduktion und sieht besser aus als das Handyfoto vom Firmenwagen. Ein professionelles Shooting ist trotzdem immer die bessere Wahl, wenn das Budget da ist."
+    },
+    {
+        q: "Wie lange dauert das?",
+        a: "Drei bis sechs Wochen, je nach Umfang. Der häufigste Grund für Verzögerung sind fehlende Texte — und den gibt es hier nicht."
+    },
+    {
+        q: "Was passiert nach dem Livegang?",
+        a: "Sie haben die Wahl: alles selbst übernehmen, oder für 99 € im Monat betreuen lassen — Hosting, Domain, Zertifikat, Backups, Updates, Überwachung und Änderungen. In beiden Fällen gehört die Website Ihnen."
+    },
+    {
+        q: "Sie arbeiten allein — was, wenn Sie ausfallen?",
+        a: "Berechtigte Frage, drei Antworten. Für Ausfälle und Auftragsspitzen gibt es ein festes Partnernetzwerk. Reaktionszeiten stehen im Betreuungsvertrag, nicht im Kleingedruckten. Und das Wichtigste: Website, Texte und alle Zugänge gehören Ihnen. Jeder andere Dienstleister kann jederzeit übernehmen. Das können nicht alle Anbieter so klar sagen."
+    },
+    {
+        q: "Warum kostet das so viel wie bei einer Agentur?",
+        a: "Weil Sie mehr dafür bekommen. In einer Agentur mit acht Leuten schreibt kein preisgekrönter Texter die Seite eines Handwerksbetriebs — dort sitzen die Senioren bei den großen Etats, und Ihr Projekt läuft über Juniors, Vorlagen und einen Projektmanager dazwischen. Bei mir arbeitet an Ihrem Projekt der, mit dem Sie auch sprechen."
+    },
+    {
+        q: "Arbeiten Sie auch überregional?",
+        a: "Ja, ausschließlich digital. Wo ein Vor-Ort-Termin sinnvoll ist, komme ich vorbei."
+    },
+    {
+        q: "Wo liegen meine Daten?",
+        a: "Auf Servern in Deutschland. Wo sensible Daten verarbeitet werden — etwa in Praxen — läuft die Verarbeitung lokal in Ihrer Umgebung, nicht in einem offenen Onlinedienst."
+    },
+    {
+        q: "Sind Sie eine Agentur?",
+        a: "Nein. Ein Einzelunternehmen mit festem Partnernetzwerk. Der Unterschied für Sie: Sie sprechen immer mit demselben Menschen, und das ist der, der es baut."
+    }
+];
+
+export default function WebdesignPage() {
+    const [isQuizOpen, setIsQuizOpen] = useState(false);
+    const [openBranche, setOpenBranche] = useState<string | null>("handwerk");
+    const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+    const openQuiz = () => setIsQuizOpen(true);
+
+    return (
+        <div className="bg-vanta text-bone font-sans antialiased relative w-full" style={{ overflowX: "clip" }}>
+            <div className="noise-bg" />
+
+            <SiteNav links={navLinks} onQuizOpen={openQuiz} homeHref="/" darkFrom="viewport" />
+
+            <main>
+                {/* ─── B1 · HERO ─────────────────────────────────────────── */}
+                <section className="bg-white text-vanta flex justify-center min-h-[100svh] items-center">
+                    <div className="w-full max-w-[1440px] px-6 pt-28 pb-16 md:px-8 md:py-24 lg:px-10">
+                        <p className="font-mono mb-8 uppercase text-sm font-medium tracking-wider md:tracking-widest">
+                            <span className="brutalist-marker text-vanta">Webdesign</span>
+                        </p>
+
+                        <h1 className="hero-headline text-vanta uppercase mb-8">
+                            Die Website<br />ist die Tür.<br />
+                            <span className="brutalist-marker">Ich baue sie</span> —<br />und schreibe sie.
+                        </h1>
+
+                        <p className="text-lg md:text-xl text-mute leading-relaxed mb-10 max-w-2xl">
+                            Individuelles Design, Server in Deutschland, schnell auf dem Telefon. Und die Texte
+                            kommen von mir — in jedem Paket, ohne Aufpreis.
+                        </p>
+
+                        <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6 mb-12">
+                            <button
+                                onClick={openQuiz}
+                                className="btn-glitch inline-block bg-lime text-vanta font-mono font-bold uppercase py-4 px-8 border border-lime transition-all duration-75 cursor-pointer"
+                            >
+                                Potenzial analysieren
+                            </button>
+                            <a href="tel:+4917647177623" className="font-mono text-sm uppercase tracking-wider text-vanta border-b border-vanta/30 hover:border-lime hover:text-vanta transition-colors pb-0.5">
+                                +49 176 47 177 623
+                            </a>
+                        </div>
+
+                        <ul className="flex flex-col sm:flex-row sm:flex-wrap gap-x-8 gap-y-3 font-mono text-[11px] uppercase tracking-wider text-vanta/70">
+                            {trustBadges.map((b) => (
+                                <li key={b} className="flex items-start gap-2">
+                                    <span className="text-vanta font-bold" aria-hidden="true">✓</span>
+                                    <span>{b}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </section>
+
+                {/* ─── B2 · DAS PROBLEM ──────────────────────────────────── */}
+                <section id="problem" className="border-y border-gridline bg-[#080808] text-white flex justify-center scroll-mt-[65px]">
+                    <div className="w-full max-w-[1440px] px-6 py-16 md:px-8 md:py-24 lg:px-10 border-x border-gridline">
+                        <p className="font-mono text-xs uppercase mb-6 tracking-widest">
+                            <span className="brutalist-marker text-vanta">Das Problem</span>
+                        </p>
+
+                        <h2 className="section-headline max-w-4xl mb-12">
+                            Die meisten Betriebe verlieren Kunden nicht,<br />
+                            weil sie schlecht arbeiten.<br />
+                            <span className="text-lime">Sondern auf dem Weg dorthin.</span>
+                        </h2>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-gridline border border-gridline">
+                            {[
+                                {
+                                    n: "01",
+                                    t: "Sie werden nicht gefunden.",
+                                    d: "Die Website ist alt, langsam oder taucht bei Google nicht auf. Wer sucht, findet den Nächstbesten."
+                                },
+                                {
+                                    n: "02",
+                                    t: "Sie werden gefunden, aber nicht gewählt.",
+                                    d: "Die Seite beantwortet Fragen, die niemand gestellt hat, und verschweigt die, mit denen der Besucher gekommen ist. Kein Preis, keine Nummer, kein Grund, gerade Sie anzurufen."
+                                },
+                                {
+                                    n: "03",
+                                    t: "Es kommt genug rein — aber das Falsche bleibt hängen.",
+                                    d: "Wer ohnehin ausgelastet ist, braucht nicht mehr Anfragen, sondern die richtigen. Und wenn alle gleich aussehen, gewinnt nicht die profitabelste, sondern die, die zufällig oben liegt."
+                                }
+                            ].map((item) => (
+                                <div key={item.n} className="bg-[#080808] p-8 lg:p-10">
+                                    <div className="font-mono text-lime text-sm mb-4">{item.n}</div>
+                                    <h3 className="text-lg font-bold mb-3 leading-snug">{item.t}</h3>
+                                    <p className="text-sm text-bone/60 leading-relaxed font-light">{item.d}</p>
+                                </div>
+                            ))}
+                        </div>
+
+                        <p className="mt-10 text-sm md:text-base text-bone/70 leading-relaxed max-w-3xl font-light">
+                            Die ersten beiden Punkte löst eine Website. Den dritten löst sie mit — wenn sie
+                            richtig gebaut ist. Alles Weitere sind Abläufe, und darum kümmern wir uns danach.
+                        </p>
+                    </div>
+                </section>
+
+                {/* ─── B3 · DER UNTERSCHIED ──────────────────────────────── */}
+                {/* Steht bewusst VOR dem Angebot: Wer den Vorteil vorher kennt, vergleicht den
+                    Preis gegen einen Vorteil statt gegen eine Leistungsliste. */}
+                <section className="bg-lime text-vanta flex justify-center border-b border-vanta/10">
+                    <div className="w-full max-w-[1440px] px-6 py-16 md:px-8 md:py-24 lg:px-10">
+                        <p className="font-mono text-xs uppercase mb-8 tracking-widest text-vanta/60">Der Unterschied</p>
+
+                        <h2 className="section-headline max-w-4xl mb-10">
+                            Die meisten Website-Projekte<br />scheitern nicht am Design.<br />
+                            Sie scheitern an den Texten,<br />die nie kommen.
+                        </h2>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 max-w-6xl">
+                            <p className="text-base md:text-lg leading-relaxed text-vanta/80">
+                                Fast jeder Webdesigner wartet auf Ihre Texte. Das Design steht nach drei Wochen,
+                                und dann liegt das Projekt zwei Monate, weil im Betrieb niemand die Zeit findet,
+                                ein Word-Dokument zu füllen. Am Ende steht eine schöne Seite mit Sätzen, die
+                                jemand zwischen zwei Terminen hingeschrieben hat.
+                            </p>
+                            <div>
+                                <p className="text-base md:text-lg leading-relaxed text-vanta font-medium mb-6">
+                                    Bei mir entfällt dieser Schritt. Ich habe über zehn Jahre als Werbetexter
+                                    gearbeitet — unter anderem bei Scholz &amp; Friends, Serviceplan, Havas,
+                                    fischerAppelt und Zum Goldenen Hirschen —, ausgezeichnet unter anderem mit
+                                    Löwen in Cannes, Nägeln des Art Directors Club, bei den New York Festivals
+                                    und beim One Show.
+                                </p>
+                                <p className="text-base md:text-lg leading-relaxed text-vanta/80">
+                                    Sie liefern Fotos, Logo und ein Gespräch. Den Rest schreibe ich.
+                                </p>
+                                <p className="mt-6 font-mono text-sm uppercase tracking-wider bg-vanta text-lime inline-block px-3 py-2">
+                                    In jedem Paket. Auch im kleinsten.
+                                </p>
+                            </div>
+                        </div>
+
+                        <p className="mt-12 text-sm text-vanta/60 leading-relaxed max-w-3xl border-t border-vanta/20 pt-6">
+                            Das sind Preise, die ein Handwerksbetrieb nicht kennen muss. Was sie bedeuten, ist
+                            einfacher: Ich habe zehn Jahre lang gelernt, in wenigen Worten zu sagen, warum jemand
+                            kaufen soll — für Marken mit Millionenbudgets. Heute mache ich dasselbe für Betriebe,
+                            bei denen jede einzelne Anfrage zählt.
+                        </p>
+                    </div>
+                </section>
+
+                {/* ─── B4 · WAS SIE BEKOMMEN ─────────────────────────────── */}
+                <section id="leistung" className="bg-white text-vanta flex justify-center border-b border-gridline scroll-mt-[65px]">
+                    <div className="w-full max-w-[1440px]">
+                        <div className="px-6 py-16 md:px-8 md:py-24 lg:px-10 border-x border-gridline">
+                            <p className="font-mono text-xs uppercase mb-6 tracking-widest">
+                                <span className="brutalist-marker text-vanta">Leistung</span>
+                            </p>
+                            <h2 className="section-headline text-vanta max-w-3xl">
+                                Nicht nur eine Website.<br />Ein Auftritt, der arbeitet.
+                            </h2>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-gridline border-x border-t border-gridline">
+                            {leistungen.map((l) => (
+                                <div key={l.title} className="bg-white p-6 lg:p-8 group hover:bg-vanta transition-colors duration-500">
+                                    <h3 className="text-base font-bold mb-3 leading-snug text-vanta group-hover:text-lime transition-colors duration-500">
+                                        {l.title}
+                                    </h3>
+                                    <p className="text-sm text-vanta/60 group-hover:text-white/70 leading-relaxed font-light transition-colors duration-500">
+                                        {l.text}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* ─── B5 · REFERENZ ─────────────────────────────────────── */}
+                {/* Beweis vor Preis: Eine Zahl, die vor dem Vertrauen kommt, ist immer zu hoch. */}
+                <section id="referenz" className="bg-vanta text-white flex justify-center border-b border-gridline scroll-mt-[65px]">
+                    <div className="w-full max-w-[1440px] px-6 py-16 md:px-8 md:py-24 lg:px-10 border-x border-gridline">
+                        <p className="font-mono text-xs uppercase mb-6 tracking-widest">
+                            <span className="brutalist-marker text-vanta">Referenz</span>
+                        </p>
+                        <h2 className="section-headline mb-4">Was ich gebaut habe.</h2>
+                        <p className="text-bone/60 text-sm mb-12 font-light">
+                            Ich zeige, was live ist. Nicht mehr, und nichts Erfundenes.
+                        </p>
+
+                        <div className="border border-gridline bg-[#0a0a0a]">
+                            <div className="p-8 lg:p-12 border-b border-gridline">
+                                <div className="font-mono text-[10px] uppercase text-lime mb-3 tracking-widest">
+                                    {"//"} Entrümpelung und Haushaltsauflösung · Stuttgart
+                                </div>
+                                <h3 className="text-3xl lg:text-4xl uppercase font-black mb-6 tracking-tight">RümpelRoss</h3>
+                                <p className="text-bone/70 leading-relaxed max-w-3xl">
+                                    Ein Familienbetrieb, der seine Website selbst gebaut hatte. Alles Wichtige stand
+                                    drauf — nur fand es niemand, und wer es fand, fand nicht zur Anfrage. Heute führt
+                                    die Seite in vier Schritten vom Problem zum Festpreis, bietet drei Wege zur
+                                    Kontaktaufnahme statt einem, und sieht dabei immer noch aus wie RümpelRoss.
+                                </p>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-gridline">
+                                {[
+                                    {
+                                        t: "Ausgangslage",
+                                        d: "Alles stand gleich groß und gleich laut nebeneinander. Wer wissen wollte, was eine Haushaltsauflösung kostet, musste suchen. Über Google kam kaum jemand. Das Problem war nicht der Geschmack, sondern die Reihenfolge."
+                                    },
+                                    {
+                                        t: "Was geblieben ist",
+                                        d: "Die Handschrift. Ein eigener, leicht comichafter Zug und kräftige Farben — genau das, was den Betrieb von der austauschbaren Konkurrenz unterscheidet. Nicht wegdesignt, sondern freigelegt."
+                                    },
+                                    {
+                                        t: "Gefunden werden",
+                                        d: "Die Seite nennt jetzt, wo gearbeitet wird — Stuttgart, Ludwigsburg, Esslingen, Böblingen und sieben weitere Orte. Jede Leistung hat einen eigenen Platz mit eigener Überschrift."
+                                    },
+                                    {
+                                        t: "Verstanden werden",
+                                        d: "Vier Schritte von der Anfrage bis zur Übergabe. Vier Zusagen, die das Risiko nehmen. Sechs Projekte mit Größe und Dauer — 1.200 Quadratmeter in drei Tagen sagt mehr als jedes Adjektiv. Ein Vorher-Nachher-Regler zeigt das Ergebnis direkt."
+                                    },
+                                    {
+                                        t: "Angefragt werden",
+                                        d: "Drei Wege statt einem. Wer reden will, ruft an. Wer schnell will, schickt Fotos per WhatsApp und bekommt eine Preisspanne zurück. Wer erst rechnen will, nutzt den Kostenrechner."
+                                    },
+                                    {
+                                        t: "Ergebnis",
+                                        d: "Folgt nach dem Livegang — Anfragen pro Monat vorher und nachher ist die Zahl, auf die es ankommt.",
+                                        offen: true
+                                    }
+                                ].map((b) => (
+                                    <div key={b.t} className="bg-[#0a0a0a] p-6 lg:p-8">
+                                        <h4 className={`text-xs uppercase font-bold mb-2 tracking-wider ${b.offen ? "text-mute" : "text-lime"}`}>{b.t}</h4>
+                                        <p className={`text-sm leading-relaxed font-light ${b.offen ? "text-mute/70 italic" : "text-white/60"}`}>{b.d}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <p className="mt-6 font-mono text-[10px] uppercase tracking-widest text-mute">
+                            [ Screenshots, Kundenstimme und Link folgen mit dem Livegang ]
+                        </p>
+                    </div>
+                </section>
+
+                {/* ─── B6 · PAKETE & PREISE ──────────────────────────────── */}
+                <section id="preise" className="bg-white text-vanta flex justify-center border-b border-gridline scroll-mt-[65px]">
+                    <div className="w-full max-w-[1440px] px-6 py-16 md:px-8 md:py-24 lg:px-10 border-x border-gridline">
+                        <p className="font-mono text-xs uppercase mb-6 tracking-widest">
+                            <span className="brutalist-marker text-vanta">Preise</span>
+                        </p>
+                        <h2 className="section-headline text-vanta mb-10">Festpreis. Vorher.<br />Schriftlich.</h2>
+
+                        {/* Was überall enthalten ist, gehört über die Tabelle — nicht als Zeile hinein,
+                            wo es wie Füllmaterial aussieht. */}
+                        <div className="border border-vanta bg-vanta text-white p-6 lg:p-8 mb-10">
+                            <p className="font-mono text-[10px] uppercase tracking-widest text-lime mb-4">In jedem Paket enthalten</p>
+                            <ul className="flex flex-wrap gap-x-8 gap-y-2 text-sm">
+                                {[
+                                    "Texte von mir geschrieben",
+                                    "Festpreis, vorher und schriftlich",
+                                    "Server in Deutschland",
+                                    "Nachbesserung ohne Mehrkosten bis zur Abnahme",
+                                    "Ein Ansprechpartner"
+                                ].map((x) => (
+                                    <li key={x} className="flex items-start gap-2">
+                                        <span className="text-lime" aria-hidden="true">✓</span>
+                                        <span>{x}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-gridline border border-gridline">
+                            {pakete.map((p) => (
+                                <div key={p.name} className={`p-8 lg:p-10 flex flex-col ${p.empfohlen ? "bg-vanta text-white" : "bg-white text-vanta"}`}>
+                                    {p.empfohlen && (
+                                        <span className="font-mono text-[10px] uppercase tracking-widest bg-lime text-vanta px-2 py-1 w-fit mb-4">Empfohlen</span>
+                                    )}
+                                    <h3 className={`text-2xl uppercase font-bold mb-1 ${p.empfohlen ? "text-white" : "text-vanta"}`}>{p.name}</h3>
+                                    <p className={`text-3xl font-black mb-8 ${p.empfohlen ? "text-lime" : "text-vanta"}`}>{p.preis}</p>
+
+                                    <dl className="flex flex-col gap-4 text-sm">
+                                        {p.zeilen.map(([k, v]) => (
+                                            <div key={k} className={`pb-4 border-b ${p.empfohlen ? "border-white/10" : "border-vanta/10"} last:border-b-0 last:pb-0`}>
+                                                <dt className={`font-mono text-[10px] uppercase tracking-widest mb-1 ${p.empfohlen ? "text-lime/70" : "text-mute"}`}>{k}</dt>
+                                                <dd className={`font-light leading-snug ${p.empfohlen ? "text-white/80" : "text-vanta/70"}`}>{v}</dd>
+                                            </div>
+                                        ))}
+                                    </dl>
+                                </div>
+                            ))}
+                        </div>
+
+                        <p className="mt-6 text-sm text-mute leading-relaxed max-w-3xl font-light">
+                            Die Pakete unterscheiden sich in Umfang, Gestaltungstiefe und Funktionen — nie darin,
+                            wie gut die Texte sind. Alle Preise netto. Der Festpreis steht nach dem Erstgespräch,
+                            vorher und schriftlich, ohne Nachforderung. Ratenzahlung in drei Schritten ohne
+                            Aufschlag.
+                        </p>
+
+                        {/* ─── B7 · BETREUUNG ─── */}
+                        <div className="mt-20 pt-16 border-t border-gridline">
+                            <h2 className="section-headline text-vanta mb-4">Danach haben Sie die Wahl.</h2>
+                            <p className="text-mute mb-10 max-w-2xl leading-relaxed font-light">
+                                Eine Website ist kein Möbelstück. Domain, Zertifikat, Backups und Updates laufen
+                                weiter, ob sich jemand kümmert oder nicht. Sie entscheiden, wer das tut.
+                            </p>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-gridline border border-gridline">
+                                <div className="bg-white p-8 lg:p-10">
+                                    <h3 className="text-xl uppercase font-bold mb-1 text-vanta">Sie kümmern sich selbst</h3>
+                                    <p className="text-3xl font-black mb-6 text-vanta">0 €</p>
+                                    <p className="text-sm text-vanta/70 leading-relaxed font-light">
+                                        Sie bekommen alles: Dateien, Texte, Zugänge, Domain. Sie hosten selbst, spielen
+                                        Updates ein, machen Backups.
+                                    </p>
+                                </div>
+                                <div className="bg-vanta text-white p-8 lg:p-10">
+                                    <h3 className="text-xl uppercase font-bold mb-1">Ich kümmere mich</h3>
+                                    <p className="text-3xl font-black mb-6 text-lime">99 € <span className="text-base font-normal text-white/50">/ Monat</span></p>
+                                    <p className="text-sm text-white/70 leading-relaxed font-light">
+                                        Hosting, Domain, Zertifikat, Backups, Updates, Überwachung. Änderungen bis
+                                        45 Minuten im Monat, umgesetzt binnen zwei Werktagen. Google-Unternehmensprofil
+                                        gepflegt.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <p className="mt-6 text-sm text-mute font-light">
+                                12 Monate Mindestlaufzeit, danach monatlich kündbar. Kein Lock-in: Ihre Website
+                                gehört in beiden Fällen Ihnen.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* ─── B8 · ABLAUF ───────────────────────────────────────── */}
+                <section id="ablauf" className="bg-vanta text-white flex justify-center border-b border-gridline scroll-mt-[65px]">
+                    <div className="w-full max-w-[1440px] px-6 py-16 md:px-8 md:py-24 lg:px-10 border-x border-gridline">
+                        <p className="font-mono text-xs uppercase mb-6 tracking-widest">
+                            <span className="brutalist-marker text-vanta">Ablauf</span>
+                        </p>
+                        <h2 className="section-headline mb-4">So läuft das ab.</h2>
+                        <p className="text-bone/60 text-sm mb-12 font-light">
+                            Vier Schritte. Keine Blackbox, keine Überraschung auf der Rechnung.
+                        </p>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-gridline border border-gridline">
+                            {ablauf.map((s) => (
+                                <div key={s.n} className="bg-vanta p-8 lg:p-10">
+                                    <div className="font-mono mb-4 text-2xl w-fit px-1.5 -ml-1.5 bg-lime text-vanta">{s.n}</div>
+                                    <h3 className="text-lg uppercase font-bold mb-3">{s.title}</h3>
+                                    <p className="text-sm text-bone/60 leading-relaxed font-light">{s.text}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* ─── B9 · BRANCHEN ─────────────────────────────────────── */}
+                <section id="branchen" className="bg-white text-vanta flex justify-center border-b border-gridline scroll-mt-[65px]">
+                    <div className="w-full max-w-[1440px] px-6 py-16 md:px-8 md:py-24 lg:px-10 border-x border-gridline">
+                        <p className="font-mono text-xs uppercase mb-6 tracking-widest">
+                            <span className="brutalist-marker text-vanta">Branchen</span>
+                        </p>
+                        <h2 className="section-headline text-vanta mb-4">Ich kenne Ihre Abläufe.</h2>
+                        <p className="text-mute text-sm mb-12 font-light max-w-2xl">
+                            Drei Branchen, in denen ich zu Hause bin — statt zwölf, in denen ich es behaupte.
+                        </p>
+
+                        <div className="border border-gridline">
+                            {branchen.map((b) => {
+                                const open = openBranche === b.id;
+                                return (
+                                    <div key={b.id} className="border-b border-gridline last:border-b-0">
+                                        <button
+                                            onClick={() => setOpenBranche(open ? null : b.id)}
+                                            aria-expanded={open}
+                                            className={`w-full text-left px-6 py-5 lg:px-8 flex items-center justify-between gap-4 transition-colors duration-300 cursor-pointer ${
+                                                open ? "bg-lime" : "hover:bg-lime/10"
+                                            }`}
+                                        >
+                                            <span>
+                                                <span className="block text-xl lg:text-2xl uppercase font-bold text-vanta">{b.name}</span>
+                                                <span className={`block text-xs lg:text-sm font-medium mt-1 ${open ? "text-vanta/70" : "text-mute"}`}>{b.claim}</span>
+                                            </span>
+                                            <span className={`font-mono text-2xl font-light leading-none transition-transform duration-500 ${open ? "rotate-45 text-vanta" : "text-mute"}`}>+</span>
+                                        </button>
+
+                                        <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
+                                            <div className="overflow-hidden">
+                                                <div className="px-6 lg:px-8 py-8 border-t border-gridline">
+                                                    <p className="text-sm text-vanta/70 leading-relaxed font-light max-w-3xl mb-8 border-l-2 border-lime pl-4">
+                                                        {b.intro}
+                                                    </p>
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+                                                        {b.punkte.map(([t, d]) => (
+                                                            <div key={t}>
+                                                                <h4 className="text-sm uppercase font-bold text-vanta mb-1">{t}</h4>
+                                                                <p className="text-sm text-mute leading-relaxed font-light">{d}</p>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </section>
+
+                {/* ─── B10 · ÜBER MICH ───────────────────────────────────── */}
+                <section id="ueber-mich" className="bg-vanta text-white flex justify-center border-b border-gridline scroll-mt-[65px]">
+                    <div className="w-full max-w-[1440px] grid grid-cols-1 lg:grid-cols-12 border-x border-gridline">
+                        <div className="lg:col-span-7 px-6 py-16 md:px-8 md:py-24 lg:px-10 lg:border-r border-gridline">
+                            <p className="font-mono text-xs uppercase mb-6 tracking-widest">
+                                <span className="brutalist-marker text-vanta">Über mich</span>
+                            </p>
+                            <h2 className="section-headline mb-10">
+                                Ein Ansprechpartner.<br />Und die Leute dahinter.
+                            </h2>
+
+                            <div className="flex flex-col gap-6 text-bone/70 leading-relaxed max-w-2xl">
+                                <p>
+                                    Ich bin Leonid Ryazanskiy und ich führe Leoquent allein. Das heißt: Wer mit mir
+                                    spricht, spricht mit dem, der es baut. Keine Projektmanager-Schicht, keine
+                                    Weitergabe an jemanden, den Sie nie kennenlernen.
+                                </p>
+                                <p>
+                                    Ich komme aus einer Welt, in der jedes Wort zählt und jede Idee beweisbar sein
+                                    muss. Über zehn Jahre als Werbetexter und Konzeptioner — unter anderem bei{" "}
+                                    <strong className="text-white font-medium">Scholz &amp; Friends, Serviceplan, Havas, fischerAppelt und Zum Goldenen Hirschen</strong>.
+                                    Ausgezeichnet unter anderem mit <strong className="text-white font-medium">Löwen in Cannes</strong>,{" "}
+                                    <strong className="text-white font-medium">Nägeln des Art Directors Club</strong>, bei den{" "}
+                                    <strong className="text-white font-medium">New York Festivals</strong> und beim{" "}
+                                    <strong className="text-white font-medium">One Show</strong>.
+                                </p>
+                                <p>
+                                    Dort habe ich gelernt: Strategie ohne Kreativität ist eine Tabelle, Kreativität
+                                    ohne Strategie ist Dekoration. Deshalb warte ich nicht auf Ihre Texte, ich
+                                    schreibe sie. Das ist der Unterschied zwischen einer Website, die gut aussieht,
+                                    und einer, die etwas auslöst — und der Grund, warum Projekte bei mir fertig
+                                    werden statt liegen zu bleiben.
+                                </p>
+                                <p className="border-l-2 border-lime pl-4">
+                                    <strong className="text-white font-medium">Allein heißt nicht auf mich gestellt.</strong> Je nach Projekt
+                                    hole ich feste Partner dazu: Entwicklung, Gestaltung und Art Direction,
+                                    Fotografie und Inhalte, Social Media. Sie merken davon nur das Ergebnis — Ihr
+                                    Ansprechpartner bleibt derselbe.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            className="lg:col-span-5 min-h-[420px] lg:min-h-0 bg-[#0a0a0a] bg-cover bg-center bg-no-repeat"
+                            style={{ backgroundImage: `url('${basePath}/FOTOS/leonid_cropped_2.webp')` }}
+                            role="img"
+                            aria-label="Porträtfoto von Leonid Ryazanskiy"
+                        />
+                    </div>
+                </section>
+
+                {/* ─── B11 · FAQ ─────────────────────────────────────────── */}
+                <section id="faq" className="bg-white text-vanta flex justify-center border-b border-gridline scroll-mt-[65px]">
+                    <div className="w-full max-w-[1440px] px-6 py-16 md:px-8 md:py-24 lg:px-10 border-x border-gridline">
+                        <p className="font-mono text-xs uppercase mb-6 tracking-widest">
+                            <span className="brutalist-marker text-vanta">FAQ</span>
+                        </p>
+                        <h2 className="section-headline text-vanta mb-12">Und was ist mit …?</h2>
+
+                        <div className="border-t border-gridline max-w-4xl">
+                            {faq.map((f, i) => {
+                                const open = openFaq === i;
+                                return (
+                                    <div key={f.q} className="border-b border-gridline">
+                                        <button
+                                            onClick={() => setOpenFaq(open ? null : i)}
+                                            aria-expanded={open}
+                                            className="w-full text-left py-5 flex items-start justify-between gap-6 cursor-pointer group"
+                                        >
+                                            <span className={`text-base md:text-lg font-bold leading-snug transition-colors ${open ? "text-vanta" : "text-vanta/80 group-hover:text-vanta"}`}>
+                                                {f.q}
+                                            </span>
+                                            <span className={`font-mono text-2xl font-light leading-none shrink-0 transition-transform duration-500 ${open ? "rotate-45 text-vanta" : "text-mute"}`}>+</span>
+                                        </button>
+                                        <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${open ? "grid-rows-[1fr] pb-6" : "grid-rows-[0fr]"}`}>
+                                            <div className="overflow-hidden">
+                                                <p className="text-sm md:text-base text-mute leading-relaxed font-light max-w-3xl pr-10">{f.a}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </section>
+
+                {/* ─── B12 · KONTAKT ─────────────────────────────────────── */}
+                <section id="kontakt" className="bg-vanta text-white flex flex-col items-center justify-center py-24 md:py-32 px-6 text-center relative overflow-hidden scroll-mt-[65px]">
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-5" aria-hidden="true">
+                        <span className="text-[20vw] font-bold uppercase leading-none">Los</span>
+                    </div>
+
+                    <div className="relative z-10 w-full max-w-2xl mx-auto">
+                        <h2 className="text-4xl md:text-6xl uppercase font-bold mb-6">
+                            Bereit für echte<br /><span className="brutalist-marker">Freiräume?</span>
+                        </h2>
+                        <p className="text-bone/70 mb-12 leading-relaxed">
+                            Der erste Schritt ist ein Gespräch. Wir sehen uns an, wo Sie stehen, und ich sage
+                            Ihnen ehrlich, ob und wo sich etwas lohnt. Kostenlos, unverbindlich, ohne
+                            Verkaufsgespräch.
+                        </p>
+
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                            <button
+                                onClick={openQuiz}
+                                className="w-full sm:w-auto bg-lime text-vanta font-mono font-bold uppercase px-10 py-5 border border-lime btn-glitch cursor-pointer text-lg"
+                            >
+                                Potenzial analysieren
+                            </button>
+                            <a href="tel:+4917647177623" className="font-mono text-sm uppercase tracking-wider text-bone/80 border-b border-bone/30 hover:text-lime hover:border-lime transition-colors pb-0.5">
+                                +49 176 47 177 623
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                {/* ─── B13 · BRÜCKE ZU /prozesse ─────────────────────────── */}
+                {/* Bewusst hinter dem Kontakt: Ein zweites Angebot mitten in der Verkaufsseite
+                    nimmt dem Hauptangebot den Entscheidungsdruck. */}
+                <section className="bg-[#080808] text-white flex justify-center border-t border-gridline">
+                    <div className="w-full max-w-[1440px] px-6 py-16 md:px-8 md:py-20 lg:px-10 border-x border-gridline">
+                        <div className="max-w-3xl">
+                            <p className="font-mono text-[10px] uppercase tracking-widest text-mute mb-6">Danach</p>
+                            <h2 className="text-2xl md:text-3xl uppercase font-bold mb-6 leading-tight">
+                                Die Website bringt jetzt Anfragen.<br />
+                                <span className="text-lime">Was passiert eigentlich mit denen?</span>
+                            </h2>
+                            <p className="text-bone/60 leading-relaxed font-light mb-8">
+                                Bei den meisten Betrieben: Sie landen in vier verschiedenen Kanälen, werden von Hand
+                                sortiert, und was Freitag reinkommt, findet man Dienstag. Das ist die nächste
+                                Baustelle — und die interessantere.
+                            </p>
+                            <a
+                                href={`${basePath}/prozesse/`}
+                                className="inline-flex items-center gap-3 font-mono text-sm uppercase tracking-wider text-lime border border-lime/40 px-6 py-3 hover:bg-lime hover:text-vanta transition-colors"
+                            >
+                                Prozesse &amp; Automatisierung <span aria-hidden="true">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <SiteFooter />
+
+            <QuizModal isOpen={isQuizOpen} onClose={() => setIsQuizOpen(false)} />
+        </div>
+    );
+}

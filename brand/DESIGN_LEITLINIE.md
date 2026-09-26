@@ -1,0 +1,61 @@
+# Leoquent — Designleitlinie
+
+**Basis freigegeben am 25.09.2026; implementierter Stand vom 26.09.2026.** Die freigegebene Designrichtung bleibt die Grundlage. Ergänzungen dokumentieren den implementierten Stand und inhaltliche Grenzen; offene Empfehlungen sind keine neue Freigabe. Neuere ausdrückliche Gesprächsentscheidungen haben Vorrang vor älteren Dokumenten und ersetzen widersprechende Vorgaben zu Gestaltung, Tonalität und Preisen.
+
+## Gewählte Richtung und Reihenfolge
+
+Leo hat **„Interaktiv“ ausdrücklich und begeistert als Basis gewählt**. Referenz ist `/entwurf/interaktiv`, umgesetzt in [Gateway.tsx](../app/entwurf/Gateway.tsx) und [gateway.module.css](../app/entwurf/gateway.module.css): dunkle Flächen, großzügige Typografie, feine Linien, dezente SVG-Zeichnungen und spürbare Reaktionen auf Interaktion.
+
+**`/webdesign` führt dieses Gefühl in der aktuellen Umsetzung fort.** Der Übergang vom Gateway zur Leistungsseite soll gestalterisch zusammenhängend wirken. **`/prozesse` bleibt als zweiter Bereich erhalten und wird später ausgearbeitet.** Diese Datei dokumentiert den Stand; sie setzt keine Seitenänderungen um.
+
+## Gestaltung
+
+| Element | Verbindliche Entscheidung |
+|---|---|
+| Schrift | Outfit: 400 Fließtext, 500 Auszeichnungen, 600 Überschriften, 700 Wortmarke und Header-Text. |
+| Dunkle Flächen | `#050505` als Grund, `#0e0f0c` und `#151610` für abgestufte Bereiche. |
+| Expertise-Fläche | Hell `#e3e6d9` mit dunkler Hauptschrift `#192016`; Headline links unter der Auszeichnung. |
+| Betreuungsfläche | Oliv `#191e11`. |
+| Akzent | Lime `#ccff00` für Handlungsangebote, aktive Zustände und gezielte Hervorhebungen. |
+| Text | Heller Haupttext; zurückhaltendes, gut lesbares Grau für Sekundärtext, etwa `#b4b4ac` oder `#96968d` aus dem Gateway. Lesbarkeit vor dekorativer Abdunklung. |
+| Linien und Raum | Feine 1-px-Rahmen und Trennlinien, großzügige Abstände, klare Hierarchie und ruhige Textbreiten. |
+| Ausrichtung | Sektionsüberschriften und Einleitungen links; das gilt ausdrücklich auch für den Einstieg der Leistungen. |
+| Schreibweise | Sentence case mit regulärer deutscher Groß- und Kleinschreibung für Überschriften, Labels und Buttons. |
+
+**Marke — aktueller Einsatz und weiterhin Empfehlung, keine neue Freigabe:** Die Seite verwendet **Leoquent** als ausgeschriebenen Namen, **LQNT** als Bildzeichen und `lqnt.de` als Domain. Diese Aufteilung bleibt die Empfehlung; Leo erwägt die Markenfrage noch. Die bisherige Umsetzung und die Regeln in [LOGO.md](LOGO.md) sind der dokumentierte Ausgangspunkt: Header mit Bildmarke und `leoquent` als HTML-Text, vorhandene SVG-Master, bestehende Wortmarke und Deskriptor. Aus diesem Abgleich folgt keine neue Namensentscheidung; die freigegebene Ausnahme für die Ring-und-Strich→Q-Illustration ist unten dokumentiert.
+
+## Zeichnungen und Bewegung
+
+- SVG-Zeichnungen liegen dezent im Hintergrund und erklären das jeweilige Thema. Bei Interaktion dürfen Linien, Position und Lime-Akzente sichtbar reagieren.
+- Übergänge vermitteln Einstieg, Fokus, Auswahl oder das Öffnen von Inhalten. Bewegung hat einen Zweck und führt die visuelle Sprache des Gateways fort.
+- GSAP bleibt auf die jeweilige Komponente begrenzt; Animationen, Media Queries und gegebenenfalls ScrollTrigger werden bei Aktualisierung und Unmount sauber zurückgesetzt.
+- `prefers-reduced-motion` gilt für GSAP **und** CSS. Inhalte bleiben ohne Bewegung vollständig sichtbar und bedienbar. Tastatur und Touch erhalten gleichwertigen Zugang; keine Information hängt allein an Hover.
+- Natürliches Scrollen beibehalten, kein Scroll-Jacking.
+
+## Inhalt und Angebot auf `/webdesign`
+
+- **Portfolio kompakt und aufklappbar:** Projekte zunächst übersichtlich zeigen, Details gezielt öffnen.
+- **Persönliche Ich-Stimme:** Leo als direkter Ansprechpartner und Umsetzender. Konkrete Aussagen, verständliches Deutsch, keine Agentur-Floskeln oder erfundene Team-Erzählung.
+- **Texte als zentraler Vorteil:** Leo übernimmt die Texterstellung. Alle drei Website-Pakete enthalten Texte; Kunden müssen sie nicht selbst schreiben. Bestehende Website, vorhandene Texte, Unterlagen und Gespräch bilden die Ausgangsbasis. Inhalt, Aufbau und Gestaltung wachsen daraus gemeinsam.
+- **Drei Preisstufen:** ab **1.900 €**, ab **3.900 €**, ab **6.900 €**. Umfang und Animationsaufwand werden je Stufe klar abgestuft und erklärt. Animation ist Teil der Gestaltung; individuelle Choreografie und Umsetzungsaufwand wachsen mit dem Paket.
+- **SEO nach Umfang:** Für alle Pakete gilt: „Immer dabei: eigene Texte, mobile Optimierung, technische SEO-Grundlagen und Prüfung vor dem Livegang.“ Auftritt ergänzt „Suchbegriffsrecherche und darauf abgestimmte Inhalte“, Wachstum „Erweiterte Suchstrategie und gezielte Leistungsseiten“. Bestimmte Platzierungen werden nicht garantiert.
+- **Betreuung optional ab 69 €/Monat:** Hosting, technischer Betrieb und eine Standard-Domain inklusive. Inhaltspflege, laufende SEO-Arbeit und teurere Wunschdomains erweitern dieselbe Betreuung zu einem entsprechend höheren vereinbarten Monatspreis; sie sind kein separates Produkt. Leistungen, Umfang und Reaktionszeiten vorab festlegen. Kein pauschales Minutenkontingent, keine unbegrenzte Inhaltspflege oder Übernahme beliebiger Domainkosten zusagen. Alternativ können Kunden Hosting und Domain selbst organisieren; etwaige Lizenzkosten stehen im Angebot.
+
+Diese Beschlüsse ersetzen insbesondere ältere Preis- und Betreuungsmodelle sowie die bisher erlaubte allgemeine Wir-Tonalität für die neue Webdesign-Seite.
+
+## Umsetzung auf `/webdesign` — 26.09.2026
+
+Die vollständige implementierte Copy steht in [copy/02-webdesign.md](../copy/02-webdesign.md). Maßgeblich für diesen Abgleich sind die aktuelle Seite, ihre Inhaltsdaten und die eingebundenen Komponenten; aus einer visuellen Darstellung entstehen keine zusätzlichen Leistungsversprechen.
+
+- **Besucherführung breiter als eine Anfrage denken:** Im Hero heißen die drei Zustände „Botschaft“, „Gestaltung“ und „Aktion“. Die Beispielwebsite zeigt auch das Öffnen weiterer Informationen. Informieren, Kontakt aufnehmen und Bewerben sind passende nächste Schritte je nach Ziel.
+- **Hero-Headline:** „Ihr Unternehmen / kann was. / Zeigen wir es.“ Der Fließtext lautet: „Eine Website, die zeigt, was Sie ausmacht. Durchdacht im Aufbau, eigenständig im Design – mit Texten, die ich für Sie schreibe.“
+- **Ring und Strich → Q als freigegebene Standalone-Illustration:** Zustand 1 zeigt einen geschlossenen Ring und einen leicht versetzten, getrennten Balken darüber. Zustand 2 scrollt auf beiden Mini-Geräten zur Gestaltung: Der Balken gleitet verzögert von oben in den geschlossenen Ring, danach dreht sich beides in die originale Q-Stellung. Der Ring bleibt durchgehend geschlossen. Die kräftig gefüllte, kleine Form übernimmt Ring und Schwanzpolygon aus dem zweiten Pfad von `components/LqntMark.tsx` (Außenradius 255,33; Innenradius 123,33). Diese ausdrückliche Ausnahme zu den Logo-Regeln gilt nur für die Illustration; die Logo-Master bleiben unverändert. Ohne Animation sowie bei reduzierter oder pausierter Bewegung steht das finale Q statisch. In Zustand 3 zeigt das Telefon einen Tap-Ring auf dem Button und eine kurze Druckreaktion, keinen Mauszeiger. Der Desktop-Cursor ist relativ zum Button-Wrapper verankert.
+- **Hero-Autoplay:** [HeroPresentation.tsx](../app/webdesign/HeroPresentation.tsx) führt einmal von Botschaft über Gestaltung zu Aktion, mit 5.800 ms Haltezeit pro Schritt; Aktion bleibt stehen. Der Timer läuft nur bei mindestens 45 % sichtbarer Präsentation und aktivem Browser-Tab. Maus-Hover und Fokus innerhalb der Präsentation pausieren die verbleibende Zeit. Manuelle Schrittauswahl beendet den automatischen Durchlauf und startet die gewählte Choreografie erneut. Reduzierte oder global pausierte Bewegung verhindert automatische Wechsel. Kein sichtbarer Hinweistext; ein dezenter Symbolbutton heißt zugänglich „Automatischen Durchlauf anhalten“ bzw. „Drei Schritte automatisch abspielen“. Er kann einen neuen einmaligen Durchlauf starten und ist bei global pausierter Bewegung deaktiviert. Automatische Wechsel werden nicht als Live-Ansage vorgelesen.
+- **Header:** Bildmarke und Wortmarke bilden gemeinsam den Link `#inhalt` mit der Bezeichnung „Leoquent – zum Seitenanfang“. „Alle Leistungen“ führt auf `/`, auch im mobilen Menü. Dort bleibt zusätzlich „Prozesse & Automatisierung“ erhalten.
+- **Sektion 02 erklärt Expertise einschließlich Technik:** Informationsaufbau, Nutzung auf verschiedenen Bildschirmgrößen, passende technische Umsetzung sowie konkrete Prüfungen vor dem Livegang. Text, Design, Besucherführung und Technik entstehen aus demselben Konzept. Die Einleitung der Leistungen steht links. Die Expertise-Unterfläche ist hell (`#e3e6d9`, Hauptschrift `#192016`), ihre Headline links unter der Auszeichnung. Keine automatisierten Audit-Ergebnisse, erfundenen Benchmarks oder garantierten Kennzahlen ergänzen.
+- **Text-Statement:** [CopyStatement.tsx](../app/webdesign/CopyStatement.tsx) mit eigenem CSS nutzt auf Desktop die volle verfügbare Inhaltsbreite. Die Headline bleibt: `„Schicken Sie mir noch Ihre Texte.“ / Den Satz hören Sie von mir nicht.`; darunter stehen zwei Absätze zur Entlastung und zur bestehenden Website als Ausgangspunkt, ohne Signatur. Der exakte Wortlaut steht in der Copy-Dokumentation. Papier und Stift reagieren auf Mausbewegung in 3D. Der Effekt gilt ab 961 px bei geeigneter Desktop-Mausbedienung und entfällt bei reduzierter oder pausierter Bewegung; die Aussage bleibt ohne Effekt vollständig erhalten.
+- **Zusammenarbeit:** [Collaboration.tsx](../app/webdesign/Collaboration.tsx) zeigt beim Scrollen nacheinander Texte an ihren festen Positionen; erschienene Schritte bleiben stehen. Die Legende ergänzt „01 Zuhören“, „02 Struktur“, „03 Umsetzung“, „04 Übergabe“. Die Illustration folgt Ohr → Limepunkt → Auge mit grüner Pupille → Limekreis mit Haken. Ohr und Punkt vergrößern sich um denselben Mittelpunkt; der Kreis bleibt zentriert und rund. Zur Übergabe schließt und öffnet sich das Auge einmal, wobei eine Maske den Lidern folgt, ohne den Kreis zu quetschen. Danach bleiben alle vier Texte und Legenden sichtbar. Fixierung gilt ab 961 px Breite und 800 px Höhe nur bei ausreichend Platz für beide Spalten unter dem gemessenen Header; die Fläche füllt dann die verfügbare Bildschirmhöhe unter dem Header. Größenänderungen und geladene Schriften lösen eine erneute Platzprüfung aus. Bei weniger Platz, reduzierter oder pausierter Bewegung stehen alle Inhalte statisch im normalen Lesefluss, mit Limekreis und Haken. Native Scroll-Eingaben bleiben erhalten.
+- **Über mich:** Auszeichnung und Headline „Ich denke in Ideen. / Und in ganzen Websites.“ stehen über beiden Spalten. Das Porträt links trägt „Der Kopf hinter Leoquent.“ als Bildunterschrift unter dem Bild ohne Overlay; der Fließtext steht rechts.
+- **Persönlicher Hintergrund präzise:** Ideen, Konzeption und Text für Marken seit über einem Jahrzehnt, in enger Zusammenarbeit mit Art Directors und Designern; Webdesign seit der Jugend mit Dreamweaver. Der Erfahrungsnachweis lautet „Erfahrung in Konzeption und Text“. Die langjährige Werbeerfahrung begründet das gemeinsame Denken von Botschaft und Gestaltung. Daraus keine zehnjährige professionelle Webentwicklung, zusätzlichen Startdaten oder Qualifikationen ableiten.
+- **KI als Werkzeug:** Leo verbindet Texte, Aufbau, Design und Interaktionen aus dem Verständnis für das Unternehmen. KI unterstützt, wo sie sinnvoll ist. Die Prozessbrücke folgt „Erst verstehen. Dann sinnvoll vereinfachen.“ und nennt Lösungen mit oder ohne KI, auch unabhängig von einer neuen Website.
+- **Seitenfolge:** Arbeit zeigen, Leistungen und Expertise erklären, Textvorteil, Preise und Betreuung, Zusammenarbeit, persönlicher Hintergrund, FAQ, Kontakt und Prozessbrücke. Keine separate Branchensektion und keine Rückkehr zum alten allgemeinen Problem-Narrativ.

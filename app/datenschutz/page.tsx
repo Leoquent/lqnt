@@ -3,14 +3,20 @@ import type { Metadata } from "next";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export const metadata: Metadata = {
-  title: "Datenschutzerklärung | leoquent & addequat",
+  title: "Datenschutzerklärung | Leoquent",
   robots: { index: false, follow: true },
 };
 
-// ⚠️ TODO vor Launch: Diese Datenschutzerklärung ist eine solide Vorlage, aber KEINE
-// Rechtsberatung. Bitte an die tatsächlich eingesetzten Dienste anpassen (Hosting,
-// Formular-Dienst, Calendly, Analyse-Tools) und rechtlich prüfen lassen — z. B. mit
-// einem DSGVO-Generator (eRecht24, Dr. Schwenke) oder einem Anwalt.
+// ⚠️ Keine Rechtsberatung. Vor dem Livegang prüfen lassen.
+//
+// Offen: AVV. Den Auftragsverarbeitungsvertrag bei Hostinger tatsächlich abschließen bzw.
+// herunterladen. Der Satz unter "Hosting" behauptet ihn — er muss auch existieren.
+//
+// Serverstandort Deutschland ist bestätigt (14.08.2026) — kein Drittland-Hinweis nötig,
+// und die Aussage "gehostet in Deutschland" auf der Startseite ist gedeckt.
+//
+// Calendly (Abschnitt 4) ist derzeit NICHT eingebunden — der Abschnitt bleibt vorbereitet
+// stehen, bis der eigene Account eingerichtet ist. Falls Calendly doch nicht kommt: streichen.
 
 export default function DatenschutzPage() {
   return (
@@ -25,18 +31,19 @@ export default function DatenschutzPage() {
         <h2 className="text-lg font-bold uppercase tracking-tight mb-3">1. Verantwortlicher</h2>
         <p className="text-sm text-bone/70 leading-relaxed mb-6">
           Verantwortlich für die Datenverarbeitung auf dieser Website ist:<br />
-          leoquent &amp; addequat GbR, [Anschrift wie im Impressum]<br />
-          E-Mail: <a href="mailto:info@lunda-ki.de" className="text-lime hover:opacity-80">info@lunda-ki.de</a>
+          Leonid Ryazanskiy (Leoquent), Uerdinger Str. 75, 40474 Düsseldorf<br />
+          E-Mail: <a href="mailto:hi@lqnt.de" className="text-lime hover:opacity-80">hi@lqnt.de</a>
         </p>
 
         <h2 className="text-lg font-bold uppercase tracking-tight mb-3">2. Hosting &amp; Server-Logfiles</h2>
         <p className="text-sm text-bone/70 leading-relaxed mb-6">
-          Diese Website wird bei [Hosting-Anbieter, z. B. GitHub Pages / Vercel] gehostet. Beim
+          Diese Website wird auf einem virtuellen Server (VPS) bei <strong>Hostinger</strong>{" "}
+          (Hostinger International Ltd.) betrieben. Der Serverstandort liegt in Deutschland. Beim
           Aufruf der Seite werden automatisch Informationen (Server-Logfiles) erhoben, die Ihr
           Browser übermittelt: IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite,
           Referrer-URL, Browsertyp und Betriebssystem. Die Verarbeitung erfolgt zur Sicherstellung
           eines störungsfreien Betriebs und der Sicherheit (Art. 6 Abs. 1 lit. f DSGVO – berechtigtes
-          Interesse). Mit dem Hosting-Anbieter besteht ggf. ein Vertrag zur Auftragsverarbeitung.
+          Interesse). Mit dem Anbieter besteht ein Vertrag zur Auftragsverarbeitung nach Art. 28 DSGVO.
         </p>
 
         <h2 className="text-lg font-bold uppercase tracking-tight mb-3">3. Kontakt- und Analyse-Formular</h2>
@@ -77,7 +84,7 @@ export default function DatenschutzPage() {
           Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) sowie Widerspruch
           (Art. 21 DSGVO). Zudem haben Sie das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu
           beschweren. Wenden Sie sich dazu an{" "}
-          <a href="mailto:info@lunda-ki.de" className="text-lime hover:opacity-80">info@lunda-ki.de</a>.
+          <a href="mailto:hi@lqnt.de" className="text-lime hover:opacity-80">hi@lqnt.de</a>.
         </p>
 
         <p className="text-xs text-mute/60 leading-relaxed mt-12 border-t border-gridline pt-6 font-mono">

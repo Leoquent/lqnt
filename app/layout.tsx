@@ -12,42 +12,48 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 const ogImageLandscape = `${siteUrl}${basePath}/og-image-1200x630.png`;
 const ogImageSquare = `${siteUrl}${basePath}/og-image-1200x1200.png`;
 
+// Titel und Beschreibung folgen dem festgelegten Deskriptor der Marke
+// (CLAUDE.md §3: WEBDESIGN, PROZESSE & AUTOMATISIERUNG). Zwischenstand — die
+// endgültigen Texte kommen mit der neuen Copy-Quelle (PLAN.md, Block C).
+// Die OG-Bilddateien zeigen noch das alte Logo und werden in Block D ersetzt.
+const title = 'Leoquent | Webdesign, Prozesse & Automatisierung';
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'leoquent & addequat | Die AGENTur für den Mittelstand',
+  title,
   description:
-    'Wir befreien Sie von administrativen Lasten. Mit autonomen KI-Mitarbeitern, die genau so arbeiten, wie Sie denken.',
-  applicationName: 'leoquent & addequat',
+    'Webdesign für Mittelstand, Handwerk, Praxen und Immobilienverwaltung — und die Prozesse dahinter, wenn die Website steht.',
+  applicationName: 'Leoquent',
   alternates: {
     canonical: `${siteUrl}${basePath}/`,
   },
   openGraph: {
     type: 'website',
     locale: 'de_DE',
-    siteName: 'leoquent & addequat',
-    title: 'leoquent & addequat | Die AGENTur für den Mittelstand',
+    siteName: 'Leoquent',
+    title,
     description:
-      'KI-Systeme, die Ihre Arbeit machen. Autonome KI-Lösungen für den Mittelstand — DSGVO-konform, gehostet in Deutschland.',
+      'Webdesign für Mittelstand, Handwerk, Praxen und Immobilienverwaltung — und die Prozesse dahinter, wenn die Website steht.',
     url: `${siteUrl}${basePath}/`,
     images: [
       {
         url: ogImageLandscape,
         width: 1200,
         height: 630,
-        alt: 'leoquent & addequat — Die AGENTur für den Mittelstand',
+        alt: 'Leoquent — Webdesign, Prozesse & Automatisierung',
       },
       {
         url: ogImageSquare,
         width: 1200,
         height: 1200,
-        alt: 'leoquent & addequat — Die AGENTur für den Mittelstand',
+        alt: 'Leoquent — Webdesign, Prozesse & Automatisierung',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'leoquent & addequat | Die AGENTur für den Mittelstand',
-    description: 'KI-Systeme, die Ihre Arbeit machen.',
+    title,
+    description: 'Websites für Mittelstand, Handwerk, Praxen und Immobilienverwaltung.',
     images: [ogImageLandscape],
   },
   robots: { index: true, follow: true },

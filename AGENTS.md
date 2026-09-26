@@ -1,10 +1,10 @@
-# CLAUDE.md — Projekt Leoquent
+# AGENTS.md — Projekt Leoquent
 
 > **Für die KI:** Diese Datei ist der Einstieg. Lies sie vollständig, bevor du irgendetwas
 > änderst. Sie enthält den aktuellen Stand, die getroffenen Entscheidungen und die Reihenfolge
 > der offenen Arbeit. Wo sie auf andere Dokumente verweist, sind die verbindlich.
 >
-> **Für Leo:** Claude Code liest diese Datei beim Start automatisch. Du musst nicht darauf
+> **Für Leo:** Codex liest diese Datei beim Start automatisch. Du musst nicht darauf
 > hinweisen.
 
 **Stand:** 14.08.2026 · Letzte Sitzung: Markenentwicklung abgeschlossen
@@ -54,7 +54,7 @@ Kurzfassung:
 - **Header** nutzt bewusst **kein** Lockup, sondern Bildmarke + `leoquent` als HTML-Text
 - Master-Dateien tragen `fill="currentColor"` → als React-Komponente einbinden, nicht als `<img>`
 
-**Deskriptor — entschieden:** `WEBSITES, PROZESSE &` / `AUTOMATISIERUNG`, zweizeilig,
+**Deskriptor — entschieden:** `WEBDESIGN, PROZESSE &` / `AUTOMATISIERUNG`, zweizeilig,
 linksbündig unter der Wortmarke. Einstiegsprodukt zuerst, Upsell danach. Gebaut und in
 `leoquent-lockup-h-descriptor*.svg` enthalten.
 
