@@ -21,20 +21,20 @@ const title = 'Leoquent | Webdesign, Prozesse & Automatisierung';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title,
-  description:
-    'Webdesign für Mittelstand, Handwerk, Praxen und Immobilienverwaltung — und die Prozesse dahinter, wenn die Website steht.',
-  applicationName: 'Leoquent',
-  alternates: {
-    canonical: `${siteUrl}${basePath}/`,
-  },
-  openGraph: {
-    type: 'website',
-    locale: 'de_DE',
-    siteName: 'Leoquent',
-    title,
     description:
-      'Webdesign für Mittelstand, Handwerk, Praxen und Immobilienverwaltung — und die Prozesse dahinter, wenn die Website steht.',
-    url: `${siteUrl}${basePath}/`,
+      'Webdesign, das beeindruckt. Prozesse & Automatisierung, die Ihnen den Rücken freihalten. Hochwertige Websites und intelligente Workflows für Ihr Unternehmen.',
+    applicationName: 'Leoquent',
+    alternates: {
+      canonical: `${siteUrl}${basePath}/`,
+    },
+    openGraph: {
+      type: 'website',
+      locale: 'de_DE',
+      siteName: 'Leoquent',
+      title,
+      description:
+        'Webdesign, das beeindruckt. Prozesse & Automatisierung, die Ihnen den Rücken freihalten. Hochwertige Websites und intelligente Workflows für Ihr Unternehmen.',
+      url: `${siteUrl}${basePath}/`,
     images: [
       {
         url: ogImageLandscape,
