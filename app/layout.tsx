@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Outfit } from 'next/font/google';
 import './globals.css';
 
-const inter = Inter({
+const outfit = Outfit({
   subsets: ['latin'],
   variable: '--font-sans',
 });
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title,
-    description: 'Websites für Mittelstand, Handwerk, Praxen und Immobilienverwaltung.',
+    description: 'Hochwertige Websites und intelligente Workflows für Ihr Unternehmen.',
     images: [ogImageLandscape],
   },
   robots: { index: true, follow: true },
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="de" className={`${inter.variable} bg-vanta text-bone overflow-x-hidden`}>
+    <html lang="de" className={`${outfit.variable} bg-vanta text-bone overflow-x-hidden`}>
       <body suppressHydrationWarning className="antialiased selection:bg-[#CCFF00] selection:text-[#050505]">
         {children}
       </body>
