@@ -2,11 +2,10 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 
-// Beim Build statisch eingesetzt: Next.js ersetzt process.env.NEXT_PUBLIC_* durch den Wert.
-// Fehlt der Key, senden wir gar nicht erst los — dann greift sofort der sichtbare Ausweichweg
-// mit Mail und Telefon unten, statt den Besucher erst in einen Fehlversuch laufen zu lassen.
-const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
-const WEB3FORMS_URL = "https://api.web3forms.com/submit";
+// Ziel für die Quiz-Anfragen: eigener Endpunkt auf dem VPS (Container lqnt-api).
+// Er nimmt entgegen, legt ab und mailt an hi@lqnt.de. Beim Build statisch eingesetzt.
+// Fällt der Dienst aus, greift der sichtbare Ausweichweg mit Mail und Telefon unten.
+const LEAD_URL = process.env.NEXT_PUBLIC_LEAD_ENDPOINT || "https://api.lqnt.de/lead";
 
 // ─── QUIZ DATA ───────────────────────────────────────────────
 
@@ -257,28 +256,14 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
         setSubmitState("sending");
         setIsAnimating(true);
 
-        if (!WEB3FORMS_KEY) {
-            console.error(
-                "NEXT_PUBLIC_WEB3FORMS_KEY ist beim Build nicht gesetzt — Anfrage nicht gesendet. " +
-                "Der Besucher sieht den Ausweichweg mit Mail und Telefon."
-            );
-            setSubmitState("error");
-            setIsAnimating(false);
-            return;
-        }
-
         const goal = answers.goal === "__other__" ? answers.goalOther : answers.goal;
         const painpoint = answers.painpoint === "__other__" ? answers.painpointOther : answers.painpoint;
 
         try {
-            const res = await fetch(WEB3FORMS_URL, {
+            const res = await fetch(LEAD_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", Accept: "application/json" },
                 body: JSON.stringify({
-                    access_key: WEB3FORMS_KEY,
-                    subject: `Neue Potenzialanalyse-Anfrage – ${answers.name || "Website-Lead"}`,
-                    from_name: "Leoquent Website",
-                    replyto: answers.email,
                     Name: answers.name,
                     "E-Mail": answers.email,
                     Telefon: answers.phone,
@@ -288,14 +273,14 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                     "Teamgröße": answers.teamSize || "—",
                     Zeitrahmen: answers.timeline || "—",
                     "KI-Reife": answers.maturity || "—",
-                    botcheck: "",
+                    firma: "", // Honeypot: bleibt leer. Bots füllen ihn und werden verworfen.
                 }),
             });
             const json = await res.json();
-            if (res.ok && json.success) {
+            if (res.ok && json.ok) {
                 setSubmitState("success");
             } else {
-                console.error("Web3Forms error", json);
+                console.error("Der Lead-Endpunkt meldete einen Fehler", json);
                 setSubmitState("error");
             }
         } catch (err) {
