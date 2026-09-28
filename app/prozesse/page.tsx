@@ -28,7 +28,7 @@ const solutionsData = [
         id: "01",
         title: "KI-Strategie",
         badges: ["Beratung", "Implementierung", "Architektur-Design"],
-        text: "Wir übersetzen Ihre geschäftlichen Herausforderungen in intelligente KI-Strategien. Von der ersten Idee bis zur fertigen Roadmap – wir beraten, konzipieren und begleiten Ihre gesamte KI-Transformation."
+        text: "Ich übersetze Ihre geschäftlichen Herausforderungen in eine klare KI-Strategie. Von der ersten Idee bis zur fertigen Roadmap – Beratung, Konzept und Begleitung Ihrer gesamten KI-Transformation."
     },
     {
         id: "02",
@@ -40,13 +40,13 @@ const solutionsData = [
         id: "03",
         title: "Custom Development",
         badges: ["CRM-Systeme", "Dashboards", "Planungstools", "Websites", "Automation"],
-        text: "Wir programmieren exakt die Software, die Ihr Problem löst. Ob Buchhaltungstool, Daten-Dashboard, KI-gestützte Website oder komplette Plattform – maßgeschneidert auf Ihre Geschäftslogik."
+        text: "Ich programmiere exakt die Software, die Ihr Problem löst. Ob Buchhaltungstool, Daten-Dashboard, KI-gestützte Website oder komplette Plattform – maßgeschneidert auf Ihre Geschäftslogik."
     },
     {
         id: "04",
         title: "System-Integration",
         badges: ["API-Vernetzung", "Insellösung-Optimierung", "Daten-Migration", "Cloud-Anbindung"],
-        text: "Ihre bestehenden Tools sind nicht das Problem – die fehlende Verbindung ist es. Wir vernetzen Ihre Systeme intelligent mit KI und schaffen nahtlosen Datenfluss."
+        text: "Ihre bestehenden Tools sind nicht das Problem – die fehlende Verbindung ist es. Ich vernetze Ihre Systeme intelligent mit KI und schaffe nahtlosen Datenfluss."
     }
 ];
 
@@ -178,7 +178,7 @@ const navLinks = [
     { name: "Solutions", href: "#solutions" },
     { name: "Prozess", href: "#prozess" },
     { name: "Branchen", href: "#branchen" },
-    { name: "Warum Wir", href: "#warum-wir" },
+    { name: "Warum ich", href: "#warum-ich" },
     { name: "Webdesign", href: `${basePath}/webdesign/` }
 ];
 
@@ -186,17 +186,17 @@ const prozessData = [
     {
         n: "01",
         title: "Analyse",
-        text: "Wir identifizieren Ihre Flaschenhälse und ungenutzte Potenziale in einer tiefen, kostenlosen Potenzialanalyse."
+        text: "Ich identifiziere Ihre Flaschenhälse und ungenutzte Potenziale in einer tiefen, kostenlosen Potenzialanalyse."
     },
     {
         n: "02",
         title: "Architektur",
-        text: "Wir entwerfen die maßgeschneiderte Blaupause für Ihr System – ausgelegt für minimale Latenz und höchste Sicherheit."
+        text: "Ich entwerfe die maßgeschneiderte Blaupause für Ihr System – ausgelegt für minimale Latenz und höchste Sicherheit."
     },
     {
         n: "03",
         title: "Entwicklung",
-        text: "Wir programmieren, testen und iterieren Ihre autonome Lösung in enger Abstimmung mit Ihnen."
+        text: "Ich programmiere, teste und iteriere Ihre autonome Lösung in enger Abstimmung mit Ihnen."
     },
     {
         n: "04",
@@ -462,12 +462,12 @@ export default function Page() {
             if (branchenStrips.length > 0) branchenTl.fromTo(branchenStrips, { opacity: 0, y: 30 }, { opacity: 1, y: 0, stagger: 0.1, duration: 2, ease: "power2.out" }, "-=0.5");
 
             // 6. WARUM WIR
-            const wwHeader = document.querySelector('#warum-wir > div > div:first-child') as HTMLElement;
-            const wwCards = gsap.utils.toArray('#warum-wir .group') as HTMLElement[];
+            const wwHeader = document.querySelector('#warum-ich > div > div:first-child') as HTMLElement;
+            const wwCards = gsap.utils.toArray('#warum-ich .group') as HTMLElement[];
             
             const wwTl = gsap.timeline({
                 scrollTrigger: {
-                    trigger: '#warum-wir',
+                    trigger: '#warum-ich',
                     start: "top 80%",
                     end: "center center",
                     scrub: 1,
@@ -632,7 +632,7 @@ export default function Page() {
 
                     <p className="text-lg md:text-xl text-mute leading-relaxed mb-10 md:mb-10 hero-element">
                         Ob bestehende Insellösungen vernetzen oder komplette Tools von Grund auf neu programmieren:<br />
-                        Wir schaffen autonome Architekturen, die Arbeitsabläufe optimieren und Erfolg maximieren.
+                        Ich schaffe autonome Architekturen, die Arbeitsabläufe optimieren und Erfolg maximieren.
                     </p>
 
                     <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6 hero-element">
@@ -712,15 +712,15 @@ export default function Page() {
                                 Software sollte Zeit sparen. Nicht Zeit kosten.
                             </h3>
                             <p className="text-base md:text-lg text-bone/80 leading-relaxed font-light">
-                                Standard-Tools zwingen Ihr Unternehmen in starre Prozesse und rauben Ihnen wertvolle Zeit. Wir
-                                drehen den Spieß um: Wir konzipieren und programmieren <span className="bg-lime text-vanta px-1.5 py-0.5 font-normal">autonome Architekturen</span>, die sich
+                                Standard-Tools zwingen Ihr Unternehmen in starre Prozesse und rauben Ihnen wertvolle Zeit. Ich
+                                drehe den Spieß um: Ich konzipiere und programmiere <span className="bg-lime text-vanta px-1.5 py-0.5 font-normal">autonome Architekturen</span>, die sich
                                 kompromisslos Ihrer Geschäftslogik unterwerfen.
                             </p>
                         </div>
 
                         <div className="flex flex-col gap-3 pt-8 md:pt-12 border-t border-gridline/20 reveal" style={{ transitionDelay: '300ms' }}>
                             <p className="text-[10px] md:text-xs text-bone/60 leading-relaxed font-mono tracking-wide">
-                                <span className="text-lime/70 uppercase">Mission</span> · Wir verwandeln Unternehmenswissen in autonome Systeme. Mit strategischer Kreativität und kompromissloser IT-Sicherheit machen wir KI für den Mittelstand skalierbar – und so einfach und sicher wie Licht einschalten.
+                                <span className="text-lime/70 uppercase">Mission</span> · Ich verwandle Unternehmenswissen in autonome Systeme. Mit strategischer Kreativität und kompromissloser IT-Sicherheit mache ich KI für den Mittelstand skalierbar – und so einfach und sicher wie Licht einschalten.
                             </p>
                             <p className="text-[10px] md:text-xs text-bone/60 leading-relaxed font-mono tracking-wide">
                                 <span className="text-lime/70 uppercase">Vision</span> · Das autonome Betriebssystem für den europäischen Mittelstand – die Infrastruktur, auf der Unternehmen der Zukunft laufen.
@@ -738,11 +738,11 @@ export default function Page() {
                                 <span className="brutalist-marker text-vanta">Solutions</span>
                             </p>
                             <h2 className="section-headline max-w-2xl">
-                                Ihre Logik.<br />Unser Code.
+                                Ihre Logik.<br />Mein Code.
                             </h2>
                         </div>
                         <p className="max-w-md text-bone/70 text-sm leading-relaxed font-light">
-                            Egal ob bestehende Systeme intelligent vernetzen oder komplett neue Software entwickeln – wir bauen
+                            Egal ob bestehende Systeme intelligent vernetzen oder komplett neue Software entwickeln – ich baue
                             exakt die Lösung, die Ihr Problem löst.
                         </p>
                     </div>
@@ -833,7 +833,7 @@ export default function Page() {
                                 <p className="font-mono text-xs uppercase tracking-widest">
                                     <span className="brutalist-marker text-vanta">Prozess</span>
                                 </p>
-                                <h2 className="text-2xl  font-bold leading-tight text-vanta">Unser Weg zu<br />Ihrer Lösung.</h2>
+                                <h2 className="text-2xl  font-bold leading-tight text-vanta">Der Weg zu<br />Ihrer Lösung.</h2>
                                 <p className="text-mute text-xs leading-relaxed font-light">Transparente Meilensteine von der Analyse bis zum Betrieb. Keine Blackbox.</p>
                                 
                                 {/* Mobile Horizontal Progress bar */}
@@ -894,7 +894,7 @@ export default function Page() {
                                     <p className="font-mono text-xs uppercase mb-6 tracking-widest">
                                         <span className="brutalist-marker text-vanta">Prozess</span>
                                     </p>
-                                    <h2 className="section-headline text-vanta mb-6">Unser Weg zu<br />Ihrer Lösung.</h2>
+                                    <h2 className="section-headline text-vanta mb-6">Der Weg zu<br />Ihrer Lösung.</h2>
                                     <p className="max-w-md text-mute text-sm leading-relaxed font-light mb-8">
                                         Transparente Meilensteine von der Analyse bis zum Betrieb. Keine Blackbox.
                                     </p>
@@ -1012,7 +1012,7 @@ export default function Page() {
                             <h2 className="section-headline">Der Mittelstand<br />wird autonom.</h2>
                         </div>
                         <p className="max-w-md md:text-right text-bone/70 text-sm leading-relaxed font-light">
-                            Egal aus welcher Branche Sie kommen: Wir bauen spezifische KI-Systeme, die reale Probleme lösen.
+                            Egal aus welcher Branche Sie kommen: Ich baue spezifische KI-Systeme, die reale Probleme lösen.
                         </p>
                     </div>
 
@@ -1138,25 +1138,25 @@ export default function Page() {
                     </div>
                 </section>
 
-                <section id="warum-wir" className="border-b border-gridline bg-white text-vanta flex justify-center">
+                <section id="warum-ich" className="border-b border-gridline bg-white text-vanta flex justify-center">
                     <div className="w-full max-w-[1440px]">
                         {/* Cards: Grid clipped at the bottom to prevent layout bleed */}
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-b border-x border-gridline overflow-hidden relative z-10 bg-white">
                         <div className="px-6 py-6 md:px-8 md:py-12 lg:px-10 lg:py-20 border-b border-gridline col-span-1 md:col-span-2 lg:col-span-4 bg-white flex flex-col md:flex-row justify-between items-start md:items-end gap-8 reveal relative z-10">
                             <div>
                                 <p className="font-mono text-xs uppercase mb-6 tracking-widest">
-                                    <span className="brutalist-marker text-vanta">Warum wir</span>
+                                    <span className="brutalist-marker text-vanta">Warum ich</span>
                                 </p>
                                 <h2 className="section-headline text-vanta">Keine Standard-Agentur.<br />Keine Kompromisse.</h2>
                             </div>
-                            <p className="max-w-md text-vanta/80 text-sm leading-relaxed font-light relative z-10">Wir tauschen nicht Zeit gegen Geld. Wir liefern Systeme, die messbare Effizienz bringen. Kompromisslos auf den Erfolg des Mittelstands ausgerichtet.</p>
+                            <p className="max-w-md text-vanta/80 text-sm leading-relaxed font-light relative z-10">Ich tausche nicht Zeit gegen Geld. Ich liefere Systeme, die messbare Effizienz bringen. Kompromisslos auf den Erfolg des Mittelstands ausgerichtet.</p>
                         </div>
 
                         {[
-                            { title: "Performance Pricing", text: "Sie zahlen für das funktionierende Ergebnis und garantierten ROI. Wir gewinnen, wenn Sie gewinnen." },
-                            { title: "Radikale Agilität", text: "Keine monatelangen Wasserfall-Projekte. Wir bauen schnelle Prototypen und iterieren live an Ihren Daten." },
+                            { title: "Performance Pricing", text: "Sie zahlen für das funktionierende Ergebnis und garantierten ROI. Ich gewinne, wenn Sie gewinnen." },
+                            { title: "Radikale Agilität", text: "Keine monatelangen Wasserfall-Projekte. Ich baue schnelle Prototypen und iteriere live an Ihren Daten." },
                             { title: "DSGVO-Konform", text: "Modernste KI-Innovation plus IT-Sicherheit. Alles DSGVO-konform, stabil und gehostet in Deutschland." },
-                            { title: "Maßanzug statt Masse", text: "Wir biegen nicht den Kunden für die Software. Jede Lösung wird individuell für Ihren Prozess entwickelt." }
+                            { title: "Maßanzug statt Masse", text: "Ich biege nicht den Kunden für die Software. Jede Lösung wird individuell für Ihren Prozess entwickelt." }
                         ].map((item, idx) => (
                             <div
                                 key={idx}
@@ -1188,7 +1188,7 @@ export default function Page() {
                             <div className="lg:col-span-4 px-6 py-6 md:px-8 md:py-12 lg:px-10 lg:py-20 border-b lg:border-b-0 lg:border-r border-gridline flex flex-col gap-6 lg:gap-0 justify-between reveal">
                                 <div>
                                 <p className="font-mono text-xs uppercase mb-4">
-                                    <span className="brutalist-marker text-vanta">Über uns</span>
+                                    <span className="brutalist-marker text-vanta">Über mich</span>
                                 </p>
                                 <h2 className="text-3xl lg:text-4xl  font-bold mb-0 lg:mb-6 leading-tight">
                                     Strategische <br className="lg:hidden" />
@@ -1254,8 +1254,8 @@ export default function Page() {
                                     
                                     <p className="text-white/80 text-xs lg:text-sm leading-relaxed font-light mb-4">
                                         Viele kommen heute mit KI-Lösungen. Die wenigsten verstehen den Menschen dahinter.<br /><br />
-                                        Leonid kommt aus einer Welt, in der jedes Wort zählt und jede Idee beweisbar sein muss. Als Senior Copywriter und Konzeptioner in internationalen Agenturnetzwerken hat er gelernt: Strategie ohne Kreativität ist eine Tabelle. Kreativität ohne Strategie ist Dekoration. Er vereint beides &mdash; und gießt diese Symbiose in präzise KI-Architekturen.<br /><br />
-                                        In KI-Workshops hat er Creative Teams auf das vorbereitet, was kommt. Heute baut er es selbst. Als Strategic AI Engineer gestaltet er die Schnittstelle zwischen dem, was Ihr Unternehmen meint &mdash; und dem, was die KI versteht.
+                                        Ich komme aus einer Welt, in der jedes Wort zählt und jede Idee beweisbar sein muss. Als Senior Copywriter und Konzeptioner in internationalen Agenturnetzwerken habe ich gelernt: Strategie ohne Kreativität ist eine Tabelle. Kreativität ohne Strategie ist Dekoration. Ich vereine beides &mdash; und gieße diese Symbiose in präzise KI-Architekturen.<br /><br />
+                                        In KI-Workshops habe ich Creative Teams auf das vorbereitet, was kommt. Heute baue ich es selbst. Als Strategic AI Engineer gestalte ich die Schnittstelle zwischen dem, was Ihr Unternehmen meint &mdash; und dem, was die KI versteht.
                                     </p>
                                     
                                     <span className="text-lime/90 font-mono text-[10px] tracking-wider uppercase opacity-90 block">ENTWICKELT DIE STRATEGISCHE VISION &mdash; UND SORGT DAFÜR, DASS DIE KI JEDE GESCHÄFTSLOGIK PRÄZISE VERSTEHT.</span>
@@ -1274,7 +1274,7 @@ export default function Page() {
 
                     <div className="relative z-10 w-full max-w-2xl mx-auto reveal">
                         <h2 className="text-5xl md:text-7xl  font-bold mb-6">Bereit für echte<br /><span className="brutalist-marker">Freiräume?</span></h2>
-                        <p className="text-bone/70 mb-12">Der erste Schritt ist menschlich: Eine unverbindliche Potenzialanalyse. Wir zeigen Ihnen, wo Sie Zeit bluten. Der zweite Schritt: Automatisierung.</p>
+                        <p className="text-bone/70 mb-12">Der erste Schritt ist menschlich: Eine unverbindliche Potenzialanalyse. Ich zeige Ihnen, wo Sie Zeit bluten. Der zweite Schritt: Automatisierung.</p>
 
                         <button onClick={openQuiz} className="bg-lime text-vanta font-mono font-bold uppercase px-10 py-5 hover:bg-white hover:text-vanta transition-colors duration-300 btn-glitch border border-lime cursor-pointer text-lg">
                             Jetzt befreien
