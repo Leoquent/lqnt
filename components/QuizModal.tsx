@@ -2,6 +2,12 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 
+// Beim Build statisch eingesetzt: Next.js ersetzt process.env.NEXT_PUBLIC_* durch den Wert.
+// Fehlt der Key, senden wir gar nicht erst los — dann greift sofort der sichtbare Ausweichweg
+// mit Mail und Telefon unten, statt den Besucher erst in einen Fehlversuch laufen zu lassen.
+const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
+const WEB3FORMS_URL = "https://api.web3forms.com/submit";
+
 // ─── QUIZ DATA ───────────────────────────────────────────────
 
 const STEPS = [
@@ -251,15 +257,25 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
         setSubmitState("sending");
         setIsAnimating(true);
 
+        if (!WEB3FORMS_KEY) {
+            console.error(
+                "NEXT_PUBLIC_WEB3FORMS_KEY ist beim Build nicht gesetzt — Anfrage nicht gesendet. " +
+                "Der Besucher sieht den Ausweichweg mit Mail und Telefon."
+            );
+            setSubmitState("error");
+            setIsAnimating(false);
+            return;
+        }
+
         const goal = answers.goal === "__other__" ? answers.goalOther : answers.goal;
         const painpoint = answers.painpoint === "__other__" ? answers.painpointOther : answers.painpoint;
 
         try {
-            const res = await fetch("https://api.web3forms.com/submit", {
+            const res = await fetch(WEB3FORMS_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", Accept: "application/json" },
                 body: JSON.stringify({
-                    access_key: process.env.NEXT_PUBLIC_WEB3FORMS_KEY,
+                    access_key: WEB3FORMS_KEY,
                     subject: `Neue Potenzialanalyse-Anfrage – ${answers.name || "Website-Lead"}`,
                     from_name: "Leoquent Website",
                     replyto: answers.email,
