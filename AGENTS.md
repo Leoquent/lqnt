@@ -7,7 +7,8 @@
 > **Für Leo:** Diese Datei wird vom Business-Agent gepflegt. Stimmt sie nicht mehr, ist das
 > ein Fehler, der gemeldet gehört — keine Absicht.
 
-**Stand:** 28.09.2026 · geprüft gegen `main` @ `6c5c181` · Verfasser: Business-Agent
+**Stand:** 28.09.2026 · geprüft gegen `main` @ `5c1bc8c` · Verfasser: Business-Agent
+**Architektur umgestellt:** GitHub liefert nicht mehr aus, der VPS tut es.
 **Vorherige Fassung:** 14.08.2026 — in mehreren Punkten falsch, siehe Abschnitt 10.
 
 ---
@@ -66,25 +67,35 @@ ungeprüft* / *unbekannt*. Nie eine Behauptung als Fakt verkleiden.
 
 ---
 
-## 3. Architektur — entschieden am 28.09.2026
+## 3. Architektur — umgestellt am 28.09.2026
 
 ```
-VPS (Entwicklung, Hermes-Agent, Prozesse)
+VPS (Hermes-Agent, lqnt-web, lqnt-api)
    │  Agent baut und pusht
    ▼
-GitHub (Repository Leoquent/lqnt)
-   │  Push auf main löst die Actions aus
-   ▼
-GitHub Pages  →  lqnt.de
+GitHub — Quelle des Codes, nicht die Auslieferung
+   │  Push auf main startet preview-release.yml
+   ├─► Zweig `site`  ──►  vorschau.lqnt.de   automatisch, nach jedem Push
+   └─► Zweig `live`  ──►  lqnt.de            nur nach Freigabe
+                                ▲
+             Freigabe über das GitHub-Environment `production` (Prüfer: Leo)
 ```
 
-- **GitHub Pages liefert die Website aus.** Statischer Export, kostenlos, HTTPS, läuft.
-- **Der Hostinger-VPS macht die Prozesse:** Lead-Verarbeitung und Vorschau-Umgebungen.
-  Geplant unter `preview.lqnt.de` (pro Branch ein Pfad) und mit einem eigenen Endpunkt für
-  Formulare.
+- **Der Hostinger-VPS liefert die Website aus.** Ein Nginx-Container je Zweig unter
+  `/docker/lqnt-web/`, davor Traefik mit Let's-Encrypt-Zertifikat. Serverstandort Deutschland.
+- **GitHub ist Quelle, nicht Auslieferung.** GitHub Actions baut, legt das Ergebnis in die
+  Zweige `site` und `live`; ein Abholer auf dem VPS liest sie im Minutentakt.
+  **Kein Schlüssel und kein Zugang von außen nötig** — beide Zweige sind öffentlich lesbar.
+- **Freigabe vor Veröffentlichung.** Der Produktionsjob hängt am Environment `production`.
+  Ohne Leos Klick wandert nichts nach `live`. Leo ist der Prüfer, nicht der Agent.
+- **Der Agent merged nicht in die Veröffentlichung hinein.** Auf `main` arbeiten heißt:
+  Vorschau aktualisieren. Was live geht, entscheidet Leo.
+- **Der frühere Weg über `deploy.yml` und `public/CNAME` ist am 28.09.2026 entfallen.**
+  Die Pages-Einstellung im Repo schaltet Leo ab, sobald die DNS-Umschaltung durchgelaufen ist
+  (früher würde Pages Besucher mit alten Zwischenspeichern auf 404 werfen).
 - **Lunda-KI entfällt.** Es gibt kein Multi-Tenant-Produkt.
 - **Kein Server im Website-Repo.** `output: 'export'` bedeutet: keine API-Routen, `app/api`
-  existiert nicht. Was zur Laufzeit passieren soll, gehört auf den VPS.
+  existiert nicht. Was zur Laufzeit passieren soll, gehört auf den VPS (`lqnt-api`).
 
 ---
 
@@ -97,8 +108,9 @@ GitHub Pages  →  lqnt.de
 | Lint | ESLint wird beim Build ignoriert (`eslint.ignoreDuringBuilds: true`) |
 | Styling | Tailwind, Tokens in `app/globals.css` über `@theme` |
 | Schrift | **Outfit** (`next/font/google` in `app/layout.tsx`) — eingebaut |
-| Deploy | `.github/workflows/deploy.yml` → GitHub Pages |
-| CNAME | `public/CNAME` = `lqnt.de` |
+| Deploy | Push auf `main` → `preview-release.yml` → Zweige `site`/`live` → VPS |
+| Vorschau | `vorschau.lqnt.de` — Zweig `site`, nach jedem Push automatisch |
+| Produktion | `lqnt.de` — Zweig `live`, nur nach Freigabe im Environment `production` |
 
 **Befehle:**
 
