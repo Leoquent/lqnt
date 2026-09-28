@@ -1,0 +1,150 @@
+name: Build, preview and release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lqnt-deployment
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build website
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Node.js einrichten
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Abhängigkeiten installieren
+        run: npm ci
+
+      - name: Statische Website bauen
+        run: npm run build
+
+      - name: Build prüfen
+        run: |
+          test -d out
+          test -f out/index.html
+
+      - name: Build-Artefakt speichern
+        uses: actions/upload-artifact@v4
+        with:
+          name: lqnt-static-site-${{ github.sha }}
+          path: out
+          include-hidden-files: true
+          retention-days: 14
+
+  preview:
+    name: Publish preview branch
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build-Artefakt herunterladen
+        uses: actions/download-artifact@v4
+        with:
+          name: lqnt-static-site-${{ github.sha }}
+          path: publish
+
+      - name: Build in site veröffentlichen
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          rm -rf branch
+          mkdir branch
+
+          if git ls-remote --exit-code --heads \
+            "https://x-access-token:${GH_TOKEN}@github.com/${REPOSITORY}.git" \
+            site >/dev/null 2>&1; then
+            git clone --depth 1 --branch site \
+              "https://x-access-token:${GH_TOKEN}@github.com/${REPOSITORY}.git" \
+              branch
+          else
+            cd branch
+            git init
+            git checkout --orphan site
+            git remote add origin \
+              "https://x-access-token:${GH_TOKEN}@github.com/${REPOSITORY}.git"
+            cd ..
+          fi
+
+          find branch -mindepth 1 -maxdepth 1 ! -name .git \
+            -exec rm -rf {} +
+          cp -a publish/. branch/
+
+          cd branch
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Preview build ${COMMIT_SHA}" || true
+          git push origin HEAD:site
+
+  production:
+    name: Publish approved production release
+    needs: preview
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production
+      url: https://lqnt.de
+
+    steps:
+      - name: Build-Artefakt herunterladen
+        uses: actions/download-artifact@v4
+        with:
+          name: lqnt-static-site-${{ github.sha }}
+          path: publish
+
+      - name: Freigegebenen Build in live veröffentlichen
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          rm -rf branch
+          mkdir branch
+
+          if git ls-remote --exit-code --heads \
+            "https://x-access-token:${GH_TOKEN}@github.com/${REPOSITORY}.git" \
+            live >/dev/null 2>&1; then
+            git clone --depth 1 --branch live \
+              "https://x-access-token:${GH_TOKEN}@github.com/${REPOSITORY}.git" \
+              branch
+          else
+            cd branch
+            git init
+            git checkout --orphan live
+            git remote add origin \
+              "https://x-access-token:${GH_TOKEN}@github.com/${REPOSITORY}.git"
+            cd ..
+          fi
+
+          find branch -mindepth 1 -maxdepth 1 ! -name .git \
+            -exec rm -rf {} +
+          cp -a publish/. branch/
+
+          cd branch
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Production release ${COMMIT_SHA}" || true
+          git push origin HEAD:live
