@@ -37,6 +37,7 @@ Leo hat **„Interaktiv“ ausdrücklich und begeistert als Basis gewählt**. Re
 Leo hat die interaktive Gestaltung auch auf dem Handy ausdrücklich bestätigt. Bei weiteren Text- und Layoutänderungen diese Funktionen erhalten und mit aktiver Bewegung prüfen:
 
 - Die Hero-Wörter lösen sich beim Scrollen auf Desktop und Handy räumlich auf. Mobile Zeilen: „Systeme, die / Ihnen Arbeit / abnehmen.“; Desktop bleibt zweizeilig.
+- Auch Overline, Einleitungstext, Button und Gesprächshinweis bewegen sich mobil in die Tiefe, werden kleiner und blenden aus. Die Overline beginnt beim ersten Scrollen; Button und Gesprächshinweis erst, nachdem sie auf kurzen Displays vollständig erreichbar sind. Beim Zurückscrollen wird der gesamte Einstieg wiederhergestellt.
 - Auch mobil bleibt der Einstieg hinter dem Inhalt stehen; Ticker und Folgesektionen gleiten darüber. Die Headline muss während der Auflösung sichtbar bleiben. Auf sehr kurzen Fenstern darf der Einstieg zunächst nur so weit hochrücken, dass Text und CTA erreichbar werden; danach hält er seine Position. Nicht wieder die gesamte mobile Einleitung normal wegscrollen lassen. Beim Prüfen die Positionen von Einstieg und Ticker vergleichen, nicht nur die Wort-Deckkraft.
 - Der Ablauf nutzt auch mobil Scrollytelling. Bei wenig Platz laufen die Schritte durch den verfügbaren Ausschnitt; Platzmangel allein schaltet den mobilen Ablauf nicht mehr statisch.
 - Die vier „Warum ich“-Kacheln erscheinen beim Scrollen. Desktop: dunkler Hover-Zustand; mobil: dunkler Zustand für die Kachel im Lesebereich.
@@ -44,7 +45,7 @@ Leo hat die interaktive Gestaltung auch auf dem Handy ausdrücklich bestätigt. 
 - Das Prozesse-Porträt füllt die Kartenfläche. Desktop-Hover zeigt die aktuelle Biografie über einem dunklen Overlay; auf Touch öffnet ein Tap. Der diagonale Pfeil ist auf beiden Varianten sichtbar. Der vollständige Text bleibt mit Tastatur und auf kleinen Bildschirmen erreichbar.
 - Explizites Pausieren und die Systemeinstellung für reduzierte Bewegung bleiben berücksichtigt. Diese Lesealternativen ersetzen nicht die reguläre mobile Animation.
 
-Die Änderung gilt für die Prozesse-Seite. Nachweis und Testfälle stehen in `REVIEW_2026-09-30.md`, Abschnitte 13–14.
+Die Änderung gilt für die Prozesse-Seite. Nachweis und Testfälle stehen in `REVIEW_2026-09-30.md`, Abschnitte 13–16.
 
 ## Inhalt und Angebot auf `/webdesign`
 

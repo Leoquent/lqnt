@@ -149,7 +149,7 @@ export default function Page() {
         // --- HERO PARALLAX: subtle upward drift as user scrolls (DESKTOP ONLY).
         //     Scrubbing a position:fixed, full-screen (100svh) element every scroll frame is a
         //     major jank source on mobile, where the URL bar also resizes the viewport mid-scroll.
-        //     Mobile uses native sticky positioning; only the words are transformed. ---
+        //     Mobile uses native sticky positioning; only its children are transformed. ---
         mm.add("(min-width: 768px) and (min-height: 741px) and (prefers-reduced-motion: no-preference)", () => {
             const heroSection = document.getElementById('hero-sticky-section');
             if (heroSection) {
@@ -312,6 +312,29 @@ export default function Page() {
                     z: -180, rotationX: 18, rotationY: i % 2 ? 20 : -20,
                     rotationZ: i % 2 ? 6 : -6, opacity: 0, scale: 0.65,
                     ease: "power1.in" }, 0);
+            });
+
+            // Keep the desktop depth/fade on the supporting content, with shorter
+            // mobile paths. The actions wait until the whole intro fits above the
+            // ticker on short screens, so the CTA and conversation note can be read.
+            elements.forEach((element, i) => {
+                const isActions = element.classList.contains('process-hero-actions');
+                gsap.fromTo(element, {
+                    y: 0, z: 0, scale: 1, opacity: 1,
+                }, {
+                    y: -48, z: -120, scale: 0.85, opacity: 0,
+                    transformOrigin: 'left top', ease: 'none',
+                    scrollTrigger: {
+                        id: `process-mobile-hero-element-${i}`,
+                        trigger: '#content-wrapper',
+                        start: () => isActions
+                            ? Math.max(0, (document.getElementById('hero-sticky-section')?.offsetHeight || 0)
+                                - window.innerHeight) + 8
+                            : element.classList.contains('process-hero-eyebrow') ? 0 : 24,
+                        end: () => `+=${Math.max(160, window.innerHeight * 0.3)}`,
+                        scrub: 0.35, invalidateOnRefresh: true,
+                    },
+                });
             });
 
             const cards = gsap.utils.toArray<HTMLElement>('.mobile-prozess-card');
