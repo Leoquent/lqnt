@@ -24,30 +24,10 @@ const painPoints = [
 ];
 
 const solutionsData = [
-    {
-        id: "01",
-        title: "KI-Strategie",
-        badges: ["Beratung", "Implementierung", "Architektur-Design"],
-        text: "Ich übersetze Ihre geschäftlichen Herausforderungen in eine klare KI-Strategie. Von der ersten Idee bis zur fertigen Roadmap – Beratung, Konzept und Begleitung Ihrer gesamten KI-Transformation."
-    },
-    {
-        id: "02",
-        title: "Autonome Agenten",
-        badges: ["Workflow-Automation", "Dokumenten-Verarbeitung", "Kunden-Kommunikation", "Datenpflege"],
-        text: "Intelligente KI-Mitarbeiter, die Routineaufgaben eigenständig erledigen. Vom Call-Center-Agenten über die automatische Rechnungsverarbeitung bis zur autonomen Terminplanung – rund um die Uhr."
-    },
-    {
-        id: "03",
-        title: "Custom Development",
-        badges: ["CRM-Systeme", "Dashboards", "Planungstools", "Websites", "Automation"],
-        text: "Ich programmiere exakt die Software, die Ihr Problem löst. Ob Buchhaltungstool, Daten-Dashboard, KI-gestützte Website oder komplette Plattform – maßgeschneidert auf Ihre Geschäftslogik."
-    },
-    {
-        id: "04",
-        title: "System-Integration",
-        badges: ["API-Vernetzung", "Insellösung-Optimierung", "Daten-Migration", "Cloud-Anbindung"],
-        text: "Ihre bestehenden Tools sind nicht das Problem – die fehlende Verbindung ist es. Ich vernetze Ihre Systeme intelligent mit KI und schaffe nahtlosen Datenfluss."
-    }
+    { id: "01", title: "Abläufe verstehen", badges: ["Analyse", "Prioritäten", "Konzept"], text: "Wo werden Daten doppelt eingetragen? Was bleibt im Postfach liegen? Ich schaue mir Ihren Arbeitsalltag an und kläre, welcher Ablauf sich zuerst sinnvoll vereinfachen lässt." },
+    { id: "02", title: "Routine automatisieren", badges: ["Anfragen", "Dokumente", "Freigaben"], text: "Zum Beispiel: eingehende Anfragen sortieren, Angaben aus Dokumenten übernehmen und einen Antwortentwurf vorbereiten. Sie legen fest, was automatisch laufen darf und wo Ihr Team prüft und freigibt." },
+    { id: "03", title: "Passende Werkzeuge bauen", badges: ["Übersichten", "Planung", "Interne Anwendungen"], text: "Wenn eine Tabelle oder Standardsoftware nicht ausreicht, entwickle ich ein Werkzeug für Ihren Ablauf. Etwa eine gemeinsame Übersicht über offene Vorgänge, Zuständigkeiten und nächste Schritte." },
+    { id: "04", title: "Software verbinden", badges: ["Datenübertragung", "Schnittstellen", "Bestehende Systeme"], text: "Informationen einmal erfassen und dort verfügbar machen, wo sie gebraucht werden. Ich prüfe die Schnittstellen Ihrer vorhandenen Programme und verbinde geeignete Systeme. KI kommt dazu, wenn sie einen konkreten Nutzen bringt." }
 ];
 
 const industriesData = [
@@ -55,7 +35,7 @@ const industriesData = [
         id: "healthcare",
         name: "Gesundheit",
         subtitle: "Weniger Dokumentationsaufwand. Mehr Zeit für Patienten.",
-        intro: "Unsere lokalen KI-Systeme unterstützen Praxen bei Dokumentation, Informationsaufbereitung und administrativen Abläufen – direkt vor Ort, ohne offene Cloud-Anbindung. Die medizinische und fachliche Entscheidung bleibt jederzeit vollständig beim behandelnden Personal.",
+        intro: "Mögliche lokale Anwendungen unterstützen Praxen bei Dokumentation, Informationsaufbereitung und administrativen Abläufen – direkt vor Ort, ohne offene Cloud-Anbindung. Die medizinische und fachliche Entscheidung bleibt jederzeit vollständig beim behandelnden Personal.",
         cases: [
             {
                 title: "Dokumentationsassistenz",
@@ -79,7 +59,7 @@ const industriesData = [
         id: "construction",
         name: "Handwerk",
         subtitle: "Weniger Bürokratie. Mehr Zeit für Baustelle und Kunden.",
-        intro: "Unsere KI-Systeme unterstützen Handwerksbetriebe bei Anfragen, Angebotsvorbereitung und Einsatzplanung. So wird Ihr Team im Büro entlastet, Abläufe werden klarer und wichtige Anfragen gehen im Tagesgeschäft nicht mehr unter.",
+        intro: "Mögliche Anwendungen unterstützen Handwerksbetriebe bei Anfragen, Angebotsvorbereitung und Einsatzplanung. So wird Ihr Team im Büro entlastet, Abläufe werden klarer und wichtige Anfragen gehen im Tagesgeschäft nicht mehr unter.",
         cases: [
             {
                 title: "Anfragen intelligent bündeln",
@@ -103,7 +83,7 @@ const industriesData = [
         id: "ecommerce",
         name: "Handel",
         subtitle: "Bessere Bestände. Präzisere Planung. Weniger gebundenes Kapital.",
-        intro: "Unsere KI-Systeme unterstützen Handelsunternehmen bei Bedarfsplanung, Bestandssteuerung und Sortimentsauswertung. So werden Warenflüsse transparenter, Engpässe früher erkennbar und Überbestände gezielter reduziert.",
+        intro: "Mögliche Anwendungen unterstützen Handelsunternehmen bei Bedarfsplanung, Bestandssteuerung und Sortimentsauswertung. So werden Warenflüsse transparenter, Engpässe früher erkennbar und Überbestände gezielter reduziert.",
         cases: [
             {
                 title: "Bedarfe frühzeitig erkennen",
@@ -127,7 +107,7 @@ const industriesData = [
         id: "logistics",
         name: "Logistik",
         subtitle: "Mehr Überblick im Tagesgeschäft. Schnellere Reaktion bei Störungen.",
-        intro: "Unsere KI-Systeme unterstützen Logistikteams bei Priorisierung, Umplanung und der Aufbereitung operativer Informationen. So gehen wichtige Meldungen nicht unter, Engpässe werden früher sichtbar und Entscheidungen können schneller vorbereitet werden.",
+        intro: "Mögliche Anwendungen unterstützen Logistikteams bei Priorisierung, Umplanung und der Aufbereitung operativer Informationen. So gehen wichtige Meldungen nicht unter, Engpässe werden früher sichtbar und Entscheidungen können schneller vorbereitet werden.",
         cases: [
             {
                 title: "Operative Informationen bündeln",
@@ -151,7 +131,7 @@ const industriesData = [
         id: "marketing",
         name: "Social",
         subtitle: "Mehr Output. Weniger manuelle Fleißarbeit.",
-        intro: "Unsere KI-Systeme unterstützen Teams im Social- und Performance-Marketing bei Content-Erstellung, Variantenaufbereitung und Kampagnenauswertung. So entstehen schneller neue Creatives, Ergebnisse werden klarer aufbereitet und Ihr Team kann fundierter nachsteuern.",
+        intro: "Mögliche Anwendungen unterstützen Teams im Social- und Performance-Marketing bei Content-Erstellung, Variantenaufbereitung und Kampagnenauswertung. So entstehen schneller neue Creatives, Ergebnisse werden klarer aufbereitet und Ihr Team kann fundierter nachsteuern.",
         cases: [
             {
                 title: "Content schneller vorbereiten",
@@ -175,7 +155,7 @@ const industriesData = [
 
 const navLinks = [
     { name: "Status Quo", href: "#status-quo-section" },
-    { name: "Solutions", href: "#solutions" },
+    { name: "Leistungen", href: "#solutions" },
     { name: "Prozess", href: "#prozess" },
     { name: "Branchen", href: "#branchen" },
     { name: "Warum ich", href: "#warum-ich" },
@@ -186,22 +166,22 @@ const prozessData = [
     {
         n: "01",
         title: "Analyse",
-        text: "Ich identifiziere Ihre Flaschenhälse und ungenutzte Potenziale in einer tiefen, kostenlosen Potenzialanalyse."
+        text: "Im unverbindlichen Erstgespräch klären wir, wo Zeit verloren geht und welcher Ablauf einen genaueren Blick verdient."
     },
     {
         n: "02",
         title: "Architektur",
-        text: "Ich entwerfe die maßgeschneiderte Blaupause für Ihr System – ausgelegt für minimale Latenz und höchste Sicherheit."
+        text: "Ich plane Datenwege, Freigaben und Schnittstellen. Umfang, Kosten und ein überprüfbares Ziel stehen vor dem Start fest."
     },
     {
         n: "03",
         title: "Entwicklung",
-        text: "Ich programmiere, teste und iteriere Ihre autonome Lösung in enger Abstimmung mit Ihnen."
+        text: "Ein erster Prototyp zeigt, wie der Ablauf funktioniert. Gemeinsam prüfen wir typische Fälle, Ausnahmen und Korrekturen."
     },
     {
         n: "04",
         title: "Betrieb",
-        text: "Integration, dediziertes Hosting, ständige Wartung & updates. Sie erhalten ein schlüsselfertiges System. Dauerhaft."
+        text: "Ich begleite Einführung und Übergabe. Betreuung, Hosting und Wartung vereinbaren wir passend zu Ihrer Lösung."
     }
 ];
 
@@ -211,7 +191,6 @@ export default function Page() {
     const [openSolution, setOpenSolution] = useState<string | null>(null);
     const [hoveredIndustry, setHoveredIndustry] = useState<string | null>(null);
     const [lockedIndustry, setLockedIndustry] = useState<string | null>(null);
-    const [openMember, setOpenMember] = useState<string | null>(null);
     const [isQuizOpen, setIsQuizOpen] = useState(false);
 
     const typewriterRef = useRef<HTMLSpanElement>(null);
@@ -251,7 +230,7 @@ export default function Page() {
         //     Scrubbing a position:fixed, full-screen (100svh) element every scroll frame is a
         //     major jank source on mobile, where the URL bar also resizes the viewport mid-scroll.
         //     On mobile the hero simply stays put and content scrolls over it -- smooth by default. ---
-        mm.add("(min-width: 1024px)", () => {
+        mm.add("(min-width: 1024px) and (min-height: 741px) and (prefers-reduced-motion: no-preference)", () => {
             const heroSection = document.getElementById('hero-sticky-section');
             if (heroSection) {
                 gsap.to(heroSection, {
@@ -268,7 +247,7 @@ export default function Page() {
         });
 
         // --- DESKTOP ONLY ANIMATIONS (Animations play only if user has no reduced motion preference) ---
-        mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
+        mm.add("(min-width: 1024px) and (min-height: 741px) and (prefers-reduced-motion: no-preference)", () => {
             
             // 1. HERO 3D Dispersion
             const heroTl = gsap.timeline({
@@ -617,29 +596,25 @@ export default function Page() {
             <section className="fixed top-0 left-0 right-0 h-[100svh] flex flex-col bg-white z-0 overflow-hidden" id="hero-sticky-section">
                 <div className="w-full flex-1 px-6 pt-24 pb-16 md:px-8 md:py-12 lg:px-10 lg:py-20 flex flex-col justify-start md:justify-center relative mx-auto max-w-[1440px]" style={{ perspective: '1200px', perspectiveOrigin: '50% 40%' }}>
                     <div className="font-mono mb-8 md:mb-8 uppercase text-sm font-medium tracking-wider md:tracking-widest hero-element">
-                        <span className="brutalist-marker text-vanta">Strategic Agentic Excellence</span>
+                        <span className="brutalist-marker text-vanta">Prozesse & Automatisierung</span>
                     </div>
 
-                    <h1 className="hero-headline text-vanta  mb-8 md:mb-8" style={{ transformStyle: 'preserve-3d' }}>
-                        <span className="hero-word inline-block">KI-Systeme,</span>
-                        <br />
-                        <span className="hero-word inline-block">die</span>{" "}
-                        <span className="hero-word inline-block">Ihre</span>
-                        <br />
-                        <span className="hero-word inline-block brutalist-marker">Arbeit</span>{" "}
-                        <span className="hero-word inline-block brutalist-marker">machen.</span>
+                    <h1 className="hero-headline text-vanta mb-6 md:mb-8" style={{ transformStyle: 'preserve-3d', fontSize: "clamp(2rem, 6.4vw, 6.5rem)" }}>
+                        <span className="hero-word inline-block">Weniger Routine.</span><br />
+                        <span className="hero-word inline-block">Mehr Zeit fürs</span><br />
+                        <span className="hero-word inline-block brutalist-marker">Wesentliche.</span>
                     </h1>
 
                     <p className="text-lg md:text-xl text-mute leading-relaxed mb-10 md:mb-10 hero-element">
-                        Ob bestehende Insellösungen vernetzen oder komplette Tools von Grund auf neu programmieren:<br />
-                        Ich schaffe autonome Architekturen, die Arbeitsabläufe optimieren und Erfolg maximieren.
+                        Ich bin Leo. Ich verbinde Ihre Programme und vereinfache wiederkehrende Büroarbeit.<br />
+                        Damit Ihr Team weniger übertragen, suchen und nachhalten muss. Mit KI, wo sie hilft.
                     </p>
 
                     <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6 hero-element">
                         <button onClick={openQuiz} className="btn-glitch inline-block bg-lime text-vanta font-mono font-bold uppercase py-4 px-8 border border-lime transition-all duration-75 cursor-pointer">
                             Potenzial Analysieren
                         </button>
-                        <span className="font-mono text-xs text-mute uppercase block">Status: <br /><span className="text-lime animate-pulse">unverbindlich</span></span>
+                        <span className="font-mono text-xs text-mute uppercase block">Status: <br /><span className="text-vanta">unverbindlich</span></span>
                     </div>
 
                 </div>
@@ -650,32 +625,32 @@ export default function Page() {
                 {/* Ticker – flush at viewport bottom on load, scrolls up with content (decorative) */}
                 <div aria-hidden="true" className="h-[48px] shrink-0 border-t border-b border-gridline text-lime overflow-hidden flex items-center whitespace-nowrap bg-[#080808] w-full relative">
                     <div className="animate-marquee font-mono text-xs uppercase tracking-widest flex gap-12 items-center pr-12 shrink-0">
-                        <span>GENERATIVE UI</span> <span className="opacity-30">/</span>
-                        <span>COMPUTER VISION</span> <span className="opacity-30">/</span>
-                        <span>PREDICTIVE MODELS</span> <span className="opacity-30">/</span>
-                        <span>NEURAL NETWORKS</span> <span className="opacity-30">/</span>
-                        <span>AUTONOMOUS AGENTS</span> <span className="opacity-30">/</span>
-                        <span>DATA PIPELINES</span> <span className="opacity-30">/</span>
-                        <span>GENERATIVE UI</span> <span className="opacity-30">/</span>
-                        <span>COMPUTER VISION</span> <span className="opacity-30">/</span>
-                        <span>PREDICTIVE MODELS</span> <span className="opacity-30">/</span>
-                        <span>NEURAL NETWORKS</span> <span className="opacity-30">/</span>
-                        <span>AUTONOMOUS AGENTS</span> <span className="opacity-30">/</span>
-                        <span>DATA PIPELINES</span> <span className="opacity-30">/</span>
+                        <span>KLARE ABLÄUFE</span> <span className="opacity-30">/</span>
+                        <span>WENIGER DATENPFLEGE</span> <span className="opacity-30">/</span>
+                        <span>MEHR ÜBERBLICK</span> <span className="opacity-30">/</span>
+                        <span>PASSENDE WERKZEUGE</span> <span className="opacity-30">/</span>
+                        <span>WENIGER ROUTINE</span> <span className="opacity-30">/</span>
+                        <span>VERBUNDENE SYSTEME</span> <span className="opacity-30">/</span>
+                        <span>KLARE ABLÄUFE</span> <span className="opacity-30">/</span>
+                        <span>WENIGER DATENPFLEGE</span> <span className="opacity-30">/</span>
+                        <span>MEHR ÜBERBLICK</span> <span className="opacity-30">/</span>
+                        <span>PASSENDE WERKZEUGE</span> <span className="opacity-30">/</span>
+                        <span>WENIGER ROUTINE</span> <span className="opacity-30">/</span>
+                        <span>VERBUNDENE SYSTEME</span> <span className="opacity-30">/</span>
                     </div>
                     <div className="animate-marquee font-mono text-xs uppercase tracking-widest flex gap-12 items-center pr-12 shrink-0" aria-hidden="true">
-                        <span>GENERATIVE UI</span> <span className="opacity-30">/</span>
-                        <span>COMPUTER VISION</span> <span className="opacity-30">/</span>
-                        <span>PREDICTIVE MODELS</span> <span className="opacity-30">/</span>
-                        <span>NEURAL NETWORKS</span> <span className="opacity-30">/</span>
-                        <span>AUTONOMOUS AGENTS</span> <span className="opacity-30">/</span>
-                        <span>DATA PIPELINES</span> <span className="opacity-30">/</span>
-                        <span>GENERATIVE UI</span> <span className="opacity-30">/</span>
-                        <span>COMPUTER VISION</span> <span className="opacity-30">/</span>
-                        <span>PREDICTIVE MODELS</span> <span className="opacity-30">/</span>
-                        <span>NEURAL NETWORKS</span> <span className="opacity-30">/</span>
-                        <span>AUTONOMOUS AGENTS</span> <span className="opacity-30">/</span>
-                        <span>DATA PIPELINES</span> <span className="opacity-30">/</span>
+                        <span>KLARE ABLÄUFE</span> <span className="opacity-30">/</span>
+                        <span>WENIGER DATENPFLEGE</span> <span className="opacity-30">/</span>
+                        <span>MEHR ÜBERBLICK</span> <span className="opacity-30">/</span>
+                        <span>PASSENDE WERKZEUGE</span> <span className="opacity-30">/</span>
+                        <span>WENIGER ROUTINE</span> <span className="opacity-30">/</span>
+                        <span>VERBUNDENE SYSTEME</span> <span className="opacity-30">/</span>
+                        <span>KLARE ABLÄUFE</span> <span className="opacity-30">/</span>
+                        <span>WENIGER DATENPFLEGE</span> <span className="opacity-30">/</span>
+                        <span>MEHR ÜBERBLICK</span> <span className="opacity-30">/</span>
+                        <span>PASSENDE WERKZEUGE</span> <span className="opacity-30">/</span>
+                        <span>WENIGER ROUTINE</span> <span className="opacity-30">/</span>
+                        <span>VERBUNDENE SYSTEME</span> <span className="opacity-30">/</span>
                     </div>
                 </div>
                 <section id="status-quo-section" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} className="border-b border-gridline bg-[#080808] text-white overflow-hidden flex justify-center">
@@ -700,9 +675,9 @@ export default function Page() {
                                 <span className="brutalist-marker text-vanta">Status Quo</span>
                             </p>
                             <h2 className="section-headline w-full" style={{ transitionDelay: '100ms' }}>
-                                <span className="text-white">WIR BEENDEN</span><br />
+                                <span className="text-white">Weniger Zeit für</span><br />
                                 {/* Screenreader: static phrase instead of the permanently mutating typewriter */}
-                                <span className="sr-only">die Zeitfresser in Ihrem Unternehmen.</span>
+                                <span className="sr-only">wiederkehrende Büroarbeit.</span>
                                 <span id="typewriter" ref={typewriterRef} aria-hidden="true" className="text-lime block min-h-[2.4em] md:min-h-0"></span>
                             </h2>
                         </div>
@@ -712,18 +687,18 @@ export default function Page() {
                                 Software sollte Zeit sparen. Nicht Zeit kosten.
                             </h3>
                             <p className="text-base md:text-lg text-bone/80 leading-relaxed font-light">
-                                Standard-Tools zwingen Ihr Unternehmen in starre Prozesse und rauben Ihnen wertvolle Zeit. Ich
-                                drehe den Spieß um: Ich konzipiere und programmiere <span className="bg-lime text-vanta px-1.5 py-0.5 font-normal">autonome Architekturen</span>, die sich
-                                kompromisslos Ihrer Geschäftslogik unterwerfen.
+                                Wenn Informationen zwischen Postfach, Tabellen und Software von Hand wandern, kostet das Zeit. Ich
+                                entwickle <span className="bg-lime text-vanta px-1.5 py-0.5 font-normal">passende Abläufe und Werkzeuge</span>,
+                                die Ihre vorhandene Arbeit sinnvoll unterstützen.
                             </p>
                         </div>
 
                         <div className="flex flex-col gap-3 pt-8 md:pt-12 border-t border-gridline/20 reveal" style={{ transitionDelay: '300ms' }}>
-                            <p className="text-[10px] md:text-xs text-bone/60 leading-relaxed font-mono tracking-wide">
-                                <span className="text-lime/70 uppercase">Mission</span> · Ich verwandle Unternehmenswissen in autonome Systeme. Mit strategischer Kreativität und kompromissloser IT-Sicherheit mache ich KI für den Mittelstand skalierbar – und so einfach und sicher wie Licht einschalten.
+                            <p className="text-base md:text-lg text-bone/80 leading-relaxed">
+                                <span className="text-lime">Der Ausgangspunkt</span> · Ein konkreter Ablauf, der Sie Zeit kostet. Gemeinsam klären wir Aufwand, Nutzen und die passende Umsetzung.
                             </p>
-                            <p className="text-[10px] md:text-xs text-bone/60 leading-relaxed font-mono tracking-wide">
-                                <span className="text-lime/70 uppercase">Vision</span> · Das autonome Betriebssystem für den europäischen Mittelstand – die Infrastruktur, auf der Unternehmen der Zukunft laufen.
+                            <p className="text-base md:text-lg text-bone/80 leading-relaxed">
+                                <span className="text-lime">Das Ziel</span> · Weniger doppelte Arbeit und klare Zuständigkeiten. Ihr Team behält den Überblick und entscheidet, was freigegeben wird.
                             </p>
                         </div>
                     </div>
@@ -735,10 +710,10 @@ export default function Page() {
                         <div className="px-6 py-6 md:px-8 md:py-12 lg:px-10 lg:py-20 flex flex-col md:flex-row justify-between items-start md:items-end gap-8 reveal border-x border-gridline">
                         <div>
                             <p className="font-mono text-xs uppercase mb-6 tracking-widest">
-                                <span className="brutalist-marker text-vanta">Solutions</span>
+                                <span className="brutalist-marker text-vanta">Leistungen</span>
                             </p>
                             <h2 className="section-headline max-w-2xl">
-                                Ihre Logik.<br />Mein Code.
+                                Ihr Alltag.<br />Einfacher organisiert.
                             </h2>
                         </div>
                         <p className="max-w-md text-bone/70 text-sm leading-relaxed font-light">
@@ -764,8 +739,8 @@ export default function Page() {
                                         ))}
                                     </div>
 
-                                    <div className="mt-auto translate-y-[120%] opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] relative z-10">
-                                        <p className="text-vanta/80 text-sm leading-relaxed font-light pt-4 border-t border-vanta/20 transition-colors duration-500">
+                                    <div className="mt-auto transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] relative z-10">
+                                        <p className="text-bone/80 group-hover:text-vanta/80 text-base leading-relaxed pt-4 border-t border-white/20 group-hover:border-vanta/20 transition-colors duration-500">
                                             {sol.text}
                                         </p>
                                     </div>
@@ -781,6 +756,7 @@ export default function Page() {
                                     role="button"
                                     tabIndex={0}
                                     aria-expanded={openSolution === sol.id}
+                                    aria-controls={`solution-${sol.id}`}
                                     onClick={() => setOpenSolution(openSolution === sol.id ? null : sol.id)}
                                     onKeyDown={(e) => onKeyToggle(e, () => setOpenSolution(openSolution === sol.id ? null : sol.id))}
                                     className={`group relative p-6 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col overflow-hidden cursor-pointer border-b border-gridline last:border-b-0 ${openSolution === sol.id ? 'bg-lime' : 'bg-vanta'}`}
@@ -802,11 +778,11 @@ export default function Page() {
                                         </div>
 
                                         <div className="flex justify-end shrink-0 pl-2 mt-0.5">
-                                            <span className={`font-mono text-2xl font-light transition-transform duration-500 leading-none ${openSolution === sol.id ? 'rotate-45 text-vanta' : 'text-lime/50'}`}>+</span>
+                                            <svg aria-hidden="true" width="38" height="38" viewBox="0 0 40 40" className={`text-lime transition-transform duration-500 ${openSolution === sol.id ? 'rotate-45 !text-vanta' : ''}`}><path fill="currentColor" fillRule="evenodd" d="M20 1a19 19 0 1 0 0 38 19 19 0 0 0 0-38ZM18 10h4v8h8v4h-8v8h-4v-8h-8v-4h8Z" /></svg>
                                         </div>
                                     </div>
 
-                                    <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${openSolution === sol.id ? 'grid-rows-[1fr] mt-6' : 'grid-rows-[0fr] mt-0'}`}>
+                                    <div id={`solution-${sol.id}`} inert={openSolution !== sol.id} className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${openSolution === sol.id ? 'grid-rows-[1fr] mt-6' : 'grid-rows-[0fr] mt-0'}`}>
                                         <div className="overflow-hidden relative z-10 w-full">
                                             <p className={`text-sm leading-relaxed font-light pt-4 border-t transition-all duration-500 ${openSolution === sol.id ? 'text-vanta/90 border-vanta/20 opacity-100' : 'text-vanta/0 border-transparent opacity-0'}`}>
                                                 {sol.text}
@@ -1009,7 +985,7 @@ export default function Page() {
                             <p className="font-mono text-xs uppercase mb-6 tracking-widest">
                                 <span className="brutalist-marker text-vanta">Zukunftssicherheit</span>
                             </p>
-                            <h2 className="section-headline">Der Mittelstand<br />wird autonom.</h2>
+                            <h2 className="section-headline">Wo sich Arbeit<br />vereinfachen lässt.</h2><p className="mt-6 max-w-xl text-base leading-relaxed text-bone/80">Die folgenden Beispiele zeigen mögliche Anwendungen. Welche davon für Ihren Betrieb sinnvoll und technisch möglich sind, klären wir anhand Ihrer Systeme und Abläufe.</p>
                         </div>
                         <p className="max-w-md md:text-right text-bone/70 text-sm leading-relaxed font-light">
                             Egal aus welcher Branche Sie kommen: Ich baue spezifische KI-Systeme, die reale Probleme lösen.
@@ -1147,15 +1123,15 @@ export default function Page() {
                                 <p className="font-mono text-xs uppercase mb-6 tracking-widest">
                                     <span className="brutalist-marker text-vanta">Warum ich</span>
                                 </p>
-                                <h2 className="section-headline text-vanta">Keine Standard-Agentur.<br />Keine Kompromisse.</h2>
+                                <h2 className="section-headline text-vanta">Direkt mit mir.<br />Schritt für Schritt.</h2>
                             </div>
-                            <p className="max-w-md text-vanta/80 text-sm leading-relaxed font-light relative z-10">Ich tausche nicht Zeit gegen Geld. Ich liefere Systeme, die messbare Effizienz bringen. Kompromisslos auf den Erfolg des Mittelstands ausgerichtet.</p>
+                            <p className="max-w-md text-vanta/80 text-sm leading-relaxed font-light relative z-10">Ich begleite Ihr Vorhaben von der ersten Frage bis zur Einführung. Sie wissen, was als Nächstes passiert, was es kostet und wer sich darum kümmert.</p>
                         </div>
 
                         {[
-                            { title: "Performance Pricing", text: "Sie zahlen für das funktionierende Ergebnis und garantierten ROI. Ich gewinne, wenn Sie gewinnen." },
-                            { title: "Radikale Agilität", text: "Keine monatelangen Wasserfall-Projekte. Ich baue schnelle Prototypen und iteriere live an Ihren Daten." },
-                            { title: "DSGVO-Konform", text: "Modernste KI-Innovation plus IT-Sicherheit. Alles DSGVO-konform, stabil und gehostet in Deutschland." },
+                            { title: "Klarer Rahmen", text: "Ziel, Umfang und Kosten werden vor dem Start vereinbart. Gemeinsam legen wir fest, woran Sie eine Verbesserung erkennen." },
+                            { title: "Früh ausprobieren", text: "Ein überschaubarer Prototyp macht die Lösung greifbar. Rückmeldungen aus Ihrem Arbeitsalltag fließen in die Umsetzung ein." },
+                            { title: "Daten bewusst behandeln", text: "Welche Daten werden gebraucht, wer darf sie sehen und wo werden sie verarbeitet? Diese Fragen gehören von Anfang an ins Konzept." },
                             { title: "Maßanzug statt Masse", text: "Ich biege nicht den Kunden für die Software. Jede Lösung wird individuell für Ihren Prozess entwickelt." }
                         ].map((item, idx) => (
                             <div
@@ -1176,7 +1152,7 @@ export default function Page() {
                                 <h3 className="font-mono text-sm md:text-base text-vanta  font-bold mb-2 md:mb-4 group-hover:text-white transition-colors duration-500">{item.title}</h3>
 
                                 {/* Text — read-first on mobile, slides up on hover for desktop */}
-                                <div className="translate-y-0 opacity-100 lg:translate-y-[120%] lg:opacity-0 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                                <div className="translate-y-0 opacity-100 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
                                     <p className="text-xs sm:text-sm text-vanta/70 group-hover:text-white/70 leading-relaxed font-light mt-2 md:mt-4 border-t border-vanta/20 group-hover:border-white/20 pt-2 md:pt-4 transition-colors duration-500">{item.text}</p>
                                 </div>
                             </div>
@@ -1191,77 +1167,20 @@ export default function Page() {
                                     <span className="brutalist-marker text-vanta">Über mich</span>
                                 </p>
                                 <h2 className="text-3xl lg:text-4xl  font-bold mb-0 lg:mb-6 leading-tight">
-                                    Strategische <br className="lg:hidden" />
-                                    Kreativität trifft <br className="hidden lg:inline" /><br className="lg:hidden" />
-                                    <span className="text-lime/90">unzerstörbares</span> <br className="lg:hidden" />
-                                    Tech-Fundament.
+                                    Erst zuhören.<br />Dann <span className="text-lime/90">vereinfachen.</span>
                                 </h2>
                             </div>
-                            <p className="text-bone/70 text-sm max-w-sm">Eine Lücke geschlossen: die zwischen dem, was KI verspricht &mdash; und dem, was Ihr Unternehmen wirklich braucht.</p>
+                            <p className="text-bone/70 text-sm max-w-sm">Ich bin Leo. Mich interessiert, wie Ihr Unternehmen arbeitet – und was Ihnen im Alltag tatsächlich helfen würde.</p>
                         </div>
 
-                        {/* Card: Leonid */}
-                        <div
-                            role="button"
-                            tabIndex={0}
-                            aria-expanded={openMember === 'leonid'}
-                            aria-label="Profil von Leonid ein- oder ausklappen"
-                            className="lg:col-span-8 relative group overflow-hidden bg-[#0a0a0a] min-h-[550px] lg:min-h-[650px] flex flex-col justify-end cursor-pointer lg:cursor-default"
-                            onClick={() => setOpenMember(openMember === 'leonid' ? null : 'leonid')}
-                            onKeyDown={(e) => onKeyToggle(e, () => setOpenMember(openMember === 'leonid' ? null : 'leonid'))}
-                        >
-                            {/* Background Image */}
-                            <div 
-                                className={`absolute inset-0 bg-no-repeat bg-cover bg-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] z-0 ${
-                                    openMember === 'leonid'
-                                    ? 'opacity-30 grayscale contrast-125 saturate-0 scale-105'
-                                    : 'opacity-100 grayscale-0 saturate-100 scale-100 lg:group-hover:opacity-30 lg:group-hover:grayscale lg:group-hover:contrast-125 lg:group-hover:saturate-0 lg:group-hover:scale-105'
-                                }`}
-                                style={{ backgroundImage: `url('${basePath}/FOTOS/leonid_cropped_2.webp')` }}
-                                role="img"
-                                aria-label="Porträtfoto von Leonid"
-                            />
-                            
-                            {/* Overlay Gradient */}
-                            <div className={`absolute inset-0 bg-gradient-to-t from-vanta via-vanta/70 to-transparent transition-opacity duration-700 z-10 ${
-                                openMember === 'leonid' 
-                                ? 'opacity-95' 
-                                : 'opacity-40 lg:opacity-40 lg:group-hover:opacity-95'
-                            }`} />
-
-                            {/* Content Block */}
-                            <div className={`absolute left-6 right-6 md:left-8 md:right-8 bottom-6 md:bottom-10 z-20 flex flex-col transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${openMember === 'leonid' ? 'translate-y-0' : 'translate-y-[calc(100%-70px)]'} lg:translate-y-[calc(100%-70px)] lg:group-hover:translate-y-0 pointer-events-auto lg:pointer-events-none lg:group-hover:pointer-events-auto`}>
-                                
-                                {/* Title (Always visible) */}
-                                <div className="pointer-events-auto shrink-0 flex justify-between items-end w-full">
-                                    <div>
-                                        <h3 className="text-4xl  font-black mb-1 text-white/90 group-hover:text-white transition-colors duration-500">Leonid</h3>
-                                        <p className="font-mono text-lime/80 text-[10px] sm:text-xs tracking-widest uppercase mb-0 group-hover:text-lime transition-colors duration-500">The Architect of Intent</p>
-                                    </div>
-                                    <div className={`lg:hidden w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-500 mb-1 ${openMember === 'leonid' ? 'rotate-45 border-lime text-lime' : 'border-white/30 text-white/70'}`}>
-                                        <span className="text-2xl font-light leading-none mt-[-2px]">+</span>
-                                    </div>
-                                </div>
-                                
-                                {/* Hidden Hover Content */}
-                                <div className={`flex flex-col ${openMember === 'leonid' ? 'opacity-100' : 'opacity-0'} lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-700 delay-100 ease-[cubic-bezier(0.16,1,0.3,1)] mt-4`}>
-                                    
-                                    <div className="bg-lime/5 border-l-2 border-lime pl-3 py-2 mb-4">
-                                        <p className="text-lime font-mono text-[10px] tracking-wider uppercase leading-relaxed">
-                                            Übersetzt tiefe Geschäftsbedürfnisse in präzise Sprachlogik und Workflows. Gestaltet die Schnittstelle zwischen Mensch und Maschine.
-                                        </p>
-                                    </div>
-                                    
-                                    <p className="text-white/80 text-xs lg:text-sm leading-relaxed font-light mb-4">
-                                        Viele kommen heute mit KI-Lösungen. Die wenigsten verstehen den Menschen dahinter.<br /><br />
-                                        Ich komme aus einer Welt, in der jedes Wort zählt und jede Idee beweisbar sein muss. Als Senior Copywriter und Konzeptioner in internationalen Agenturnetzwerken habe ich gelernt: Strategie ohne Kreativität ist eine Tabelle. Kreativität ohne Strategie ist Dekoration. Ich vereine beides &mdash; und gieße diese Symbiose in präzise KI-Architekturen.<br /><br />
-                                        In KI-Workshops habe ich Creative Teams auf das vorbereitet, was kommt. Heute baue ich es selbst. Als Strategic AI Engineer gestalte ich die Schnittstelle zwischen dem, was Ihr Unternehmen meint &mdash; und dem, was die KI versteht.
-                                    </p>
-                                    
-                                    <span className="text-lime/90 font-mono text-[10px] tracking-wider uppercase opacity-90 block">ENTWICKELT DIE STRATEGISCHE VISION &mdash; UND SORGT DAFÜR, DASS DIE KI JEDE GESCHÄFTSLOGIK PRÄZISE VERSTEHT.</span>
-                                </div>
+                        <article className="lg:col-span-8 bg-[#0a0a0a]">
+                            <img src={`${basePath}/FOTOS/leonid_cropped_2.webp`} alt="Leonid Ryazanskiy, Ihr Ansprechpartner bei Leoquent" width="720" height="900" loading="lazy" className="w-full h-[380px] md:h-[460px] object-cover object-[50%_25%]" />
+                            <div className="p-6 md:p-10">
+                                <h3 className="text-3xl font-bold mb-5">Leonid Ryazanskiy.<br /><span className="text-lime">Für Sie: Leo.</span></h3>
+                                <p className="text-base leading-relaxed text-white/80 mb-5">Seit über einem Jahrzehnt entwickle ich Ideen, Konzepte und Texte für Marken. Dabei beginnt meine Arbeit mit der Frage: Was brauchen die Menschen, für die wir etwas entwickeln?</p>
+                                <p className="text-base leading-relaxed text-white/80">Diesen Blick bringe ich in Ihre Abläufe ein. Ich höre zu, mache Zusammenhänge verständlich und entwickle Werkzeuge, die zu Ihrer Arbeit passen. Sie sprechen direkt mit mir – vom ersten Gespräch bis zur Umsetzung.</p>
                             </div>
-                        </div>
+                        </article>
 
                     </div>
                 </div>
@@ -1269,15 +1188,15 @@ export default function Page() {
 
                 <section id="cta" className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center relative overflow-hidden bg-vanta text-white w-full">
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-5">
-                        <span className="text-[20vw] font-bold uppercase leading-none">Execute</span>
+                        <span className="text-[20vw] font-bold uppercase leading-none">Freiraum</span>
                     </div>
 
                     <div className="relative z-10 w-full max-w-2xl mx-auto reveal">
                         <h2 className="text-5xl md:text-7xl  font-bold mb-6">Bereit für echte<br /><span className="brutalist-marker">Freiräume?</span></h2>
-                        <p className="text-bone/70 mb-12">Der erste Schritt ist menschlich: Eine unverbindliche Potenzialanalyse. Ich zeige Ihnen, wo Sie Zeit bluten. Der zweite Schritt: Automatisierung.</p>
+                        <p className="text-bone/70 mb-12">Erzählen Sie mir von einem Ablauf, der Sie im Alltag aufhält. Im unverbindlichen Erstgespräch klären wir, ob und wie ich Ihnen helfen kann.</p>
 
                         <button onClick={openQuiz} className="bg-lime text-vanta font-mono font-bold uppercase px-10 py-5 hover:bg-white hover:text-vanta transition-colors duration-300 btn-glitch border border-lime cursor-pointer text-lg">
-                            Jetzt befreien
+                            Ablauf besprechen
                         </button>
                     </div>
                 </section>

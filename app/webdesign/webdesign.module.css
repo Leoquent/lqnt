@@ -45,3 +45,15 @@
 .packageBasics{margin-top:24px!important;padding:18px 0;border-bottom:1px solid var(--line);font-size:13px;line-height:1.8;color:var(--secondary)}
 @media(max-width:700px){.sceneControls button{padding:12px 10px;font-size:10px;gap:5px}.sceneControls .tourControl{padding:10px;margin-left:2px}.aboutHeading h2{font-size:clamp(37px,8vw,54px)}.packageBasics{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.tourControl{display:none!important}}
+
+/* Feedback: readable project details and a real project preview. */
+.projectVisual img{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
+.projectDetails p:not(.eyebrow),.projectDetails li{font-size:16px;line-height:1.8}
+.projectText>p:last-child{font-size:15px}.projectVisual{background:#e8e5da}
+.about+.credentials{margin-top:48px}.credentials>p{font-size:14px;max-width:340px}.credentials p span{font-size:12px}
+.heroFootnote a{color:var(--accent);text-underline-offset:4px;text-decoration:underline}
+.packageHint{margin-left:auto;max-width:100px;line-height:1.5}.package li>span svg{width:16px;height:20px;flex-shrink:0}
+.aboutCopy>p.personalLead{font-size:clamp(21px,2vw,29px);line-height:1.45;color:var(--ink);margin-bottom:28px}
+.searchIntro{margin-top:32px;padding-top:28px;border-top:1px solid var(--line);max-width:780px}
+.searchIntro h4{font-size:23px;margin-bottom:12px}.searchIntro p{font-size:16px;line-height:1.8;margin-bottom:18px;color:var(--secondary)}
+@media(max-width:700px){.projectSummary{grid-template-columns:1fr}.projectVisual{height:auto;aspect-ratio:1.44}.projectText .eyebrow{font-size:11px}.projectToggle{font-size:13px}.credentials p span{display:block;margin-left:0}.projectDetails{padding:28px 22px}}

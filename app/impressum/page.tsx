@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { absoluteUrl } from "@/lib/seo";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export const metadata: Metadata = {
   title: "Impressum | Leoquent",
+  alternates: { canonical: absoluteUrl("/impressum/") },
   robots: { index: false, follow: true },
 };
 

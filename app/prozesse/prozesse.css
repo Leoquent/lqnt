@@ -1,0 +1,5 @@
+/* Short viewports must be able to scroll the complete introduction and its CTA. */
+@media (max-height: 740px) {
+  #hero-sticky-section { position: relative; height: auto; min-height: 100svh; overflow: visible; }
+  #content-wrapper { margin-top: 0 !important; }
+}

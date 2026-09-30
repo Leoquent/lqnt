@@ -80,30 +80,30 @@ export default function WebdesignPage() {
           <h1 id="hero-title" data-intro>Ihr Unternehmen<br />kann was.<br /><em>Zeigen wir es.</em></h1>
           <p className={s.heroLead} data-intro>Eine Website, die zeigt, was Sie ausmacht. Durchdacht im Aufbau, eigenständig im Design – mit Texten, die ich für Sie schreibe.</p>
           <div className={s.heroActions} data-intro><a className={s.button} href="#arbeiten">Arbeiten entdecken <Arrow diagonal /></a><a className={s.textLink} href="#preise">Pakete ab 1.900 € <Arrow /></a></div>
-          <p className={s.heroFootnote} data-intro>Konzept, Text und Umsetzung. Ein Ansprechpartner.</p>
+          <p className={s.heroFootnote} data-intro>Ich bin Leo. Ich schreibe, gestalte und entwickle Ihre Website. <a href="#ueber-mich">Mehr über mich</a></p>
         </div>
         <HeroPresentation motionPaused={motionPaused} />
       </section>
 
-      <div className={s.credentials} data-reveal><p>Texte von einem ausgezeichneten Werbetexter.<span>Ausgezeichnet unter anderem bei</span></p><div>Cannes Lions<span>ADC</span>New York Festivals<span>The One Show</span></div></div>
+
 
       <section id="arbeiten" className={s.section} aria-labelledby="work-title">
         <div className={s.sectionRule} data-line />
-        <div className={s.sectionHeading + " " + s.headingStraight} data-reveal><p className={s.eyebrow}>01 / Aus der Arbeit</p><h2 id="work-title">Ein neuer Auftritt.<br /><span>Ein vertrauter Charakter.</span></h2><p>Wie aus einem bestehenden Unternehmen eine Website mit klarer Linie wird.</p></div>
+        <div className={s.sectionHeading + " " + s.headingStraight} data-reveal><p className={s.eyebrow}>01 / Aus der Arbeit</p><h2 id="work-title">Ein neuer Auftritt.<br /><span>Ein klares Angebot.</span></h2><p>Wie aus einem bestehenden Unternehmen eine Website mit klarer Linie wird.</p></div>
         <article className={s.project} data-reveal>
-          <button className={s.projectSummary} aria-expanded={projectOpen} aria-controls="ruempelross-details" onClick={() => setProjectOpen(!projectOpen)}>
-            <div className={s.projectVisual} aria-hidden="true"><svg viewBox="0 0 280 180" fill="none"><path d="M62 145V63l79-38 78 38v82H62Zm0-82 79 39 78-39m-78 39v81M82 95l39 19v49L82 144V95Zm78 17 36-18v48l-36 19v-49Z" stroke="currentColor" /><path d="m39 149 100 49 103-49M140 10v26M21 64l27 13M229 77l27-13" stroke="currentColor" strokeDasharray="3 5" /></svg><span>Projektansicht folgt</span></div>
-            <div className={s.projectText}><p className={s.eyebrow}>Webdesign · Text · Interaktion</p><h3>RümpelRoss</h3><p>Den Charakter behalten. Das Angebot schärfen. Den Weg zur Anfrage vereinfachen.</p></div>
+          <button className={s.projectSummary} aria-expanded={projectOpen} aria-controls="gebruederross-details" onClick={() => setProjectOpen(!projectOpen)}>
+            <div className={s.projectVisual}><img src={basePath + "/referenzen/gebrueder-ross-desktop.webp"} alt="Gebrüder Ross: Website mit klarer Typografie in Dunkelblau und Gold" width="1440" height="1000" loading="lazy" /></div>
+            <div className={s.projectText}><p className={s.eyebrow}>Webdesign · Text · Interaktion</p><h3>Gebrüder Ross</h3><p>Nachlassabwicklung verständlich machen. Leistungen ordnen. Persönliches Vertrauen aufbauen.</p></div>
             <span className={s.projectToggle}>{projectOpen ? "Weniger" : "Projekt ansehen"}<span className={s.plus} aria-hidden="true">{projectOpen ? "−" : "+"}</span></span>
           </button>
-          <div id="ruempelross-details" className={s.expand} data-open={projectOpen} inert={!projectOpen}>
+          <div id="gebruederross-details" className={s.expand} data-open={projectOpen} inert={!projectOpen}>
             <div className={s.expandInner}><div className={s.projectDetails}>
-              <div><p className={s.eyebrow}>Die Ausgangslage</p><h4>Viel Persönlichkeit.<br />Wenig Orientierung.</h4><p>Die selbst gebaute Website zeigte den Betrieb, machte es Besuchern aber schwer, sich zurechtzufinden. Botschaften, Leistungen und Kontaktmöglichkeiten brauchten eine klarere Ordnung.</p></div>
-              <div><p className={s.eyebrow}>Mein Beitrag</p><h4>Ein roter Faden.<br />Vom ersten Blick bis zur Anfrage.</h4><p>Markenfarben und Comic-Charakter bleiben. Neu sind die Texte, die Gestaltung und eine Dramaturgie, die durch das Angebot führt.</p><ul><li>Responsive Gestaltung, eigene Grafiken und Icons</li><li>Scroll-Animationen und Vorher-nachher-Slider</li><li>Quiz zur Anfrage und zusätzliche Kontaktwege</li></ul><a href="https://leoquent.github.io/ruempelross/" target="_blank" rel="noreferrer" className={s.textLink}>Projektvorschau öffnen <Arrow diagonal /></a></div>
+              <div><p className={s.eyebrow}>Die Aufgabe</p><h4>Ein sensibles Thema.<br />Eine klare Orientierung.</h4><p>Gebrüder Ross unterstützt Nachlasspfleger und Nachlassverwalter im Großraum Stuttgart. Die Website erklärt ein breites Angebot: von der ersten Objektbegehung über die Verwertung bis zur Räumung und Übergabe.</p></div>
+              <div><p className={s.eyebrow}>Der Auftritt</p><h4>Leistungen erklären.<br />Die Menschen dahinter zeigen.</h4><p>Eine ruhige Gestaltung, konkrete Leistungsbeschreibungen und persönliche Ansprechpartner machen das Angebot greifbar. Eigene Unterseiten geben wichtigen Anliegen mehr Raum.</p><ul><li>Leistungsübersicht mit gezielt aufklappbaren Details</li><li>Häufige Fragen und direkte Kontaktwege</li><li>Responsive Darstellung für Handy und Desktop</li></ul><Link href="/referenzen/gebrueder-ross/" className={s.textLink}>Das Projekt im Detail <Arrow diagonal /></Link></div>
             </div></div>
           </div>
         </article>
-        <p className={s.workNote}>Weitere Projekte entstehen gerade. Hier zeige ich sie, sobald sie bereit sind.</p>
+        <p className={s.workNote}>Ein Einblick in meine Arbeit für ein Unternehmen mit einem erklärungsbedürftigen Angebot.</p>
       </section>
 
       <section id="leistungen" className={s.section} aria-labelledby="services-title">
@@ -124,6 +124,7 @@ export default function WebdesignPage() {
             <div><h4>Die passende Technik dahinter.</h4><p>Ein schlanker Auftritt, selbst pflegbare Inhalte oder eine Anbindung an bestehende Systeme: Die Umsetzung richtet sich danach, was Sie später mit der Website tun möchten.</p></div>
             <div><h4>Vor dem Livegang geprüft.</h4><p>Ich prüfe Darstellung, Tastaturbedienung und Kontaktwege. Ladezeiten, Bildgrößen und technische SEO-Grundlagen gehören ebenso dazu wie eine klare Übergabe.</p></div>
           </div>
+          <div className={s.searchIntro}><h4>Gefunden werden. Auch in der KI-Suche.</h4><p>Ich schreibe Inhalte, die echte Fragen Ihrer Kunden beantworten. Klare Leistungsseiten, nachvollziehbare Beispiele und eine technisch zugängliche Website helfen Suchmaschinen und KI-Suchdiensten, Ihr Angebot einzuordnen. SEO und die Optimierung für KI-Suche, oft GEO genannt, plane ich deshalb gemeinsam.</p><Link href="/webdesign/seo-und-ki-suche/" className={s.textLink}>So plane ich Inhalte für die Suche <Arrow diagonal /></Link></div>
           <p className={s.expertiseFoot}>Was das für Sie heißt: Text, Gestaltung und Technik entstehen aus demselben Konzept.</p>
         </div>
       </section>
@@ -134,7 +135,7 @@ export default function WebdesignPage() {
         <div className={s.sectionRule} data-line />
         <div className={s.sectionHeading + " " + s.headingStraight} data-reveal><p className={s.eyebrow}>03 / Der passende Rahmen</p><h2 id="prices-title">So viel Website,<br /><span>wie Ihr Vorhaben braucht.</span></h2><p>Umfang, Funktionen und die Inszenierung machen den Unterschied. Sie wählen den Rahmen, der zu Ihrem Vorhaben passt.</p></div>
         <div className={s.packages}>{packages.map((pkg, i) => <article className={s.package} data-featured={i === 1} data-reveal key={pkg.name}>
-          <div className={s.packageTop}><span>0{i + 1}</span><h3>{pkg.name}</h3></div><p className={s.packageLead}>{pkg.lead}</p><p className={s.packageDescription}>{pkg.description}</p><p className={s.price}><span>ab</span> {pkg.price} <span>€</span></p><span className={s.once}>Einmaliges Website-Projekt</span><div className={s.packageRule} /><ul>{pkg.features.map(f => <li key={f}><span aria-hidden="true">↗</span>{f}</li>)}</ul><a href={mail("Website-Projekt – Paket " + pkg.name)} className={i === 1 ? s.button : s.outlineButton}>Über {pkg.name} sprechen <Arrow diagonal /></a>
+          <div className={s.packageTop}><span>0{i + 1}</span><h3>{pkg.name}</h3>{i === 1 && <span className={s.packageHint}>Mehr Raum fürs Angebot</span>}</div><p className={s.packageLead}>{pkg.lead}</p><p className={s.packageDescription}>{pkg.description}</p><p className={s.price}><span>ab</span> {pkg.price} <span>€</span></p><span className={s.once}>Einmaliges Website-Projekt</span><div className={s.packageRule} /><ul>{pkg.features.map(f => <li key={f}><span aria-hidden="true"><Arrow diagonal /></span>{f}</li>)}</ul><a href={mail("Website-Projekt – Paket " + pkg.name)} className={i === 1 ? s.button : s.outlineButton}>Über {pkg.name} sprechen <Arrow diagonal /></a>
         </article>)}</div>
         <p className={s.packageBasics}>Immer dabei: eigene Texte, mobile Optimierung, technische SEO-Grundlagen und Prüfung vor dem Livegang.</p>
         <p className={s.priceNote}>Der genaue Festpreis steht vor dem Start fest. Seitenumfang, individuelle Animationen und Anbindungen stimmen wir im Angebot ab. Für den laufenden Betrieb können Sie die Betreuung unten wählen oder Hosting und Domain selbst organisieren. Etwaige Lizenzkosten sind im Angebot ausgewiesen.</p>
@@ -146,8 +147,10 @@ export default function WebdesignPage() {
       <section id="ueber-mich" className={s.about} aria-labelledby="about-title">
         <div className={s.aboutHeading} data-reveal><p className={s.eyebrow}>05 / Hi, ich bin Leo.</p><h2 id="about-title">Ich denke in Ideen.<br /><span>Und in ganzen Websites.</span></h2></div>
         <figure className={s.portrait}><div className={s.portraitImage}><img src={basePath + "/FOTOS/leonid_cropped_2.webp"} alt="Leonid Ryazanskiy, Gründer von Leoquent" width="720" height="900" loading="lazy" /></div><figcaption><span>Der Kopf hinter Leoquent.</span><Arrow diagonal /></figcaption></figure>
-        <div className={s.aboutCopy} data-reveal><p>Ich bin Leonid Ryazanskiy. Seit über einem Jahrzehnt entwickle ich Konzepte, Ideen und Texte für Marken – in enger Zusammenarbeit mit Art Directors und Designern. Dabei habe ich gelernt, Botschaften und Gestaltung zusammenzudenken: Was macht ein Angebot relevant? Was bleibt im Kopf? Und was bewegt Menschen zum nächsten Schritt?</p><p>Webdesign begleitet mich seit meiner Jugend, damals noch mit Dreamweaver. Heute verbinde ich diese Leidenschaft mit meiner Erfahrung aus der Werbung. Ich entwickle Ihre Website strategisch und kreativ: mit einer klaren Idee, einem durchdachten Aufbau und einem Design, das Ihre Botschaft trägt.</p><p>Von der ersten Formulierung bis zur letzten Interaktion entsteht so ein zusammenhängender Auftritt. Ich schreibe die Texte, gestalte den Weg durch die Seite und setze sie um. Sie haben einen Ansprechpartner, der das Ganze im Blick behält.</p><p>KI gehört dabei zu meinen Werkzeugen. Die Richtung geben Ihr Unternehmen, Ihre Ziele und die Menschen vor, die Sie erreichen möchten. Je nach Projekt ergänze ich meine Arbeit durch mein Netzwerk aus Entwicklung, Design, Art Direction, Fotografie, Projektmanagement und Social Media.</p><div className={s.agencies}><span>Unter anderem tätig für:</span><p>Scholz & Friends · Serviceplan · Havas · fischerAppelt · Zum Goldenen Hirschen</p></div></div>
+        <div className={s.aboutCopy} data-reveal><p className={s.personalLead}>Sie bringen das Wissen über Ihr Unternehmen mit. Ich mache daraus einen Auftritt, den Ihre Kunden verstehen.</p><p>Ich bin Leonid Ryazanskiy. Seit über einem Jahrzehnt entwickle ich Konzepte, Ideen und Texte für Marken – in enger Zusammenarbeit mit Art Directors und Designern. Dabei habe ich gelernt, Botschaften und Gestaltung zusammenzudenken: Was macht ein Angebot relevant? Was bleibt im Kopf? Und was bewegt Menschen zum nächsten Schritt?</p><p>Webdesign begleitet mich seit meiner Jugend, damals noch mit Dreamweaver. Heute verbinde ich diese Leidenschaft mit meiner Erfahrung aus der Werbung. Ich entwickle Ihre Website strategisch und kreativ: mit einer klaren Idee, einem durchdachten Aufbau und einem Design, das Ihre Botschaft trägt.</p><p>Von der ersten Formulierung bis zur letzten Interaktion entsteht so ein zusammenhängender Auftritt. Ich schreibe die Texte, gestalte den Weg durch die Seite und setze sie um. Sie haben einen Ansprechpartner, der das Ganze im Blick behält.</p><p>KI gehört dabei zu meinen Werkzeugen. Die Richtung geben Ihr Unternehmen, Ihre Ziele und die Menschen vor, die Sie erreichen möchten. Je nach Projekt ergänze ich meine Arbeit durch mein Netzwerk aus Entwicklung, Design, Art Direction, Fotografie, Projektmanagement und Social Media.</p><div className={s.agencies}><span>Unter anderem tätig für:</span><p>Scholz & Friends · Serviceplan · Havas · fischerAppelt · Zum Goldenen Hirschen</p></div></div>
       </section>
+
+      <div className={s.credentials} data-reveal><p>Erfahrung in Konzeption und Text.<span>Arbeiten aus meiner Werbelaufbahn wurden unter anderem hier ausgezeichnet.</span></p><div>Cannes Lions<span>ADC</span>New York Festivals<span>The One Show</span></div></div>
 
       <section className={s.section + " " + s.faqSection} aria-labelledby="faq-title">
         <div data-reveal><p className={s.eyebrow}>06 / Noch offen?</p><h2 id="faq-title">Gute Fragen.<br /><span>Klare Antworten.</span></h2></div>

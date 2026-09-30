@@ -71,3 +71,10 @@
  .interactive .copy{font-size:14px}.interactive .bottom{padding-top:6px}
 }
 @media(prefers-reduced-motion:reduce){.gateway *,.gateway *:before{animation:none!important;transition:none!important}.illustration{transform:none!important}}
+
+/* Keep decorative lines away from letterforms, including the active state. */
+.interactive .choice h2{position:relative;z-index:1;text-shadow:0 0 10px #0e0f0c,0 0 22px #0e0f0c}
+.interactive .choice:nth-child(2) h2{text-shadow:0 0 10px #151610,0 0 22px #151610}
+.interactive .choice:hover .illustration,.interactive .choice:focus-visible .illustration{opacity:.22;color:#a0aa7a}
+.arrow svg{width:28px;height:28px;display:block}.discover span{vertical-align:middle}.discover svg{width:18px;height:18px;display:block}
+.brand{line-height:1}.descriptor{align-self:center}
