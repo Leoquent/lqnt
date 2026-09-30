@@ -1,7 +1,23 @@
-/* Short viewports must be able to scroll the complete introduction and its CTA. */
-@media (max-height: 740px) {
+/* Let the longer introduction scroll in narrow or short viewports. */
+@media (max-width: 767px), (max-height: 740px) {
   #hero-sticky-section { position: relative; height: auto; min-height: 100svh; overflow: visible; }
   #content-wrapper { margin-top: 0 !important; }
+}
+
+.process-hero-line{display:block}
+.process-mobile-break{display:none}
+.process-hero-copy{max-width:1040px}
+.process-hero-eyebrow .brutalist-marker{white-space:normal;line-height:1.6}
+@media(max-width:767px){
+  .process-mobile-break{display:block}
+  .process-hero-title{font-size:clamp(2rem,8vw,3.8rem)}
+  .process-hero-eyebrow{font-size:12px;letter-spacing:.06em}
+}
+.process-page[data-motion-paused="true"] #sq-geo-core{transform:rotateX(0deg) rotateY(-15deg)!important}
+.process-page[data-motion-paused="true"] #sq-ring{transform:translateZ(20px) rotate(12deg)!important}
+@media(prefers-reduced-motion:reduce){
+  .process-page #sq-geo-core{transform:rotateX(0deg) rotateY(-15deg)!important}
+  .process-page #sq-ring{transform:translateZ(20px) rotate(12deg)!important}
 }
 
 .process-profile { display: grid; grid-template-columns: minmax(0, 1fr); }
@@ -13,11 +29,11 @@
 .process-skip:focus{top:10px}
 .process-page :is(a,button,[role="button"]):focus-visible{outline:2px solid currentColor;outline-offset:5px}
 .process-page[data-motion-paused="true"] *{animation:none!important;transition:none!important}
-.process-page[data-motion-paused="true"] #prozess{position:relative!important;height:auto!important;min-height:0!important}
+.process-page:is([data-motion-paused="true"],[data-process-static="true"]) #prozess{position:relative!important;height:auto!important;min-height:0!important}
 
-.process-page[data-motion-paused="true"] .process-steps-section{position:relative!important;height:auto!important;overflow:visible;z-index:auto}
-.process-page[data-motion-paused="true"] .process-scroll-space{display:none}
-.process-page[data-motion-paused="true"] .prozess-grid{height:auto!important}
-.process-page[data-motion-paused="true"] .process-card-frame{position:relative;height:auto;overflow:visible}
-.process-page[data-motion-paused="true"] [class*="desktop-card-"]{position:relative!important;top:auto!important;height:auto!important;transform:none!important}
+.process-page:is([data-motion-paused="true"],[data-process-static="true"]) .process-steps-section{position:relative!important;height:auto!important;overflow:visible;z-index:auto}
+.process-page:is([data-motion-paused="true"],[data-process-static="true"]) .process-scroll-space{display:none}
+.process-page:is([data-motion-paused="true"],[data-process-static="true"]) .prozess-grid{height:auto!important}
+.process-page:is([data-motion-paused="true"],[data-process-static="true"]) .process-card-frame{position:relative;height:auto;overflow:visible}
+.process-page:is([data-motion-paused="true"],[data-process-static="true"]) [class*="desktop-card-"]{position:relative!important;top:auto!important;height:auto!important;transform:none!important}
 @media(prefers-reduced-motion:reduce){.process-steps-section{position:relative!important;height:auto!important;overflow:visible;z-index:auto}.process-card-frame{position:relative;height:auto;overflow:visible}[class*="desktop-card-"]{position:relative!important;top:auto!important;height:auto!important}}

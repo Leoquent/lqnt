@@ -18,8 +18,9 @@ const STEPS = [
         subline: "Wählen Sie die Option, die am besten zu Ihrem Vorhaben passt.",
         type: "single-choice" as const,
         options: [
+            "KI-Beratung / passende Werkzeuge einführen",
             "Prozesse & Administration automatisieren",
-            "Mehr Leads / Kundenanfragen generieren",
+            "Individuelle Software / eigenes Tool entwickeln",
             "Bestehende Software intelligent vernetzen",
             "Neue Website / Digitales Rebranding",
         ],
@@ -28,20 +29,22 @@ const STEPS = [
     {
         id: "painpoint",
         label: "Schritt 2 von 5",
-        headline: "Wo verliert Ihr Team am meisten Zeit?",
-        subline: "Identifizieren Sie den größten Flaschenhals.",
+        headline: "Wo geht in Ihrem Arbeitsalltag Zeit verloren?",
+        subline: "Eine erste Einschätzung genügt. Wir können das auch gemeinsam herausfinden.",
         type: "single-choice-with-dropdown" as const,
         options: [
             "Manuelle Datenpflege & Dokumentation",
             "Beantwortung von Standard-Kundenanfragen",
             "Koordination & interne Abstimmung",
             "Veraltete, unübersichtliche Software",
+            "Das möchte ich gemeinsam herausfinden",
         ],
         hasOther: true,
         dropdown: {
             label: "Teamgröße",
             placeholder: "Mitarbeiteranzahl wählen",
             options: [
+                "Ich arbeite allein",
                 "1 – 5 Mitarbeiter",
                 "6 – 20 Mitarbeiter",
                 "21 – 50 Mitarbeiter",
@@ -82,7 +85,7 @@ const STEPS = [
         id: "contact",
         label: "Schritt 5 von 5",
         headline: "Fast geschafft – wie erreiche ich Sie?",
-        subline: "100% kostenlos & unverbindlich. Ihre Daten werden vertraulich behandelt und dienen mir zur Vorbereitung auf unser Gespräch.",
+        subline: "Die erste Potenzialanalyse ist kostenlos und unverbindlich. Ich nutze Ihre Angaben, um unser Gespräch vorzubereiten.",
         type: "contact" as const,
     },
 ];
