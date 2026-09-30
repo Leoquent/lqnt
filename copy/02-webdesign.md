@@ -1,7 +1,9 @@
 # Webdesign — implementierte Copy für `lqnt.de/webdesign`
 
-**Stand: 26.09.2026 — implementierter Stand.** Diese Datei dokumentiert den
-tatsächlich implementierten Inhalt aus [page.tsx](../app/webdesign/page.tsx),
+**Historische Momentaufnahme vom 26.09.2026.** Die Feedback-Runden vom 30.09.2026
+sind im [aktuellen Review](../REVIEW_2026-09-30.md), besonders Abschnitt 9, dokumentiert.
+Für den heutigen Wortlaut sind die folgenden Implementierungsdateien maßgeblich.
+Diese Datei dokumentiert den damaligen Inhalt aus [page.tsx](../app/webdesign/page.tsx),
 [content.ts](../app/webdesign/content.ts), [HeroPresentation.tsx](../app/webdesign/HeroPresentation.tsx),
 [HeroScene.tsx](../app/webdesign/HeroScene.tsx), [QArtwork.tsx](../app/webdesign/QArtwork.tsx),
 [CopyStatement.tsx](../app/webdesign/CopyStatement.tsx) und

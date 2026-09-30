@@ -64,6 +64,21 @@
 .brandModule{margin-top:30px;padding:30px;border:1px solid var(--line);background:var(--panel)}
 .brandModule h3{font-size:clamp(27px,3vw,38px);margin:18px 0}.brandModule>p:not(.eyebrow){max-width:850px;color:var(--secondary);font-size:16px;line-height:1.8}.brandModule a{margin-top:22px}
 .careDetails{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:28px}.careDetails h3{font-size:23px;margin-bottom:12px}.careDetails p{font-size:15px;color:var(--secondary);line-height:1.8}
-.portraitImage{aspect-ratio:4/5;max-height:none}.portrait img{object-position:center top;object-fit:contain}
-@media(max-width:700px){.hero{padding-top:28px;gap:12px}.hero h1{margin:18px 0 22px}.heroActions{margin-top:23px}.heroFootnote{font-size:12px;margin-top:16px!important}.heroStage{min-width:0}.sceneControls{margin-top:8px;flex-wrap:wrap}.portraitImage{aspect-ratio:4/5;max-height:none}.brandModule{padding:24px}.careDetails{grid-template-columns:1fr;gap:25px}.priceNote{font-size:12px}}
+.portraitImage{aspect-ratio:auto;max-height:none;background:transparent}.portrait img{height:auto;object-position:center top}
+@media(max-width:700px){.hero{padding-top:28px;gap:12px}.hero h1{margin:18px 0 22px}.heroActions{margin-top:23px}.heroFootnote{font-size:12px;margin-top:16px!important}.heroStage{min-width:0}.sceneControls{margin-top:8px;flex-wrap:wrap}.portraitImage{aspect-ratio:auto;max-height:none}.brandModule{padding:24px}.careDetails{grid-template-columns:1fr;gap:25px}.priceNote{font-size:12px}}
+.packageLead>span{display:block}
+.taxNote{font-size:12px;line-height:1.7;color:var(--secondary);margin-bottom:18px!important}
+.brandModule>p.brandPrice{margin:24px 0 20px;font-size:15px;color:var(--ink);line-height:1.4}
+.brandPrice strong{display:block;font-size:clamp(35px,4vw,49px);font-weight:500;letter-spacing:-.04em;margin:5px 0}
+.brandPrice span{display:block;font-size:12px;color:var(--secondary)}
+.brandScope{display:grid;grid-template-columns:1fr 1fr;gap:12px 30px;list-style:none;margin:0;padding:0;max-width:950px}
+.brandScope li{border-top:1px solid var(--line);padding-top:12px;font-size:14px;line-height:1.7;color:var(--secondary)}
+.brandModule>p.brandScopeNote{font-size:13px;line-height:1.8;margin-top:20px}
+.careTax{display:block;font-size:11px;margin-top:6px;color:var(--secondary)}
+.searchIntro p.localProfileNote{font-size:13px;margin-bottom:0}
+.searchIntro .localProfileNote a{text-decoration:underline;text-underline-offset:3px}
+.credentials>.credentialsIntro{display:block;max-width:340px;letter-spacing:normal;flex-shrink:0}
+.credentialsIntro h2{font-size:19px;line-height:1.3;text-wrap:initial;letter-spacing:-.02em;color:var(--ink)}
+.credentialsIntro p{font-size:12px;line-height:1.7;color:var(--muted);margin-top:7px}
+@media(max-width:700px){.brandScope{grid-template-columns:1fr}.credentials>.credentialsIntro{max-width:none;flex-shrink:1}}
 @media(max-width:700px){.heroActions{gap:14px}.heroActions .textLink{font-size:11px;gap:8px}.headerCta{background:transparent}}

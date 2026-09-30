@@ -38,6 +38,7 @@ Prüfvorbehalt, siehe Abschnitt 8. Nicht überstimmen, ohne mit Leo zu sprechen.
 | **Logo** | Fertig. Siehe `brand/LOGO.md` und `brand/marks/`. Nicht neu bauen. |
 | **Sprache** | Alles Deutsch. Ton: direkt, ohne Agentur-Floskeln. |
 | **Ansprache** | Durchgehend **„ich"** (entschieden 28.09.2026). Siehe Abschnitt 4. |
+| **Preisdarstellung** | Leo plant nach abgeschlossener Anmeldung reguläre Umsatzsteuerberechnung (30.09.2026). Die Website-Vorschau weist Geschäftskundenpreise netto zzgl. Umsatzsteuer aus. Der tatsächliche Abschluss der Anmeldung ist damit nicht bestätigt. Angebot und Preisvorschlag für Branding stehen im `REVIEW_2026-09-30.md`, Abschnitt 9. |
 
 ---
 
