@@ -8,7 +8,7 @@ import DirectionArrow from "./DirectionArrow";
 gsap.registerPlugin(useGSAP);
 const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const options = [
- {id:"webdesign", label:"Webdesign", title:<>Sichtbar <br/>werden.</>, copy:"Ein Auftritt, der zeigt, was Sie können. Mit klaren Texten, eigenem Charakter und auf Wunsch auch Logo und Markenauftritt.", tags:"Konzept · Text · Marke · Webdesign"},
+ {id:"webdesign", label:"Webdesign & Branding", title:<>Sichtbar <br/>werden.</>, copy:"Ein Auftritt, der zeigt, was Sie können. Mit klaren Texten, eigenem Charakter und auf Wunsch auch Logo und Markenauftritt.", tags:"Konzept · Text · Marke · Webdesign"},
  {id:"prozesse", label:"Prozesse & Automatisierung", title:<>Zeit <br/>gewinnen.</>, copy:"Weniger Handarbeit im Arbeitsalltag. Mit verbundenen Werkzeugen, individuellen Anwendungen und sinnvoll eingesetzter KI.", tags:"Analyse · Software · Automatisierung · KI"}
 ];
 function Illustration({kind}:{kind:string}) {
@@ -39,7 +39,7 @@ export default function Gateway({mode}:{mode:"filmisch"|"interaktiv"}) {
  return <div ref={root} className={`${s.gateway} ${mode==="filmisch"?s.film:s.interactive}`} data-active={active||""}>
   <header className={s.header} data-reveal>
    <a href={`${base}/`} className={s.brand} aria-label="leoquent – Startseite"><LqntMark className={s.mark}/><span>leoquent</span></a>
-   <span className={s.descriptor}>Webdesign, Prozesse &<br/>Automatisierung</span>
+   <span className={s.descriptor}>Marke, Webdesign<br/>&amp; Automatisierung</span>
   </header>
   <main className={s.main}>
    <div className={s.intro} data-reveal>

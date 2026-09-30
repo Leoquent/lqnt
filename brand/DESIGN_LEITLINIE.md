@@ -22,7 +22,7 @@ Leo hat **„Interaktiv“ ausdrücklich und begeistert als Basis gewählt**. Re
 | Ausrichtung | Sektionsüberschriften und Einleitungen links; das gilt ausdrücklich auch für den Einstieg der Leistungen. |
 | Schreibweise | Sentence case mit regulärer deutscher Groß- und Kleinschreibung für Überschriften, Labels und Buttons. |
 
-**Marke — aktueller Einsatz und weiterhin Empfehlung, keine neue Freigabe:** Die Seite verwendet **Leoquent** als ausgeschriebenen Namen, **LQNT** als Bildzeichen und `lqnt.de` als Domain. Diese Aufteilung bleibt die Empfehlung; Leo erwägt die Markenfrage noch. Die bisherige Umsetzung und die Regeln in [LOGO.md](LOGO.md) sind der dokumentierte Ausgangspunkt: Header mit Bildmarke und `leoquent` als HTML-Text, vorhandene SVG-Master, bestehende Wortmarke und Deskriptor. Aus diesem Abgleich folgt keine neue Namensentscheidung; die freigegebene Ausnahme für die Ring-und-Strich→Q-Illustration ist unten dokumentiert.
+**Marke — Freigabe vom 30.09.2026:** Die Seite verwendet **leoquent** durchgehend klein als ausgeschriebenen Namen, **LQNT** als Bildzeichen und `lqnt.de` als Domain. Der Deskriptor lautet **„Marke, Webdesign & Automatisierung“**, zweizeilig mit Umbruch vor `&`. Die linke Auswahl auf der Startseite heißt **„Webdesign & Branding“**. Header mit Bildmarke und `leoquent` als HTML-Text; SVG-Master mit aktualisierten Deskriptor-Pfaden. Die bestehende Bild- und Wortmarke bleibt erhalten. Weitere Regeln stehen in [LOGO.md](LOGO.md); die freigegebene Ausnahme für die Ring-und-Strich→Q-Illustration ist unten dokumentiert.
 
 ## Zeichnungen und Bewegung
 

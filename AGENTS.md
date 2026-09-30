@@ -288,8 +288,10 @@ bevor du Logo oder Typografie anfasst.
 - **Header** nutzt bewusst **kein** Lockup, sondern Bildmarke + `leoquent` als HTML-Text
 - Master-Dateien tragen `fill="currentColor"` → als React-Komponente einbinden, nicht als `<img>`
 
-**Deskriptor — entschieden:** `WEBDESIGN, PROZESSE &` / `AUTOMATISIERUNG`, zweizeilig,
-linksbündig unter der Wortmarke. Einstiegsprodukt zuerst, Upsell danach.
+**Deskriptor — von Leo am 30.09.2026 geändert:** `MARKE, WEBDESIGN` / `& AUTOMATISIERUNG`,
+zweizeilig und linksbündig. Der Umbruch vor `&` ergibt mit Outfit die ausgeglicheneren
+Zeilenlängen. Gilt für Website, Metadaten, Signatur und Logo-Vorlagen. Die linke Auswahl
+auf der Startseite heißt **„Webdesign & Branding“**. Die zwei Einstiege bleiben erhalten.
 
 Nicht mehr diskutieren: „Prozessoptimierung" (für den Kunden dasselbe wie Automatisierung)
 und „KI" (Trendwort mit Zeitstempel — gehört in Website-Texte, nicht ins Logo).

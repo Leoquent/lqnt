@@ -42,7 +42,7 @@ Projekte beim Doppelten landen, ist er zu niedrig und gehört angehoben.
 
 ## Meta
 
-**Startseite** — Title: `Leoquent | Webdesign, Prozesse & Automatisierung`
+**Startseite** — Title: `leoquent | Marke, Webdesign & Automatisierung` (Freigabe 30.09.2026)
 **Webdesign** — Title: `Webdesign für Handwerk, Praxen & Immobilien | Leoquent`
 Description: *Websites mit Festpreis ab 1.900 € — Texte vom preisgekrönten Werbetexter
 inklusive. Kein Warten auf eigene Texte.*
@@ -59,4 +59,4 @@ machen" · „autonome KI-Mitarbeiter" · „garantierter ROI" · „Performance
 | Screenshots alt und neu, Live-Link | Referenz |
 | Calendly-Konto | Kontakt, Funnel |
 | AVV bei Hostinger | Datenschutz |
-| Deskriptor im Logo neu bauen | `leoquent-lockup-h-descriptor.svg` — der Text steckt als Pfade drin |
+| Deskriptor im Logo | Erledigt am 30.09.2026: „Marke, Webdesign“ / „& Automatisierung“, als Pfade in `leoquent-lockup-h-descriptor*.svg`. |
