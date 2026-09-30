@@ -57,3 +57,13 @@
 .searchIntro{margin-top:32px;padding-top:28px;border-top:1px solid var(--line);max-width:780px}
 .searchIntro h4{font-size:23px;margin-bottom:12px}.searchIntro p{font-size:16px;line-height:1.8;margin-bottom:18px;color:var(--secondary)}
 @media(max-width:700px){.projectSummary{grid-template-columns:1fr}.projectVisual{height:auto;aspect-ratio:1.44}.projectText .eyebrow{font-size:11px}.projectToggle{font-size:13px}.credentials p span{display:block;margin-left:0}.projectDetails{padding:28px 22px}}
+
+/* Review: readable introductions, optional brand scope and complete portraits. */
+.keepTogether{white-space:nowrap;color:inherit!important}
+.heroFootnote{font-size:13px;line-height:1.6;max-width:470px}
+.brandModule{margin-top:30px;padding:30px;border:1px solid var(--line);background:var(--panel)}
+.brandModule h3{font-size:clamp(27px,3vw,38px);margin:18px 0}.brandModule>p:not(.eyebrow){max-width:850px;color:var(--secondary);font-size:16px;line-height:1.8}.brandModule a{margin-top:22px}
+.careDetails{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:28px}.careDetails h3{font-size:23px;margin-bottom:12px}.careDetails p{font-size:15px;color:var(--secondary);line-height:1.8}
+.portraitImage{aspect-ratio:4/5;max-height:none}.portrait img{object-position:center top;object-fit:contain}
+@media(max-width:700px){.hero{padding-top:28px;gap:12px}.hero h1{margin:18px 0 22px}.heroActions{margin-top:23px}.heroFootnote{font-size:12px;margin-top:16px!important}.heroStage{min-width:0}.sceneControls{margin-top:8px;flex-wrap:wrap}.portraitImage{aspect-ratio:4/5;max-height:none}.brandModule{padding:24px}.careDetails{grid-template-columns:1fr;gap:25px}.priceNote{font-size:12px}}
+@media(max-width:700px){.heroActions{gap:14px}.heroActions .textLink{font-size:11px;gap:8px}.headerCta{background:transparent}}

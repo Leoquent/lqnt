@@ -2,17 +2,17 @@ export const packages = [
   {
     name: "Präsenz", price: "1.900", lead: "Ein klarer Auftritt. Auf einer Seite.",
     description: "Für ein überschaubares Angebot, das schnell verständlich werden soll.",
-    features: ["Kompakter Onepager", "Konzept und eigene Texte", "Bewährte Struktur, auf Ihre Marke abgestimmt", "Dezente Einstiegs- und Hover-Animationen", "Kontaktformular und direkter Anruf"],
+    features: ["Kompakter Onepager", "Briefing, kompaktes Konzept und eigene Texte", "Bewährte Struktur, auf Ihre Marke abgestimmt", "Dezente Einstiegs- und Hover-Animationen", "Kontaktformular und direkter Anruf"],
   },
   {
     name: "Auftritt", price: "3.900", lead: "Mehr Profil. Mehr Raum für Ihr Angebot.",
     description: "Für Unternehmen, die ihre Leistungen und ihren Unterschied ausführlicher zeigen möchten.",
-    features: ["Umfangreicher Onepager oder mehrere Seiten", "Vertiefte Konzeption und eigene Texte", "Individuell entwickeltes Design", "Abgestimmte Scroll-Animationen und Interaktionen", "Geführte Anfrage nach vereinbartem Umfang", "Suchbegriffsrecherche und darauf abgestimmte Inhalte"],
+    features: ["Umfangreicher Onepager oder mehrere Seiten", "Zielgruppen- und Wettbewerbsrecherche im vereinbarten Umfang", "Vertiefte Konzeption und eigene Texte", "Individuell entwickeltes Design", "Abgestimmte Scroll-Animationen und Interaktionen", "Geführte Anfrage nach vereinbartem Umfang", "Suchbegriffsrecherche und darauf abgestimmte Inhalte"],
   },
   {
     name: "Wachstum", price: "6.900", lead: "Ein Auftritt mit eigener Dramaturgie.",
     description: "Für anspruchsvolle Inhalte, eine besondere Inszenierung oder zusätzliche Funktionen.",
-    features: ["Erweiterte Seiten- und Inhaltsstruktur", "Konzept und Texte für den vereinbarten Umfang", "Individuelle Grafiken und visuelle Erzählung", "Aufwendigere Animationen und Scrollytelling", "Buchung, Karriere oder Anbindung nach Absprache", "Erweiterte Suchstrategie und gezielte Leistungsseiten"],
+    features: ["Erweiterte Seiten- und Inhaltsstruktur", "Konzept und Texte für den vereinbarten Umfang", "Individuelle Grafiken und visuelle Erzählung", "Aufwendigere Animationen und Scrollytelling", "Buchung, Karriere oder Anbindung nach Absprache", "Vertiefte Wettbewerbs- und Suchstrategie", "Gezielte Leistungsseiten und Analysekonzept"],
   },
 ];
 
@@ -24,6 +24,7 @@ export const steps = [
 ];
 
 export const faqs = [
+  { q: "Ich habe noch kein Logo. Können Sie das mitentwickeln?", a: "Ja. Logoentwicklung, Logo-Modernisierung und Markengrundlagen können Sie ergänzend oder einzeln beauftragen. Wir klären Farben, Schriften und Tonalität passend zu Ihrem Unternehmen. Der Umfang und die nutzbaren Dateien stehen in einem eigenen Angebot. Ein vorhandenes Logo in SVG, EPS oder PDF ist eine gute Grundlage. Bei einer PNG-Datei prüfe ich Auflösung und Eignung; sie ist keine Vektordatei." },
   { q: "Muss ich die Texte selbst schreiben?", a: "Nein. Die Texte sind in jedem Paket enthalten. Ich brauche Ihr Wissen über Ihr Unternehmen – aus einem Gespräch, vorhandenen Unterlagen und Ihrem Feedback. Daraus entwickle ich die Inhalte für den vereinbarten Website-Umfang." },
   { q: "Was bedeutet der Ab-Preis?", a: "Er ist der Einstieg für den beschriebenen Umfang. Im Gespräch klären wir Seiten, Inhalte, Funktionen und Animationen. Danach erhalten Sie ein konkretes Festpreisangebot. Zusätzliche Wünsche stimmen wir gesondert ab, bevor weitere Kosten entstehen." },
   { q: "Geht auch ein großer Onepager?", a: "Ja. Die Zahl der URLs entscheidet nicht über die Qualität. Ein Onepager kann Ihr Angebot ausführlich erzählen. Eigene Unterseiten sind sinnvoll, wenn Leistungen unterschiedliche Fragen beantworten oder gezielt einzeln gefunden und verlinkt werden sollen." },

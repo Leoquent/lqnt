@@ -78,3 +78,5 @@
 .interactive .choice:hover .illustration,.interactive .choice:focus-visible .illustration{opacity:.22;color:#a0aa7a}
 .arrow svg{width:28px;height:28px;display:block}.discover span{vertical-align:middle}.discover svg{width:18px;height:18px;display:block}
 .brand{line-height:1}.descriptor{align-self:center}
+
+@media(max-width:700px){.interactive .intro h1 br{display:block}.interactive .intro h1 span{display:block;margin-left:0}.interactive .intro h1{font-size:clamp(25px,6.5vw,38px);line-height:1.12}}

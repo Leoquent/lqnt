@@ -13,141 +13,117 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 const painPoints = [
-    "endlose|Zettelwirtschaft",
-    "fehleranfällige|Routinearbeit",
-    "manuelle|Datenpflege",
-    "starre|Systemvorgaben",
-    "administrative|Dauerlast",
-    "Sonntage am|Schreibtisch",
-    "isolierte|Insellösungen",
-    "Softwaresklaverei"
+    "endloser|Zettelwirtschaft",
+    "fehleranfälliger|Routinearbeit",
+    "doppelter|Datenpflege",
+    "starren|Systemvorgaben",
+    "administrativer|Dauerlast",
+    "Sonntagen am|Schreibtisch",
+    "isolierten|Insellösungen",
+    "unnötigem|Hin und Her"
 ];
 
 const solutionsData = [
-    { id: "01", title: "Abläufe verstehen", badges: ["Analyse", "Prioritäten", "Konzept"], text: "Wo werden Daten doppelt eingetragen? Was bleibt im Postfach liegen? Ich schaue mir Ihren Arbeitsalltag an und kläre, welcher Ablauf sich zuerst sinnvoll vereinfachen lässt." },
+    { id: "01", title: "Abläufe verstehen", badges: ["Analyse", "Prioritäten", "Konzept"], text: "Von der Analyse bis zum Umsetzungskonzept: Ich kläre Engpässe, prüfe den Nutzen von Automatisierung und KI und plane mit Ihnen die nächsten Schritte. Daraus entsteht ein nachvollziehbarer Fahrplan." },
     { id: "02", title: "Routine automatisieren", badges: ["Anfragen", "Dokumente", "Freigaben"], text: "Zum Beispiel: eingehende Anfragen sortieren, Angaben aus Dokumenten übernehmen und einen Antwortentwurf vorbereiten. Sie legen fest, was automatisch laufen darf und wo Ihr Team prüft und freigibt." },
-    { id: "03", title: "Passende Werkzeuge bauen", badges: ["Übersichten", "Planung", "Interne Anwendungen"], text: "Wenn eine Tabelle oder Standardsoftware nicht ausreicht, entwickle ich ein Werkzeug für Ihren Ablauf. Etwa eine gemeinsame Übersicht über offene Vorgänge, Zuständigkeiten und nächste Schritte." },
+    { id: "03", title: "Passende Werkzeuge bauen", badges: ["Übersichten", "Planung", "Interne Anwendungen"], text: "Wenn Standardsoftware nicht ausreicht, entwickle ich passende Anwendungen: interne Portale, Übersichten, Planungstools oder individuelle Funktionen. Umfang und Anbindungen richten sich nach Ihrem Ablauf." },
     { id: "04", title: "Software verbinden", badges: ["Datenübertragung", "Schnittstellen", "Bestehende Systeme"], text: "Informationen einmal erfassen und dort verfügbar machen, wo sie gebraucht werden. Ich prüfe die Schnittstellen Ihrer vorhandenen Programme und verbinde geeignete Systeme. KI kommt dazu, wenn sie einen konkreten Nutzen bringt." }
 ];
 
 const industriesData = [
     {
-        id: "healthcare",
-        name: "Gesundheit",
-        subtitle: "Weniger Dokumentationsaufwand. Mehr Zeit für Patienten.",
-        intro: "Mögliche lokale Anwendungen unterstützen Praxen bei Dokumentation, Informationsaufbereitung und administrativen Abläufen – direkt vor Ort, ohne offene Cloud-Anbindung. Die medizinische und fachliche Entscheidung bleibt jederzeit vollständig beim behandelnden Personal.",
-        cases: [
+        "id": "construction",
+        "name": "Handwerk",
+        "subtitle": "Anfragen ordnen. Angebote vorbereiten.",
+        "intro": "Ein möglicher Startpunkt: Anfragen aus dem Postfach in einen nachvollziehbaren Vorgang überführen. Bestehende Handwerkersoftware bleibt die Grundlage.",
+        "cases": [
             {
-                title: "Dokumentationsassistenz",
-                desc: "Aus Gesprächsinhalten, Notizen und Vorinformationen entsteht automatisch ein strukturierter Entwurf für Befunde, Verlaugsdokumentation oder interne Vermerke."
+                "title": "Anfragen zuordnen",
+                "desc": "Leistung, Standort und Terminwunsch auslesen und für Ihr Team zusammenfassen."
             },
             {
-                title: "Informationsaufbereitung",
-                desc: "Formulare, Laborwerte, Vorbefunde und Freitextnotizen werden aus verschiedenen Quellen zusammengeführt und übersichtlich aufbereitet."
+                "title": "Fehlendes erkennen",
+                "desc": "Ein Antwortentwurf fragt nach fehlenden Angaben oder Bildern. Ihr Team prüft und sendet."
             },
             {
-                title: "Lokale Verarbeitung",
-                desc: "Die KI läuft on premise in Ihrer Umgebung. Sensible Daten bleiben innerhalb Ihrer Infrastruktur und werden nicht an öffentliche Onlinedienste übertragen."
+                "title": "Angebote vorbereiten",
+                "desc": "Angaben in eine vorhandene Vorlage übertragen, sofern Ihre Software eine geeignete Schnittstelle bietet."
             },
             {
-                title: "Mensch bleibt in Kontrolle",
-                desc: "Die KI unterstützt bei Vorbereitung und Strukturierung. Prüfung, Freigabe und fachliche Entscheidung liegen immer beim Praxisteam."
+                "title": "Offenes im Blick behalten",
+                "desc": "Eine Übersicht zeigt offene Rückfragen und Zuständigkeiten. Preise und Zusagen gibt Ihr Betrieb frei."
             }
         ]
     },
     {
-        id: "construction",
-        name: "Handwerk",
-        subtitle: "Weniger Bürokratie. Mehr Zeit für Baustelle und Kunden.",
-        intro: "Mögliche Anwendungen unterstützen Handwerksbetriebe bei Anfragen, Angebotsvorbereitung und Einsatzplanung. So wird Ihr Team im Büro entlastet, Abläufe werden klarer und wichtige Anfragen gehen im Tagesgeschäft nicht mehr unter.",
-        cases: [
+        "id": "property",
+        "name": "Immobilienverwaltung",
+        "subtitle": "Vom Postfach zum geklärten Vorgang.",
+        "intro": "Beispiel: Eine Schadensmeldung kommt per E-Mail. Ein passender Ablauf ordnet sie einem Objekt zu, bereitet Rückfragen vor und hält den Bearbeitungsstand fest.",
+        "cases": [
             {
-                title: "Anfragen intelligent bündeln",
-                desc: "E-Mails, Anrufe, WhatsApp-Nachrichten und Kontaktformulare werden zentral erfasst, vorsortiert und in klare Aufgaben oder Angebotsentwürfe überführt."
+                "title": "Objekt und Anliegen zuordnen",
+                "desc": "Adresse, Einheit, Kontaktdaten und Fotos zusammenführen. Unklare Zuordnungen werden zur Prüfung markiert."
             },
             {
-                title: "Angebote schneller vorbereiten",
-                desc: "Wiederkehrende Anfragen werden strukturiert aufbereitet, fehlende Angaben erkannt und Angebotsgrundlagen für Ihr Team vorbereitet."
+                "title": "Rückfragen vorbereiten",
+                "desc": "Fehlende Angaben erkennen und einen passenden Antwortentwurf für die Verwaltung erstellen."
             },
             {
-                title: "Einsatzplanung unterstützen",
-                desc: "Termine, Regionen, Verfügbarkeiten und Dringlichkeiten werden bei der Planung berücksichtigt. Bei Ausfällen oder Änderungen können Vorschläge für eine schnelle Neuplanung erstellt werden."
+                "title": "Handwerker koordinieren",
+                "desc": "Nach Freigabe eine Aufgabe mit Unterlagen und Terminvorschlägen vorbereiten. Die Verwaltung entscheidet über Beauftragung und Kosten."
             },
             {
-                title: "Mensch bleibt in Kontrolle",
-                desc: "Die KI unterstützt bei Vorbereitung, Strukturierung und Priorisierung. Freigaben, Preise und operative Entscheidungen bleiben jederzeit bei Ihrem Betrieb."
+                "title": "Status dokumentieren",
+                "desc": "Offene Vorgänge und Rückmeldungen nachvollziehbar ablegen. Anbindungen richten sich nach den Schnittstellen der Verwaltungssoftware."
             }
         ]
     },
     {
-        id: "ecommerce",
-        name: "Handel",
-        subtitle: "Bessere Bestände. Präzisere Planung. Weniger gebundenes Kapital.",
-        intro: "Mögliche Anwendungen unterstützen Handelsunternehmen bei Bedarfsplanung, Bestandssteuerung und Sortimentsauswertung. So werden Warenflüsse transparenter, Engpässe früher erkennbar und Überbestände gezielter reduziert.",
-        cases: [
+        "id": "marketing",
+        "name": "Agenturen & Marketing",
+        "subtitle": "Mehr Zeit für Ideen. Weniger Übertragen.",
+        "intro": "Hier bringe ich Erfahrung aus der Werbeagenturarbeit mit. Mögliche Anwendungen helfen zwischen Briefing, Abstimmung und Auswertung.",
+        "cases": [
             {
-                title: "Bedarfe frühzeitig erkennen",
-                desc: "Verkaufszahlen, Saisonalität und Bestandsverläufe werden zusammengeführt, damit drohende Engpässe und Nachbestellbedarfe frühzeitig sichtbar werden."
+                "title": "Briefings strukturieren",
+                "desc": "Angaben aus freigegebenen Unterlagen bündeln und fehlende Informationen sichtbar machen."
             },
             {
-                title: "Nachbestellungen vorbereiten",
-                desc: "Die KI erstellt datenbasierte Vorschläge für Nachbestellungen und unterstützt Ihr Team dabei, Mengen und Zeitpunkte besser zu planen."
+                "title": "Varianten vorbereiten",
+                "desc": "Textvarianten anhand Ihrer Tonalität und Formatvorgaben entwerfen. Auswahl und Freigabe bleiben beim Kreativteam."
             },
             {
-                title: "Sortimente gezielt auswerten",
-                desc: "Teams erkennen schneller, welche Produkte gut laufen, wo sich Bestände aufbauen und in welchen Bereichen nachgesteuert werden sollte."
+                "title": "Freigaben nachhalten",
+                "desc": "Versionen, Rückmeldungen und Zuständigkeiten in einem abgestimmten Ablauf zusammenführen."
             },
             {
-                title: "Mensch bleibt in Kontrolle",
-                desc: "Die KI unterstützt bei Analyse, Planung und Vorbereitung. Einkaufsentscheidungen, Sortimentsstrategie und operative Freigaben bleiben jederzeit bei Ihrem Team."
+                "title": "Berichte vorbereiten",
+                "desc": "Freigegebene Kampagnendaten bündeln und Auffälligkeiten markieren. Das Team prüft die Interpretation und entscheidet."
             }
         ]
     },
     {
-        id: "logistics",
-        name: "Logistik",
-        subtitle: "Mehr Überblick im Tagesgeschäft. Schnellere Reaktion bei Störungen.",
-        intro: "Mögliche Anwendungen unterstützen Logistikteams bei Priorisierung, Umplanung und der Aufbereitung operativer Informationen. So gehen wichtige Meldungen nicht unter, Engpässe werden früher sichtbar und Entscheidungen können schneller vorbereitet werden.",
-        cases: [
+        "id": "healthcare",
+        "name": "Praxisorganisation",
+        "subtitle": "Weniger Verwaltungsaufwand im Praxisalltag.",
+        "intro": "Ein möglicher Einstieg liegt in klar begrenzten organisatorischen Aufgaben. Datenarten, Zugriffsrechte und die vorhandene Praxissoftware bestimmen den Rahmen.",
+        "cases": [
             {
-                title: "Operative Informationen bündeln",
-                desc: "E-Mails, Statusmeldungen, Rückfragen und Störungen aus verschiedenen Quellen werden zusammengeführt, sortiert und als klare Aufgaben oder Hinweise aufbereitet."
+                "title": "Organisatorische Anfragen ordnen",
+                "desc": "Allgemeine Anliegen und Rückrufwünsche für das zuständige Team vorsortieren."
             },
             {
-                title: "Umplanung unterstützen",
-                desc: "Bei Verzögerungen, Ausfällen oder neuen Prioritäten erstellt die KI strukturierte Vorschläge für die weitere Disposition durch Ihr Team."
+                "title": "Informationen bereitstellen",
+                "desc": "Freigegebene organisatorische Antworten und Unterlagen auffindbar machen."
             },
             {
-                title: "Ausnahmefälle früher erkennen",
-                desc: "Kritische Muster, Engpässe oder wiederkehrende Probleme werden sichtbar gemacht, damit schneller reagiert und gezielter nachgesteuert werden kann."
+                "title": "Interne Aufgaben nachhalten",
+                "desc": "Zuständigkeiten und Bearbeitungsstände übersichtlich abbilden."
             },
             {
-                title: "Mensch bleibt in Kontrolle",
-                desc: "Die KI unterstützt bei Vorbereitung, Strukturierung und Priorisierung. Disposition und operative Entscheidungen bleiben jederzeit bei Ihrem Team."
-            }
-        ]
-    },
-    {
-        id: "marketing",
-        name: "Social",
-        subtitle: "Mehr Output. Weniger manuelle Fleißarbeit.",
-        intro: "Mögliche Anwendungen unterstützen Teams im Social- und Performance-Marketing bei Content-Erstellung, Variantenaufbereitung und Kampagnenauswertung. So entstehen schneller neue Creatives, Ergebnisse werden klarer aufbereitet und Ihr Team kann fundierter nachsteuern.",
-        cases: [
-            {
-                title: "Content schneller vorbereiten",
-                desc: "Aus Briefings, bestehenden Assets und Kampagnenzielen entstehen strukturierte Entwürfe für Anzeigen, Hooks, Captions und Creative-Varianten."
-            },
-            {
-                title: "Varianten systematisch aufbereiten",
-                desc: "Die KI unterstützt dabei, unterschiedliche Botschaften, formulierungen, Formate und Zielgruppenansprachen schneller vorzubereiten und sauber zu strukturieren."
-            },
-            {
-                title: "Performance übersichtlich auswerten",
-                desc: "Wichtige Kennzahlen, Gewinner-Creatives und auffällige Entwicklungen werden zusammengeführt, damit Teams schneller erkennen, wo nachgeschärft werden sollte."
-            },
-            {
-                title: "Mensch bleibt in Kontrolle",
-                desc: "Die KI unterstützt bei Vorbereitung, Strukturierung und Auswertung. Freigaben, Budgetentscheidungen und Kampagnensteuerung bleiben jederzeit bei Ihrem Team."
+                "title": "Den Rahmen vorher klären",
+                "desc": "Zugriffe, Datenverarbeitung und Schnittstellen vor einer Umsetzung prüfen. Medizinische Entscheidungen sind kein Bestandteil dieser Beispiele."
             }
         ]
     }
@@ -190,8 +166,9 @@ export default function Page() {
     const [openIndustry, setOpenIndustry] = useState<string | null>(null);
     const [openSolution, setOpenSolution] = useState<string | null>(null);
     const [hoveredIndustry, setHoveredIndustry] = useState<string | null>(null);
-    const [lockedIndustry, setLockedIndustry] = useState<string | null>(null);
+    const [lockedIndustry, setLockedIndustry] = useState<string | null>("construction");
     const [isQuizOpen, setIsQuizOpen] = useState(false);
+    const [motionPaused, setMotionPaused] = useState(false);
 
     const typewriterRef = useRef<HTMLSpanElement>(null);
     const sqGeoCoreRef = useRef<HTMLDivElement>(null);
@@ -218,6 +195,7 @@ export default function Page() {
 
     // --- GSAP ORCHESTRATOR ---
     useGSAP(() => {
+        if (motionPaused) { setActiveStep(3); return; }
         let mm = gsap.matchMedia();
 
         const words = gsap.utils.toArray('.hero-word') as HTMLElement[];
@@ -230,7 +208,7 @@ export default function Page() {
         //     Scrubbing a position:fixed, full-screen (100svh) element every scroll frame is a
         //     major jank source on mobile, where the URL bar also resizes the viewport mid-scroll.
         //     On mobile the hero simply stays put and content scrolls over it -- smooth by default. ---
-        mm.add("(min-width: 1024px) and (min-height: 741px) and (prefers-reduced-motion: no-preference)", () => {
+        mm.add("(min-width: 768px) and (min-height: 741px) and (prefers-reduced-motion: no-preference)", () => {
             const heroSection = document.getElementById('hero-sticky-section');
             if (heroSection) {
                 gsap.to(heroSection, {
@@ -247,7 +225,7 @@ export default function Page() {
         });
 
         // --- DESKTOP ONLY ANIMATIONS (Animations play only if user has no reduced motion preference) ---
-        mm.add("(min-width: 1024px) and (min-height: 741px) and (prefers-reduced-motion: no-preference)", () => {
+        mm.add("(min-width: 768px) and (min-height: 741px) and (prefers-reduced-motion: no-preference)", () => {
             
             // 1. HERO 3D Dispersion
             const heroTl = gsap.timeline({
@@ -475,7 +453,7 @@ export default function Page() {
 
         // Cleanup
         return () => mm.revert();
-    }, { dependencies: [], scope: undefined });
+    }, { dependencies: [motionPaused], revertOnUpdate: true, scope: undefined });
 
     // --- 3D INTERACTION ---
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -515,7 +493,7 @@ export default function Page() {
         // Respect reduced-motion: show the first phrase statically, no typing loop
         const prefersReduced = typeof window !== 'undefined'
             && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (prefersReduced) {
+        if (prefersReduced || motionPaused) {
             if (typewriterRef.current) {
                 typewriterRef.current.innerHTML = painPoints[0]
                     .split('|')
@@ -582,13 +560,14 @@ export default function Page() {
 
         timeoutId = setTimeout(typeWriterLoop, 1000);
         return () => clearTimeout(timeoutId);
-    }, []);
+    }, [motionPaused]);
 
     const openQuiz = () => setIsQuizOpen(true);
 
     return (
-        <div className="bg-vanta text-bone font-sans antialiased relative w-full" style={{ overflowX: 'clip' }}>
+        <div className="bg-vanta text-bone font-sans antialiased relative w-full process-page" data-motion-paused={motionPaused} style={{ overflowX: 'clip' }}>
             <div className="noise-bg"></div>
+            <a className="process-skip" href="#content-wrapper">Zum Inhalt</a>
 
             <SiteNav links={navLinks} onQuizOpen={openQuiz} homeHref="/" darkFrom="viewport" />
 
@@ -599,15 +578,15 @@ export default function Page() {
                         <span className="brutalist-marker text-vanta">Prozesse & Automatisierung</span>
                     </div>
 
-                    <h1 className="hero-headline text-vanta mb-6 md:mb-8" style={{ transformStyle: 'preserve-3d', fontSize: "clamp(2rem, 6.4vw, 6.5rem)" }}>
-                        <span className="hero-word inline-block">Weniger Routine.</span><br />
-                        <span className="hero-word inline-block">Mehr Zeit fürs</span><br />
-                        <span className="hero-word inline-block brutalist-marker">Wesentliche.</span>
+                    <h1 className="hero-headline text-vanta mb-6 md:mb-8" style={{ transformStyle: 'preserve-3d' }}>
+                        <span className="hero-word inline-block">Systeme,</span><br />
+                        <span className="hero-word inline-block">die</span>{" "}<span className="hero-word inline-block">Ihnen</span><br />
+                        <span className="hero-word inline-block">Arbeit</span>{" "}<span className="hero-word inline-block brutalist-marker">abnehmen.</span>
                     </h1>
 
                     <p className="text-lg md:text-xl text-mute leading-relaxed mb-10 md:mb-10 hero-element">
-                        Ich bin Leo. Ich verbinde Ihre Programme und vereinfache wiederkehrende Büroarbeit.<br />
-                        Damit Ihr Team weniger übertragen, suchen und nachhalten muss. Mit KI, wo sie hilft.
+                        Anfragen sortieren, Daten übertragen, Vorgänge im Blick behalten.<br />
+                        Ich verbinde Ihre Programme und automatisiere wiederkehrende Arbeit. Mit KI, wenn sie hilft.
                     </p>
 
                     <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6 hero-element">
@@ -675,11 +654,12 @@ export default function Page() {
                                 <span className="brutalist-marker text-vanta">Status Quo</span>
                             </p>
                             <h2 className="section-headline w-full" style={{ transitionDelay: '100ms' }}>
-                                <span className="text-white">Weniger Zeit für</span><br />
+                                <span className="text-white">Schluss mit</span><br />
                                 {/* Screenreader: static phrase instead of the permanently mutating typewriter */}
-                                <span className="sr-only">wiederkehrende Büroarbeit.</span>
+                                <span className="sr-only">endloser Zettelwirtschaft.</span>
                                 <span id="typewriter" ref={typewriterRef} aria-hidden="true" className="text-lime block min-h-[2.4em] md:min-h-0"></span>
                             </h2>
+                            <button className="process-motion-control" onClick={() => setMotionPaused(!motionPaused)} aria-pressed={motionPaused}>{motionPaused ? "Bewegung fortsetzen" : "Bewegung pausieren"}</button>
                         </div>
 
                         <div className="w-full max-w-4xl reveal" style={{ transitionDelay: '200ms' }}>
@@ -800,7 +780,7 @@ export default function Page() {
                     position. Nav links and GSAP measure against this — the section itself is sticky
                     on mobile and therefore useless as a scroll target once it is anchored. */}
                 <div id="prozess" className="scroll-mt-[65px]" />
-                <section className="border-b border-gridline sticky top-[64px] -z-10 md:relative md:top-auto md:z-auto bg-white text-vanta flex justify-center overflow-hidden md:overflow-visible h-[calc(100dvh-64px)] md:h-auto shadow-[0_20px_0_0_#050505] md:shadow-none">
+                <section className="process-steps-section border-b border-gridline sticky top-[64px] -z-10 md:relative md:top-auto md:z-auto bg-white text-vanta flex justify-center overflow-hidden md:overflow-visible h-[calc(100dvh-64px)] md:h-auto shadow-[0_20px_0_0_#050505] md:shadow-none">
                     <div className="w-full max-w-[1440px] h-full md:h-auto">
                         
                         {/* Mobile view container */}
@@ -922,7 +902,7 @@ export default function Page() {
                             {/* RIGHT: Card Slider — tall cell has NO overflow, so the sticky frame resolves against page scroll */}
                             <div className="relative bg-white h-full w-full">
                                 {/* Sticky viewport-height frame: stays put for ~1000px while GSAP slides the cards in, then scrolls away natively */}
-                                <div className="sticky top-[64px] h-[calc(100vh_-_64px)] overflow-hidden">
+                                <div className="process-card-frame sticky top-[64px] h-[calc(100vh_-_64px)] overflow-hidden">
                                 {prozessData.map((s, i) => {
                                     const isRevealed = activeStep >= i;
                                     const isActive = activeStep === i;
@@ -976,19 +956,19 @@ export default function Page() {
                 {/* Mobile scrub distance: the section stays anchored (sticky) while this transparent
                     spacer scrolls by; then #branchen slides over it. Height must stay in sync with
                     the mobile ScrollTrigger end "+=1000". */}
-                <div className="h-[1000px] md:hidden pointer-events-none motion-reduce:hidden" aria-hidden="true" />
+                <div className="process-scroll-space h-[1000px] md:hidden pointer-events-none motion-reduce:hidden" aria-hidden="true" />
 
                 <section id="branchen" className="border-b border-gridline bg-vanta text-white flex justify-center">
                     <div className="w-full max-w-[1440px]">
                         <div className="px-6 py-6 md:px-8 md:py-12 lg:px-10 lg:py-20 border-x border-gridline flex flex-col md:flex-row justify-between items-start md:items-end gap-8 reveal">
                         <div>
                             <p className="font-mono text-xs uppercase mb-6 tracking-widest">
-                                <span className="brutalist-marker text-vanta">Zukunftssicherheit</span>
+                                <span className="brutalist-marker text-vanta">Mögliche Anwendungen</span>
                             </p>
                             <h2 className="section-headline">Wo sich Arbeit<br />vereinfachen lässt.</h2><p className="mt-6 max-w-xl text-base leading-relaxed text-bone/80">Die folgenden Beispiele zeigen mögliche Anwendungen. Welche davon für Ihren Betrieb sinnvoll und technisch möglich sind, klären wir anhand Ihrer Systeme und Abläufe.</p>
                         </div>
                         <p className="max-w-md md:text-right text-bone/70 text-sm leading-relaxed font-light">
-                            Egal aus welcher Branche Sie kommen: Ich baue spezifische KI-Systeme, die reale Probleme lösen.
+                            Der passende Einstieg ist ein klar begrenzter Ablauf. Ich prüfe zuerst, was Ihre vorhandene Software bereits kann und wo eine Ergänzung hilft.
                         </p>
                     </div>
 
@@ -1017,7 +997,7 @@ export default function Page() {
                                     onKeyDown={(e) => onKeyToggle(e, () => setLockedIndustry(lockedIndustry === ind.id ? null : ind.id))}
                                 >
                                     <h3 className={`text-sm lg:text-base  font-bold transition-colors ${
-                                        isActive ? 'text-vanta' : 'text-white/50 hover:text-white/80'
+                                        isActive ? 'text-vanta' : 'text-white/75 hover:text-white'
                                     }`}>
                                         {ind.name}
                                     </h3>
@@ -1027,7 +1007,7 @@ export default function Page() {
                         </div>
 
                         {/* Detail View (Right Column) */}
-                        <div className="flex-1 flex items-center justify-center h-[450px] relative overflow-hidden">
+                        <div className="flex-1 flex items-start justify-center min-h-[450px] relative">
                             {!activeIndustry ? (
                                 <div className="opacity-20 flex flex-col items-center">
                                     <div className="w-16 h-16 border border-white/20 rounded-full flex items-center justify-center mb-6">
@@ -1043,7 +1023,7 @@ export default function Page() {
                                         {/* Linke Spalte: Überschriften & Intro */}
                                         <div className="flex-1 flex flex-col justify-start">
                                             <div className="font-mono text-[10px] uppercase text-lime mb-3 tracking-widest">
-                                                {"//"} {activeIndustry.name} Profile
+                                                Beispiel · {activeIndustry.name}
                                             </div>
                                             <h3 className="text-3xl lg:text-4xl  font-black text-white mb-2 tracking-tight">
                                                 {activeIndustry.name}
@@ -1053,7 +1033,7 @@ export default function Page() {
                                                     {activeIndustry.subtitle}
                                                 </p>
                                             )}
-                                            <p className="text-white/80 text-xs lg:text-sm leading-relaxed font-light border-l border-lime/50 pl-4 mt-2">
+                                            <p className="text-white/80 text-sm leading-relaxed font-light border-l border-lime/50 pl-4 mt-2">
                                                 {activeIndustry.intro}
                                             </p>
                                         </div>
@@ -1063,7 +1043,7 @@ export default function Page() {
                                             {activeIndustry.cases.map((c, i) => (
                                                 <div key={i} className="relative border-b border-gridline/10 py-2.5 first:pt-0 last:pb-0 last:border-b-0">
                                                     <h4 className="text-[11px] lg:text-xs uppercase font-bold text-lime mb-0.5 tracking-wider">{c.title}</h4>
-                                                    <p className="text-white/60 text-[11px] lg:text-xs leading-relaxed font-light">{c.desc}</p>
+                                                    <p className="text-white/75 text-sm leading-relaxed font-light">{c.desc}</p>
                                                 </div>
                                             ))}
                                         </div>
@@ -1087,7 +1067,7 @@ export default function Page() {
                                 onKeyDown={(e) => onKeyToggle(e, () => setOpenIndustry(openIndustry === ind.id ? null : ind.id))}
                                 className={`group border-b border-gridline last:border-b-0 px-6 py-5 transition-all duration-300 cursor-pointer ${openIndustry === ind.id ? 'bg-lime' : ''}`}
                             >
-                                <h3 className={`text-lg  font-bold transition-colors ${openIndustry === ind.id ? 'text-vanta' : 'text-mute'}`}>{ind.name}</h3>
+                                <h3 className={`text-lg  font-bold transition-colors ${openIndustry === ind.id ? 'text-vanta' : 'text-white/75'}`}>{ind.name}</h3>
                                 <div className={`grid transition-all duration-500 ${openIndustry === ind.id ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
                                     <div className="overflow-hidden">
                                         <div className="flex flex-col gap-4 pt-4">
@@ -1101,7 +1081,7 @@ export default function Page() {
                                                 {ind.cases.map((c, i) => (
                                                     <div key={i}>
                                                         <h4 className="text-xs uppercase font-bold text-vanta/90 mb-1">{c.title}</h4>
-                                                        <p className="text-vanta/60 text-xs">{c.desc}</p>
+                                                        <p className="text-vanta/80 text-sm">{c.desc}</p>
                                                     </div>
                                                 ))}
                                             </div>
@@ -1173,12 +1153,15 @@ export default function Page() {
                             <p className="text-bone/70 text-sm max-w-sm">Ich bin Leo. Mich interessiert, wie Ihr Unternehmen arbeitet – und was Ihnen im Alltag tatsächlich helfen würde.</p>
                         </div>
 
-                        <article className="lg:col-span-8 bg-[#0a0a0a]">
-                            <img src={`${basePath}/FOTOS/leonid_cropped_2.webp`} alt="Leonid Ryazanskiy, Ihr Ansprechpartner bei Leoquent" width="720" height="900" loading="lazy" className="w-full h-[380px] md:h-[460px] object-cover object-[50%_25%]" />
+                        <article className="lg:col-span-8 bg-[#0a0a0a] process-profile">
+                            <img src={`${basePath}/FOTOS/leonid_cropped_2.webp`} alt="Leonid Ryazanskiy, Ihr Ansprechpartner bei leoquent" width="720" height="900" loading="lazy" className="process-portrait" />
                             <div className="p-6 md:p-10">
-                                <h3 className="text-3xl font-bold mb-5">Leonid Ryazanskiy.<br /><span className="text-lime">Für Sie: Leo.</span></h3>
-                                <p className="text-base leading-relaxed text-white/80 mb-5">Seit über einem Jahrzehnt entwickle ich Ideen, Konzepte und Texte für Marken. Dabei beginnt meine Arbeit mit der Frage: Was brauchen die Menschen, für die wir etwas entwickeln?</p>
-                                <p className="text-base leading-relaxed text-white/80">Diesen Blick bringe ich in Ihre Abläufe ein. Ich höre zu, mache Zusammenhänge verständlich und entwickle Werkzeuge, die zu Ihrer Arbeit passen. Sie sprechen direkt mit mir – vom ersten Gespräch bis zur Umsetzung.</p>
+                                <h3 className="text-3xl font-bold mb-5">Leonid Ryazanskiy.<br /><span className="text-lime">Einfach Leo.</span></h3>
+                                <p className="text-base leading-relaxed text-white/80 mb-5">Seit über einem Jahrzehnt arbeite ich als Copywriter und Konzeptioner für Marken. In Agenturen wie Scholz &amp; Friends, Serviceplan und Havas habe ich gelernt, komplexe Aufgaben zu verstehen, die entscheidenden Fragen zu stellen und daraus klare Konzepte zu entwickeln.</p>
+                                <p className="text-base leading-relaxed text-white/80 mb-5">Diese Arbeit verbindet Strategie und Kreativität. Ein gutes Konzept muss zu den Menschen passen, die damit arbeiten – und sich im Alltag bewähren. Genau diesen Blick bringe ich in Ihre Prozesse ein: Was braucht Ihr Team? Wo stockt die Arbeit? Und welche Verbindung oder welches Werkzeug würde wirklich helfen?</p>
+                                <p className="text-base leading-relaxed text-white/80 mb-5">In KI-Workshops habe ich Creative Teams an neue Arbeitsweisen herangeführt. Heute entwickle ich selbst passende Anwendungen und Automatisierungen. Dabei übersetze ich Anforderungen in klare Abläufe, Datenwege und Regeln für die Zusammenarbeit zwischen Mensch und Software.</p>
+                                <p className="text-base leading-relaxed text-white/80 mb-5">Sie sprechen direkt mit mir – von der ersten Frage über den Prototyp bis zur Einführung. Ich mache Zusammenhänge verständlich und halte Ziele, Grenzen und nächste Schritte fest. Je nach Aufgabe ergänze ich meine Arbeit durch mein Netzwerk aus Entwicklung und Gestaltung.</p>
+                                <p className="text-sm leading-relaxed text-white/70 border-t border-gridline pt-5">Arbeiten aus meiner Werbelaufbahn wurden unter anderem bei Cannes Lions, ADC, New York Festivals und The One Show ausgezeichnet. Diese Erfahrung prägt meinen Blick auf Qualität und verständliche Kommunikation.</p>
                             </div>
                         </article>
 

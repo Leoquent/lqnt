@@ -10,6 +10,7 @@ import { Arrow, Drawing } from "./Drawings";
 import HeroPresentation from "./HeroPresentation";
 import CopyStatement from "./CopyStatement";
 import Collaboration from "./Collaboration";
+import QuizModal from "@/components/QuizModal";
 import { faqs, packages } from "./content";
 import s from "./webdesign.module.css";
 
@@ -25,6 +26,7 @@ export default function WebdesignPage() {
   const [projectOpen, setProjectOpen] = useState(false);
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
   const [motionPaused, setMotionPaused] = useState(false);
+  const [quizOpen, setQuizOpen] = useState(false);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -62,9 +64,9 @@ export default function WebdesignPage() {
     <a href="#inhalt" className={s.skip}>Zum Inhalt</a>
     <header className={s.header}>
       <div className={s.headerInner}>
-        <a href="#inhalt" className={s.brand} aria-label="Leoquent – zum Seitenanfang" onClick={() => setMenuOpen(false)}><LqntMark className={s.mark} /><span>leoquent</span></a>
+        <a href="#inhalt" className={s.brand} aria-label="leoquent – zum Seitenanfang" onClick={() => setMenuOpen(false)}><LqntMark className={s.mark} /><span>leoquent</span></a>
         <nav aria-label="Hauptnavigation" className={s.desktopNav}>{links.map(([label, id]) => <a key={id} href={"#" + id}>{label}</a>)}</nav>
-        <div className={s.headerActions}><Link href="/" className={s.otherService}>Alle Leistungen <Arrow diagonal /></Link><a href="#kontakt" className={s.headerCta}>Projekt besprechen <Arrow diagonal /></a></div>
+        <div className={s.headerActions}><Link href="/" className={s.otherService}>Alle Leistungen <Arrow diagonal /></Link><button onClick={() => setQuizOpen(true)} className={s.headerCta}>Projekt besprechen <Arrow diagonal /></button></div>
         <button className={s.menuButton} ref={menuButton} aria-expanded={menuOpen} aria-controls="mobile-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? "Schließen" : "Menü"}<span aria-hidden="true">{menuOpen ? "−" : "+"}</span></button>
       </div>
       <nav id="mobile-navigation" className={s.mobileNav} aria-label="Mobile Navigation" hidden={!menuOpen}>
@@ -76,11 +78,11 @@ export default function WebdesignPage() {
     <main id="inhalt">
       <section className={s.hero} aria-labelledby="hero-title">
         <div className={s.heroCopy}>
-          <p className={s.eyebrow} data-intro><span className={s.dot} /> Webdesign von Leoquent</p>
+          <p className={s.eyebrow} data-intro><span className={s.dot} /> Webdesign & Markenauftritt</p>
           <h1 id="hero-title" data-intro>Ihr Unternehmen<br />kann was.<br /><em>Zeigen wir es.</em></h1>
-          <p className={s.heroLead} data-intro>Eine Website, die zeigt, was Sie ausmacht. Durchdacht im Aufbau, eigenständig im Design – mit Texten, die ich für Sie schreibe.</p>
+          <p className={s.heroLead} data-intro>Eine Website, die zeigt, was Sie ausmacht. Mit klaren Texten und eigenständigem Design. Wenn Logo oder Markenstil fehlen, entwickle ich sie mit.</p>
           <div className={s.heroActions} data-intro><a className={s.button} href="#arbeiten">Arbeiten entdecken <Arrow diagonal /></a><a className={s.textLink} href="#preise">Pakete ab 1.900 € <Arrow /></a></div>
-          <p className={s.heroFootnote} data-intro>Ich bin Leo. Ich schreibe, gestalte und entwickle Ihre Website. <a href="#ueber-mich">Mehr über mich</a></p>
+          <p className={s.heroFootnote} data-intro>Ausgezeichneter Copywriter. Konzept, Text und Webdesign aus einer Hand. <a href="#ueber-mich">Mehr über mich</a></p>
         </div>
         <HeroPresentation motionPaused={motionPaused} />
       </section>
@@ -108,18 +110,18 @@ export default function WebdesignPage() {
 
       <section id="leistungen" className={s.section} aria-labelledby="services-title">
         <div className={s.sectionRule} data-line />
-        <div className={s.sectionHeading} data-reveal><p className={s.eyebrow}>02 / Was Ihre Website ausmacht</p><h2 id="services-title">Gut aussehen ist der Anfang.<br /><span>Verstanden werden das Ziel.</span></h2><p>Ihre Besucher sollen erkennen, was Sie anbieten, warum es zu ihnen passt und wie es weitergeht.</p></div>
+        <div className={s.sectionHeading} data-reveal><p className={s.eyebrow}>02 / Was Ihre Website ausmacht</p><h2 id="services-title">Gut aussehen ist der Anfang.<br /><span>Verstanden werden <span className={s.keepTogether}>das Ziel.</span></span></h2><p>Ihre Besucher sollen erkennen, was Sie anbieten, warum es zu ihnen passt und wie es weitergeht.</p></div>
         <div className={s.services}>
           {([
             ["text", "01", "Worte, die treffen.", "Was Sie besonders macht, gehört auf den Punkt. Ich übersetze Ihr Wissen in verständliche Botschaften und schreibe die Texte selbst."],
-            ["design", "02", "Ein eigener Auftritt.", "Gestaltung, Bilder und Bewegung passen zu Ihrem Unternehmen. Vom ersten Eindruck bis ins Detail – auf dem Handy genauso wie am großen Bildschirm."],
+            ["design", "02", "Ein eigener Auftritt.", "Gestaltung, Bilder und Bewegung passen zu Ihrem Unternehmen. Fehlt die Grundlage, ergänze ich Logo, Farben und Schriften als eigenen Markenbaustein. Bestehende Marken entwickle ich behutsam weiter."],
             ["path", "03", "Ein klarer Weg.", "Sich informieren, Kontakt aufnehmen oder bewerben: Ihre Besucher finden, was sie brauchen. Verständliche Inhalte und passende nächste Schritte geben Orientierung."],
           ] as const).map(([kind, num, title, copy]) => <article className={s.service} key={kind} data-reveal data-ambient><span className={s.cardNumber}>{num}</span><div className={s.serviceDrawing}><Drawing kind={kind} /></div><h3>{title}</h3><p>{copy}</p></article>)}
         </div>
         <div className={s.expertise} data-reveal>
           <div className={s.expertiseIntro}><p className={s.eyebrow}>Konzept, Gestaltung und Entwicklung</p><h3>Auch unter der Oberfläche durchdacht.</h3></div>
           <div className={s.expertiseGrid}>
-            <div><h4>Ein Aufbau mit Absicht.</h4><p>Welche Fragen haben Ihre Besucher? Was müssen sie zuerst verstehen? Daraus entwickle ich die Reihenfolge Ihrer Inhalte, die Navigation und die passenden Kontaktwege.</p></div>
+            <div><h4>Ein Aufbau mit Absicht.</h4><p>Welche Fragen haben Ihre Besucher? Wie unterscheiden Sie sich vom Wettbewerb? Daraus entwickle ich Botschaften, Inhalte und Kontaktwege. Die Tiefe der Zielgruppen- und Wettbewerbsrecherche richtet sich nach dem Projekt.</p></div>
             <div><h4>Für echte Nutzung gestaltet.</h4><p>Ich plane für kleine und große Bildschirme. Mit lesbaren Texten, gut erreichbaren Bedienelementen und Animationen, die Orientierung geben.</p></div>
             <div><h4>Die passende Technik dahinter.</h4><p>Ein schlanker Auftritt, selbst pflegbare Inhalte oder eine Anbindung an bestehende Systeme: Die Umsetzung richtet sich danach, was Sie später mit der Website tun möchten.</p></div>
             <div><h4>Vor dem Livegang geprüft.</h4><p>Ich prüfe Darstellung, Tastaturbedienung und Kontaktwege. Ladezeiten, Bildgrößen und technische SEO-Grundlagen gehören ebenso dazu wie eine klare Übergabe.</p></div>
@@ -137,17 +139,19 @@ export default function WebdesignPage() {
         <div className={s.packages}>{packages.map((pkg, i) => <article className={s.package} data-featured={i === 1} data-reveal key={pkg.name}>
           <div className={s.packageTop}><span>0{i + 1}</span><h3>{pkg.name}</h3>{i === 1 && <span className={s.packageHint}>Mehr Raum fürs Angebot</span>}</div><p className={s.packageLead}>{pkg.lead}</p><p className={s.packageDescription}>{pkg.description}</p><p className={s.price}><span>ab</span> {pkg.price} <span>€</span></p><span className={s.once}>Einmaliges Website-Projekt</span><div className={s.packageRule} /><ul>{pkg.features.map(f => <li key={f}><span aria-hidden="true"><Arrow diagonal /></span>{f}</li>)}</ul><a href={mail("Website-Projekt – Paket " + pkg.name)} className={i === 1 ? s.button : s.outlineButton}>Über {pkg.name} sprechen <Arrow diagonal /></a>
         </article>)}</div>
-        <p className={s.packageBasics}>Immer dabei: eigene Texte, mobile Optimierung, technische SEO-Grundlagen und Prüfung vor dem Livegang.</p>
+        <div className={s.brandModule}><p className={s.eyebrow}>Bei Bedarf dazu: Ihre Marke</p><h3>Die Website braucht ein Gesicht.<br />Und eine eigene Stimme.</h3><p>Ihr Logo und Markenstil stehen schon? Dann baue ich darauf auf. Wenn sie fehlen oder nicht mehr passen, entwickeln wir die Grundlage mit: Logo oder Logo-Modernisierung, Farben, Schriften und eine passende Tonalität. Sie können diesen Baustein zu jedem Website-Paket oder einzeln beauftragen. Umfang, Korrekturrunden und nutzbare Dateien stehen im eigenen Angebot.</p><a href={mail("Logo und Markenauftritt besprechen")} className={s.textLink}>Über meine Marke sprechen <Arrow diagonal /></a></div>
+        <p className={s.packageBasics}>Immer dabei: ein gemeinsames Briefing, eigene Website-Texte, mobile Optimierung, technische SEO-Grundlagen und Prüfung vor dem Livegang. Die Website-Preise setzen ein nutzbares Logo und vorhandene Markengrundlagen voraus; Neuentwicklung oder Modernisierung kommt bei Bedarf dazu.</p>
         <p className={s.priceNote}>Der genaue Festpreis steht vor dem Start fest. Seitenumfang, individuelle Animationen und Anbindungen stimmen wir im Angebot ab. Für den laufenden Betrieb können Sie die Betreuung unten wählen oder Hosting und Domain selbst organisieren. Etwaige Lizenzkosten sind im Angebot ausgewiesen.</p>
-        <div className={s.care} data-reveal><div><p className={s.eyebrow}>Nach dem Livegang</p><h3>Ihre Website läuft.<br />Ich kümmere mich.</h3><p>Damit Ihre Website aktuell bleibt und sich weiterentwickelt: Ich übernehme Hosting und technischen Betrieb, auf Wunsch auch Inhaltspflege und laufende Suchmaschinenoptimierung. Alles in einer Betreuung, passend zu Ihrem Bedarf. Oder Sie übernehmen selbst – mit der vereinbarten Website und allen Zugängen.</p></div><div className={s.careOffer}><span className={s.optional}>Optional · Hosting inklusive</span><p>ab <strong>69 €</strong> / Monat</p><span>Inklusive Hosting, technischer Betreuung und einer Standard-Domain. Inhaltspflege, laufende SEO-Arbeit und teurere Wunschdomains erweitern die Betreuung zu einem entsprechend höheren Monatspreis. Leistungen, Umfang und Reaktionszeiten vereinbaren wir vorab.</span></div></div>
+        <div className={s.care} data-reveal><div><p className={s.eyebrow}>Nach dem Livegang</p><h3>Ihre Website läuft.<br />Ich kümmere mich.</h3><p>Damit Ihre Website aktuell bleibt und sich weiterentwickelt: Ich übernehme Hosting und technischen Betrieb, auf Wunsch auch Inhaltspflege und laufende Suchmaschinenoptimierung. Alles in einer Betreuung, passend zu Ihrem Bedarf. Oder Sie übernehmen selbst – mit der vereinbarten Website und allen Zugängen.</p></div><div className={s.careOffer}><span className={s.optional}>Optional · Hosting inklusive</span><p>ab <strong>69 €</strong> / Monat</p><span>Inklusive Hosting, technischer Betreuung und einer Standard-Domain. Bei einem von mir gebauten Kontaktformular gehört der Betrieb des vereinbarten Formular-Endpunkts dazu; Einrichtung und Sonderfunktionen stehen im Projektangebot. Inhaltspflege, Auswertungen und laufende SEO-Arbeit sind zusätzliche Leistungen mit festem Zeitrahmen. Leistungen, Umfang und Reaktionszeiten vereinbaren wir vorab.</span></div></div>
+        <div className={s.careDetails}><div><h3>Technik in guten Händen.</h3><p>Hosting, Domainverwaltung und die vereinbarte technische Pflege halten den Auftritt im Betrieb. Welche Prüfungen, Sicherungen und Reaktionszeiten dazugehören, steht konkret im Betreuungsangebot.</p></div><div><h3>Verstehen, was ankommt.</h3><p>Auf Wunsch richte ich Webanalyse und Google Search Console ein. In einer erweiterten Betreuung werte ich Besuche und Suchanfragen aus, leite konkrete Verbesserungen ab und setze sie im vereinbarten Zeitbudget um. Etwa mit einer selbst betriebenen, cookielosen Umami-Analyse.</p></div></div>
       </section>
 
       <Collaboration motionPaused={motionPaused} />
 
       <section id="ueber-mich" className={s.about} aria-labelledby="about-title">
         <div className={s.aboutHeading} data-reveal><p className={s.eyebrow}>05 / Hi, ich bin Leo.</p><h2 id="about-title">Ich denke in Ideen.<br /><span>Und in ganzen Websites.</span></h2></div>
-        <figure className={s.portrait}><div className={s.portraitImage}><img src={basePath + "/FOTOS/leonid_cropped_2.webp"} alt="Leonid Ryazanskiy, Gründer von Leoquent" width="720" height="900" loading="lazy" /></div><figcaption><span>Der Kopf hinter Leoquent.</span><Arrow diagonal /></figcaption></figure>
-        <div className={s.aboutCopy} data-reveal><p className={s.personalLead}>Sie bringen das Wissen über Ihr Unternehmen mit. Ich mache daraus einen Auftritt, den Ihre Kunden verstehen.</p><p>Ich bin Leonid Ryazanskiy. Seit über einem Jahrzehnt entwickle ich Konzepte, Ideen und Texte für Marken – in enger Zusammenarbeit mit Art Directors und Designern. Dabei habe ich gelernt, Botschaften und Gestaltung zusammenzudenken: Was macht ein Angebot relevant? Was bleibt im Kopf? Und was bewegt Menschen zum nächsten Schritt?</p><p>Webdesign begleitet mich seit meiner Jugend, damals noch mit Dreamweaver. Heute verbinde ich diese Leidenschaft mit meiner Erfahrung aus der Werbung. Ich entwickle Ihre Website strategisch und kreativ: mit einer klaren Idee, einem durchdachten Aufbau und einem Design, das Ihre Botschaft trägt.</p><p>Von der ersten Formulierung bis zur letzten Interaktion entsteht so ein zusammenhängender Auftritt. Ich schreibe die Texte, gestalte den Weg durch die Seite und setze sie um. Sie haben einen Ansprechpartner, der das Ganze im Blick behält.</p><p>KI gehört dabei zu meinen Werkzeugen. Die Richtung geben Ihr Unternehmen, Ihre Ziele und die Menschen vor, die Sie erreichen möchten. Je nach Projekt ergänze ich meine Arbeit durch mein Netzwerk aus Entwicklung, Design, Art Direction, Fotografie, Projektmanagement und Social Media.</p><div className={s.agencies}><span>Unter anderem tätig für:</span><p>Scholz & Friends · Serviceplan · Havas · fischerAppelt · Zum Goldenen Hirschen</p></div></div>
+        <figure className={s.portrait}><div className={s.portraitImage}><img src={basePath + "/FOTOS/leonid_cropped_2.webp"} alt="Leonid Ryazanskiy, Gründer von leoquent" width="720" height="900" loading="lazy" /></div><figcaption><span>Der Kopf hinter leoquent.</span><Arrow diagonal /></figcaption></figure>
+        <div className={s.aboutCopy} data-reveal><p className={s.personalLead}>Sie bringen das Wissen über Ihr Unternehmen mit. Ich mache daraus einen Auftritt, den Ihre Kunden verstehen.</p><p>Ich bin Leonid Ryazanskiy. Seit über einem Jahrzehnt entwickle ich Konzepte, Ideen und Texte für Marken – in enger Zusammenarbeit mit Art Directors und Designern. Dabei habe ich gelernt, Botschaften und Gestaltung zusammenzudenken: Was macht ein Angebot relevant? Was bleibt im Kopf? Und was bewegt Menschen zum nächsten Schritt?</p><p>Webdesign begleitet mich seit meiner Jugend, damals noch mit Dreamweaver. Heute verbinde ich diese Leidenschaft mit meiner Erfahrung aus der Werbung. Ich entwickle Ihre Website strategisch und kreativ: mit einer klaren Idee, einem durchdachten Aufbau und einem Design, das Ihre Botschaft trägt.</p><p>Von der ersten Formulierung bis zur letzten Interaktion entsteht so ein zusammenhängender Auftritt. Ich schreibe die Texte, gestalte den Weg durch die Seite und setze sie um. Wenn nötig, beginnt das schon bei Logo, Markenstil und Tonalität. Mein Blick aus der Werbung verbindet dabei die einzelne Website mit dem gesamten Auftritt. Sie haben einen Ansprechpartner, der das Ganze im Blick behält.</p><p>KI gehört dabei zu meinen Werkzeugen. Die Richtung geben Ihr Unternehmen, Ihre Ziele und die Menschen vor, die Sie erreichen möchten. Je nach Projekt ergänze ich meine Arbeit durch mein Netzwerk aus Entwicklung, Design, Art Direction, Fotografie, Projektmanagement und Social Media.</p><div className={s.agencies}><span>Unter anderem tätig für:</span><p>Scholz & Friends · Serviceplan · Havas · fischerAppelt · Zum Goldenen Hirschen</p></div></div>
       </section>
 
       <div className={s.credentials} data-reveal><p>Erfahrung in Konzeption und Text.<span>Arbeiten aus meiner Werbelaufbahn wurden unter anderem hier ausgezeichnet.</span></p><div>Cannes Lions<span>ADC</span>New York Festivals<span>The One Show</span></div></div>
@@ -158,12 +162,13 @@ export default function WebdesignPage() {
       </section>
 
       <section id="kontakt" className={s.contact} aria-labelledby="contact-title" data-ambient>
-        <div data-reveal><p className={s.eyebrow}><span className={s.dot} /> Der erste Schritt ist ein Gespräch.</p><h2 id="contact-title">Erzählen Sie mir,<br /><span>was Sie vorhaben.</span></h2><p>Neue Website oder neuer Blick auf die bestehende? Ich höre mir an, was Sie brauchen, und sage Ihnen ehrlich, was ich dafür tun kann.</p><div className={s.contactActions}><a href={mail("Lassen Sie uns über meine Website sprechen")} className={s.button}>Projekt besprechen <Arrow diagonal /></a><a href="tel:+4917647177623" className={s.textLink}>Oder direkt anrufen <Arrow /></a></div><span className={s.contactNote}>Kostenloses Erstgespräch · unverbindlich</span></div><div className={s.contactArt} aria-hidden="true"><Drawing kind="design" /></div>
+        <div data-reveal><p className={s.eyebrow}><span className={s.dot} /> Der erste Schritt ist ein Gespräch.</p><h2 id="contact-title">Erzählen Sie mir,<br /><span>was Sie vorhaben.</span></h2><p>Neue Website oder neuer Blick auf die bestehende? Ich höre mir an, was Sie brauchen, und sage Ihnen ehrlich, was ich dafür tun kann.</p><div className={s.contactActions}><button onClick={() => setQuizOpen(true)} className={s.button}>Projekt besprechen <Arrow diagonal /></button><a href="tel:+4917647177623" className={s.textLink}>Oder direkt anrufen <Arrow /></a></div><span className={s.contactNote}>Kostenloses Erstgespräch · unverbindlich</span></div><div className={s.contactArt} aria-hidden="true"><Drawing kind="design" /></div>
       </section>
 
       <aside className={s.bridge} data-reveal aria-label="Prozesse und Automatisierung"><div><p className={s.eyebrow}>Erst verstehen. Dann sinnvoll vereinfachen.</p><h2>Weniger von Hand.<br /><span>Mehr Zeit fürs Eigentliche.</span></h2><p>Dieser Blick aufs Ganze endet nicht bei der Website. Wo gehen in Ihrem Alltag Zeit und Informationen verloren? Ich analysiere Ihre Abläufe, verbinde bestehende Software oder entwickle passende Werkzeuge. Mit KI, wenn sie hilft. Ohne, wenn es einfacher geht. Auch unabhängig von einer neuen Website.</p></div><Link href="/prozesse/" className={s.bridgeLink}>Prozesse & Automatisierung <Arrow diagonal /></Link></aside>
     </main>
 
-    <footer className={s.footer}><div className={s.footerTop}><Link href="/" className={s.brand}><LqntMark className={s.mark} /><span>leoquent</span></Link><a href="mailto:hi@lqnt.de">hi@lqnt.de <Arrow diagonal /></a></div><div className={s.footerBottom}><span>© {new Date().getFullYear()} Leoquent · Leonid Ryazanskiy</span><button onClick={() => setMotionPaused(!motionPaused)} aria-pressed={motionPaused}>{motionPaused ? "Bewegung fortsetzen" : "Bewegung pausieren"}</button><nav aria-label="Rechtliches"><Link href="/impressum/">Impressum</Link><Link href="/datenschutz/">Datenschutz</Link><a href="#inhalt">Nach oben ↑</a></nav></div></footer>
+    <footer className={s.footer}><div className={s.footerTop}><Link href="/" className={s.brand}><LqntMark className={s.mark} /><span>leoquent</span></Link><a href="mailto:hi@lqnt.de">hi@lqnt.de <Arrow diagonal /></a></div><div className={s.footerBottom}><span>© {new Date().getFullYear()} leoquent · Leonid Ryazanskiy</span><button onClick={() => setMotionPaused(!motionPaused)} aria-pressed={motionPaused}>{motionPaused ? "Bewegung fortsetzen" : "Bewegung pausieren"}</button><nav aria-label="Rechtliches"><Link href="/impressum/">Impressum</Link><Link href="/datenschutz/">Datenschutz</Link><a href="#inhalt">Nach oben ↑</a></nav></div></footer>
+    <QuizModal isOpen={quizOpen} onClose={() => setQuizOpen(false)} mode="webdesign" />
   </div>;
 }

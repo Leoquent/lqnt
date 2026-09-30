@@ -8,7 +8,7 @@ import DirectionArrow from "./DirectionArrow";
 gsap.registerPlugin(useGSAP);
 const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const options = [
- {id:"webdesign", label:"Webdesign", title:<>Sichtbar <br/>werden.</>, copy:"Ein Auftritt, der zeigt, was Sie können. Mit klaren Texten, eigenem Charakter und einem einfachen Weg zur Anfrage.", tags:"Konzept · Text · Design · Entwicklung"},
+ {id:"webdesign", label:"Webdesign", title:<>Sichtbar <br/>werden.</>, copy:"Ein Auftritt, der zeigt, was Sie können. Mit klaren Texten, eigenem Charakter und auf Wunsch auch Logo und Markenauftritt.", tags:"Konzept · Text · Marke · Webdesign"},
  {id:"prozesse", label:"Prozesse & Automatisierung", title:<>Zeit <br/>gewinnen.</>, copy:"Weniger Handarbeit im Arbeitsalltag. Mit verbundenen Werkzeugen, individuellen Anwendungen und sinnvoll eingesetzter KI.", tags:"Analyse · Software · Automatisierung · KI"}
 ];
 function Illustration({kind}:{kind:string}) {
@@ -38,7 +38,7 @@ export default function Gateway({mode}:{mode:"filmisch"|"interaktiv"}) {
  },{scope:root,dependencies:[mode,replay],revertOnUpdate:true});
  return <div ref={root} className={`${s.gateway} ${mode==="filmisch"?s.film:s.interactive}`} data-active={active||""}>
   <header className={s.header} data-reveal>
-   <a href={`${base}/`} className={s.brand} aria-label="Leoquent – Startseite"><LqntMark className={s.mark}/><span>leoquent</span></a>
+   <a href={`${base}/`} className={s.brand} aria-label="leoquent – Startseite"><LqntMark className={s.mark}/><span>leoquent</span></a>
    <span className={s.descriptor}>Webdesign, Prozesse &<br/>Automatisierung</span>
   </header>
   <main className={s.main}>
@@ -57,6 +57,6 @@ export default function Gateway({mode}:{mode:"filmisch"|"interaktiv"}) {
     </a>)}
    </div>
   </main>
-  <footer className={s.footer}><span>© {new Date().getFullYear()} Leoquent</span><div><a href={`${base}/impressum/`}>Impressum</a><a href={`${base}/datenschutz/`}>Datenschutz</a></div></footer>
+  <footer className={s.footer}><span>© {new Date().getFullYear()} leoquent</span><div><a href={`${base}/impressum/`}>Impressum</a><a href={`${base}/datenschutz/`}>Datenschutz</a></div></footer>
  </div>;
 }

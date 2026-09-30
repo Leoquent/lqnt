@@ -137,3 +137,7 @@ Die fachliche Abstimmung mit einem Nachlasspfleger aus Stuttgart stammt aus Leos
 6. **Echtes Kundenzitat:** sobald Wortlaut, Name und Funktion freigegeben sind.
 
 `ProjectShowcase` stellt das wiederverwendbare Medienformat bereit. Gebrüder Ross hat einen kurzen stummen WebM-Rundgang, eine Smartphoneansicht und zusätzliche Screenshots von Team und Leistungen. Das Video lädt erst auf Anforderung (`preload="none"`) und läuft nicht automatisch. Die Bilder und Texte vermitteln den Inhalt auch ohne Wiedergabe.
+
+## Weitere Desktop-/Mobile-Review-Runde
+
+Die nachfolgenden Entscheidungen wurden am 30.09.2026 mit Leos laufenden Browserkommentaren weiterentwickelt. Der aktuelle Alt/Neu-Vergleich, die gesamte Review-Liste, Branding-/Betreuungskalkulation und Prüfgrenzen stehen in [REVIEW_2026-09-30.md](REVIEW_2026-09-30.md). Dort aufgeführte neuere Textentscheidungen ersetzen frühere Vorschläge dieses Dokuments.

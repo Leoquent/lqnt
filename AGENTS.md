@@ -30,7 +30,7 @@ Prüfvorbehalt, siehe Abschnitt 8. Nicht überstimmen, ohne mit Leo zu sprechen.
 
 | Thema | Entscheidung |
 |---|---|
-| **Name** | `Leoquent`. Im Fließtext, Impressum, Titel, Signatur immer ausgeschrieben. |
+| **Name** | `leoquent` (Leos ausdrückliche Korrektur vom 30.09.2026, auch am Satzanfang und im Impressum). Im Fließtext, Impressum, Titel, Signatur immer ausgeschrieben. |
 | **LQNT** | Ausschließlich die Bildmarke und die Domain. **Nie als Firmenname im Text.** |
 | **Domain** | `lqnt.de`. `leoquent.de` gehört jemand anderem und wird nicht verfolgt. Keine Defensivdomains. |
 | **Rechtsform** | Einzelunternehmen. Geschäftsbezeichnung „Leoquent", Firma ist der Personenname. |

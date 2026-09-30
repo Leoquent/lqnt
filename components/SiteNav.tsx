@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import LqntMark from "@/components/LqntMark";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
@@ -25,6 +25,8 @@ export default function SiteNav({ links, onQuizOpen, homeHref = "/", darkFrom = 
     const [navScrolled, setNavScrolled] = useState(false);
     const [pastHero, setPastHero] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const menuButton = useRef<HTMLButtonElement>(null);
+    const overlay = useRef<HTMLDivElement>(null);
 
     // rAF-gekoppelt: höchstens ein State-Abgleich pro Frame, blockiert das Scrollen nie
     useEffect(() => {
@@ -47,7 +49,22 @@ export default function SiteNav({ links, onQuizOpen, homeHref = "/", darkFrom = 
     }, [darkFrom]);
 
     useEffect(() => {
-        document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
+        if (!isMobileMenuOpen) return;
+        const previous = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        const onKey = (event: KeyboardEvent) => {
+            if (event.key === "Escape") { setIsMobileMenuOpen(false); menuButton.current?.focus(); }
+            if (event.key === "Tab") {
+                const targets = [menuButton.current, ...Array.from(overlay.current?.querySelectorAll<HTMLElement>("a,button") || [])].filter(Boolean) as HTMLElement[];
+                const index = targets.indexOf(document.activeElement as HTMLElement);
+                event.preventDefault();
+                targets[(index + (event.shiftKey ? targets.length - 1 : 1)) % targets.length]?.focus();
+            }
+        };
+        const closeOnDesktop = () => { if (window.innerWidth >= 1024) setIsMobileMenuOpen(false); };
+        window.addEventListener("keydown", onKey);
+        window.addEventListener("resize", closeOnDesktop);
+        return () => { document.body.style.overflow = previous; window.removeEventListener("keydown", onKey); window.removeEventListener("resize", closeOnDesktop); };
     }, [isMobileMenuOpen]);
 
     const closeMenu = () => setIsMobileMenuOpen(false);
@@ -115,6 +132,8 @@ export default function SiteNav({ links, onQuizOpen, homeHref = "/", darkFrom = 
                     </a>
                     {cta}
                     <button
+                        ref={menuButton}
+                        aria-controls="process-mobile-menu"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         className={`lg:hidden flex flex-col justify-center items-center w-11 h-11 -m-1.5 z-50 relative ${isMobileMenuOpen ? "menu-open" : ""}`}
                         aria-label={isMobileMenuOpen ? "Menü schließen" : "Menü öffnen"}
@@ -128,6 +147,9 @@ export default function SiteNav({ links, onQuizOpen, homeHref = "/", darkFrom = 
             </div>
 
             <div
+                ref={overlay}
+                id="process-mobile-menu"
+                inert={!isMobileMenuOpen}
                 className={`fixed inset-0 bg-vanta z-40 mobile-menu-overlay flex flex-col justify-center items-center lg:hidden ${
                     isMobileMenuOpen ? "opacity-100 visible mobile-menu-open" : "opacity-0 invisible pointer-events-none"
                 }`}

@@ -76,6 +76,6 @@ export default function HeroPresentation({ motionPaused }: { motionPaused: boole
         else { remaining.current = { scene: 0, ms: HOLD_MS }; setScene(0); setReplay(value => value + 1); setManual(false); }
       }}><svg viewBox="0 0 20 20" aria-hidden="true">{playing ? <path d="M6 4v12M14 4v12" fill="none" stroke="currentColor" strokeWidth="2" /> : <path d="m6 3 10 7-10 7Z" fill="currentColor" />}</svg></button>
     </div>
-    <p className={s.srOnly} aria-live={manual ? "polite" : "off"}>{["Botschaft: Klare Texte zeigen, was Ihr Unternehmen ausmacht.", "Gestaltung: Ring und Strich verbinden sich zum Q von Leoquent. Die Website passt sich beiden Geräten an.", "Aktion: Mehr erfahren öffnet zusätzliche Informationen. Der nächste Schritt kann auch eine Anfrage oder Bewerbung sein."][scene]}</p>
+    <p className={s.srOnly} aria-live={manual ? "polite" : "off"}>{["Botschaft: Klare Texte zeigen, was Ihr Unternehmen ausmacht.", "Gestaltung: Ring und Strich verbinden sich zum Q von leoquent. Die Website passt sich beiden Geräten an.", "Aktion: Mehr erfahren öffnet zusätzliche Informationen. Der nächste Schritt kann auch eine Anfrage oder Bewerbung sein."][scene]}</p>
   </div>;
 }

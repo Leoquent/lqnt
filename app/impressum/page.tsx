@@ -4,7 +4,7 @@ import { absoluteUrl } from "@/lib/seo";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export const metadata: Metadata = {
-  title: "Impressum | Leoquent",
+  title: "Impressum | leoquent",
   alternates: { canonical: absoluteUrl("/impressum/") },
   robots: { index: false, follow: true },
 };
@@ -26,7 +26,7 @@ export default function ImpressumPage() {
 
         <h2 className="text-lg font-bold uppercase tracking-tight mb-3">Angaben gemäß § 5 DDG</h2>
         <p className="text-sm text-bone/70 leading-relaxed mb-6">
-          Leoquent<br />
+          leoquent<br />
           Inhaber: Leonid Ryazanskiy<br />
           Uerdinger Str. 75<br />
           40474 Düsseldorf<br />

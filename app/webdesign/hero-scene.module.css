@@ -22,3 +22,7 @@
 .scene[data-paused=true] .cursor,.scene[data-paused=true] .tapRing{display:none}
 @media(prefers-reduced-motion:reduce){.tapRing{display:none}}
 @media(max-width:380px){.phone .actionPanel>strong{font-size:9.5px}}
+
+/* Keep the whole demonstration within its own box on phones. */
+@media(max-width:700px){.scene{--screen-height:238px;height:348px}.browser{top:42px;left:4%;width:88%}.note{top:10px}.phone{right:2%;bottom:25px}.caption{bottom:0}.grid{inset:10px 0}.miniPanel{padding:17px}.introGrid{margin-top:21px;margin-bottom:15px}.designGrid{margin-top:14px}.artwork{height:96px}.sectionLine{margin-top:12px}.actionPanel{padding-top:18px}.actionPanel>strong{font-size:24px}.designPanel>strong{font-size:24px}}
+@media(max-width:380px){.scene{height:340px}.headline{font-size:19px}.miniPanel{padding:15px}.phone .miniPanel{padding:9px 6px}}
