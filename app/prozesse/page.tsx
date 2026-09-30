@@ -97,6 +97,8 @@ export default function Page() {
         const measure = () => {
             const available = window.innerHeight - 64;
             if (window.innerWidth < 768) {
+                const hero = root.querySelector<HTMLElement>('.process-hero-content');
+                if (hero) root.style.setProperty('--process-hero-height', `${hero.offsetHeight}px`);
                 // Mobile uses a moving text track, so it does not need every step to fit at once.
                 setProcessStatic(false);
                 const intro = root.querySelector<HTMLElement>('.process-mobile-intro');
@@ -112,7 +114,7 @@ export default function Page() {
             }
         };
         const observer = new ResizeObserver(measure);
-        root.querySelectorAll('.process-card-content, .mobile-prozess-card, [data-mobile-process-layout] > div').forEach(el => observer.observe(el));
+        root.querySelectorAll('.process-hero-content, .process-card-content, .mobile-prozess-card, [data-mobile-process-layout] > div').forEach(el => observer.observe(el));
         window.addEventListener('resize', measure);
         measure();
         return () => { observer.disconnect(); window.removeEventListener('resize', measure); };
@@ -147,7 +149,7 @@ export default function Page() {
         // --- HERO PARALLAX: subtle upward drift as user scrolls (DESKTOP ONLY).
         //     Scrubbing a position:fixed, full-screen (100svh) element every scroll frame is a
         //     major jank source on mobile, where the URL bar also resizes the viewport mid-scroll.
-        //     Mobile disperses the words within its normally scrolling introduction. ---
+        //     Mobile uses native sticky positioning; only the words are transformed. ---
         mm.add("(min-width: 768px) and (min-height: 741px) and (prefers-reduced-motion: no-preference)", () => {
             const heroSection = document.getElementById('hero-sticky-section');
             if (heroSection) {
@@ -296,10 +298,13 @@ export default function Page() {
         });
 
         mm.add("(max-width: 767px) and (prefers-reduced-motion: no-preference)", () => {
-            // The introduction stays in document flow; only its words disperse.
+            // The ticker rises over the stationary intro. Start while the headline
+            // is still visible, including when a very short viewport needs some overflow.
             const heroTl = gsap.timeline({ scrollTrigger: {
-                id: "process-mobile-hero", trigger: "#hero-sticky-section",
-                start: "top top", end: "top -45%", scrub: 0.35,
+                id: "process-mobile-hero", trigger: "#content-wrapper",
+                start: () => Math.max(0, (document.getElementById('content-wrapper')?.offsetTop || 0)
+                    - (document.getElementById('hero-sticky-section')?.offsetHeight || 0)) + 24,
+                end: () => `+=${Math.max(220, window.innerHeight * 0.45)}`, scrub: 0.35,
                 invalidateOnRefresh: true
             }});
             words.forEach((word, i) => {
@@ -495,7 +500,7 @@ export default function Page() {
 
             {/* Hero – fixed in the background behind content */}
             <section className="fixed top-0 left-0 right-0 h-[100svh] flex flex-col bg-white z-0 overflow-hidden" id="hero-sticky-section">
-                <div className="w-full flex-1 px-6 pt-24 pb-16 md:px-8 md:py-12 lg:px-10 lg:py-20 flex flex-col justify-start md:justify-center relative mx-auto max-w-[1440px]" style={{ perspective: '1200px', perspectiveOrigin: '50% 40%' }}>
+                <div className="process-hero-content w-full flex-1 px-6 pt-24 pb-16 md:px-8 md:py-12 lg:px-10 lg:py-20 flex flex-col justify-start md:justify-center relative mx-auto max-w-[1440px]" style={{ perspective: '1200px', perspectiveOrigin: '50% 40%' }}>
                     <div className="font-mono mb-8 md:mb-8 uppercase text-sm font-medium tracking-wider md:tracking-widest hero-element process-hero-eyebrow">
                         <span className="brutalist-marker text-vanta">KI, Prozessoptimierung &amp; Automatisierung</span>
                     </div>
@@ -512,7 +517,7 @@ export default function Page() {
                         die zu Ihrer Geschäftslogik passen und Ihre Arbeitsabläufe optimieren. Mit Automatisierung und KI dort, wo sie sinnvoll Arbeit abnehmen.
                     </p>
 
-                    <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6 hero-element">
+                    <div className="process-hero-actions flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6 hero-element">
                         <button onClick={openQuiz} className="btn-glitch inline-block bg-lime text-vanta font-mono font-bold uppercase py-4 px-8 border border-lime transition-all duration-75 cursor-pointer">
                             Potenzial Analysieren
                         </button>
