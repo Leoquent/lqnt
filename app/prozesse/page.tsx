@@ -305,19 +305,19 @@ export default function Page() {
             const heroTl = gsap.timeline({ scrollTrigger: {
                 id: "process-mobile-hero", trigger: "#content-wrapper",
                 start: heroStart,
-                end: () => `+=${Math.max(220, window.innerHeight * 0.45)}`, scrub: 0.35,
+                end: 'top 10%', scrub: 0.5,
                 invalidateOnRefresh: true
             }});
-            words.forEach((word, i) => {
-                heroTl.to(word, { x: (i % 2 ? 1 : -1) * (24 + i * 5), y: -45 - i * 6,
-                    z: -180, rotationX: 18, rotationY: i % 2 ? 20 : -20,
-                    rotationZ: i % 2 ? 6 : -6, scale: 0.65,
+            words.forEach(word => {
+                // Original repository dispersion (72a310e), with narrower lateral
+                // travel for phones. Motion and opacity share the entire timeline.
+                heroTl.to(word, { x: (Math.random() - 0.5) * 80,
+                    y: -(30 + Math.random() * 120), z: -(200 + Math.random() * 400),
+                    rotationX: -10 + (Math.random() - 0.5) * 60,
+                    rotationY: (Math.random() - 0.5) * 90,
+                    rotationZ: (Math.random() - 0.5) * 25,
+                    opacity: 0, filter: 'blur(16px)', scale: 0.4 + Math.random() * 0.3,
                     ease: "power1.in" }, 0);
-            });
-
-            gsap.fromTo(words, { opacity: 1 }, { opacity: 0, ease: 'power1.in',
-                scrollTrigger: { id: 'process-mobile-hero-fade', trigger: '#content-wrapper',
-                    start: heroStart, end: 'top 10%', scrub: 0.35, invalidateOnRefresh: true },
             });
 
             // Keep the desktop depth/fade on the supporting content, with shorter
@@ -332,17 +332,12 @@ export default function Page() {
                         ? Math.max(0, (document.getElementById('hero-sticky-section')?.offsetHeight || 0)
                             - window.innerHeight) + 8
                         : element.classList.contains('process-hero-eyebrow') ? 0 : 24,
-                    end: () => `+=${Math.max(160, window.innerHeight * 0.3)}`,
-                    scrub: 0.35, invalidateOnRefresh: true,
+                    end: 'top 10%',
+                    scrub: 0.5, invalidateOnRefresh: true,
                 };
-                gsap.fromTo(element, { y: 0, z: 0, scale: 1 }, {
-                    y: -48, z: -120, scale: 0.85,
-                    transformOrigin: 'left top', ease: 'none', scrollTrigger: elementTrigger,
-                });
-                // Like desktop, retain contrast early and fade more strongly late.
-                gsap.fromTo(element, { opacity: 1 }, {
-                    opacity: 0, ease: 'power1.in',
-                    scrollTrigger: { ...elementTrigger, id: `process-mobile-hero-fade-${i}`, end: 'top 10%' },
+                gsap.fromTo(element, { y: 0, z: 0, scale: 1, opacity: 1, filter: 'none' }, {
+                    y: -40, z: -150, opacity: 0, filter: 'blur(10px)', scale: 0.85,
+                    ease: 'power1.in', scrollTrigger: elementTrigger,
                 });
             });
 
