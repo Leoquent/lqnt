@@ -4,13 +4,14 @@
   #content-wrapper { margin-top: 0 !important; }
 }
 
-.process-hero-line{display:block}
+.process-desktop-break{display:block}
 .process-mobile-break{display:none}
 .process-hero-copy{max-width:1040px}
 .process-hero-eyebrow .brutalist-marker{white-space:normal;line-height:1.6}
 @media(max-width:767px){
   .process-mobile-break{display:block}
-  .process-hero-title{font-size:clamp(2rem,8vw,3.8rem)}
+  .process-desktop-break{display:none}
+  .process-hero-title{font-size:clamp(2.7rem,11.2vw,5rem);line-height:.97}
   .process-hero-eyebrow{font-size:12px;letter-spacing:.06em}
 }
 .process-page[data-motion-paused="true"] #sq-geo-core{transform:rotateX(0deg) rotateY(-15deg)!important}
@@ -20,10 +21,6 @@
   .process-page #sq-ring{transform:translateZ(20px) rotate(12deg)!important}
 }
 
-.process-profile { display: grid; grid-template-columns: minmax(0, 1fr); }
-.process-portrait { display: block; width: min(100%, 320px); height: auto; margin: 24px auto 0; object-fit: contain; }
-@media(min-width:768px) and (max-width:1023px){.process-profile{grid-template-columns:240px minmax(0,1fr);align-items:start}.process-portrait{margin:32px 0 0 24px;width:216px}}
-@media(min-width:1280px){.process-profile{grid-template-columns:240px minmax(0,1fr);align-items:start}.process-portrait{margin:32px 0 0 24px;width:216px}}
 .process-motion-control{margin-top:16px;padding:8px 0;color:#bcbcbc;text-decoration:underline;text-underline-offset:4px;font-size:12px;cursor:pointer}
 .process-skip{position:fixed;top:-100px;left:16px;z-index:100;padding:12px 20px;background:#ccff00;color:#050505}
 .process-skip:focus{top:10px}
@@ -31,9 +28,55 @@
 .process-page[data-motion-paused="true"] *{animation:none!important;transition:none!important}
 .process-page:is([data-motion-paused="true"],[data-process-static="true"]) #prozess{position:relative!important;height:auto!important;min-height:0!important}
 
-.process-page:is([data-motion-paused="true"],[data-process-static="true"]) .process-steps-section{position:relative!important;height:auto!important;overflow:visible;z-index:auto}
+.process-page:is([data-motion-paused="true"],[data-process-static="true"]) .process-steps-section{position:relative!important;top:auto!important;height:auto!important;overflow:visible;z-index:auto}
 .process-page:is([data-motion-paused="true"],[data-process-static="true"]) .process-scroll-space{display:none}
 .process-page:is([data-motion-paused="true"],[data-process-static="true"]) .prozess-grid{height:auto!important}
 .process-page:is([data-motion-paused="true"],[data-process-static="true"]) .process-card-frame{position:relative;height:auto;overflow:visible}
 .process-page:is([data-motion-paused="true"],[data-process-static="true"]) [class*="desktop-card-"]{position:relative!important;top:auto!important;height:auto!important;transform:none!important}
-@media(prefers-reduced-motion:reduce){.process-steps-section{position:relative!important;height:auto!important;overflow:visible;z-index:auto}.process-card-frame{position:relative;height:auto;overflow:visible}[class*="desktop-card-"]{position:relative!important;top:auto!important;height:auto!important}}
+@media(prefers-reduced-motion:reduce){.process-steps-section{position:relative!important;top:auto!important;height:auto!important;overflow:visible;z-index:auto}.process-card-frame{position:relative;height:auto;overflow:visible}[class*="desktop-card-"]{position:relative!important;top:auto!important;height:auto!important}}
+
+/* Native sticky scene; the text track keeps all four steps readable on small phones. */
+.process-mobile-layout{height:100%;flex-direction:column;background:#fff;border-inline:1px solid #1a1a1a}
+.process-mobile-intro{flex:none;padding:20px 24px 16px}
+.process-mobile-intro h2{font-size:26px;line-height:1.08;font-weight:700;margin:12px 0}
+.process-mobile-lead{font-size:12px;line-height:1.5;color:#666;max-width:450px}
+.process-mobile-progress{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-top:16px}
+.process-mobile-progress>div{min-width:0}
+.process-mobile-bar{display:block;height:2px;background:#ccc;margin-bottom:8px}
+.process-mobile-number{font-size:10px;display:block;width:fit-content;padding:0 3px}
+.process-mobile-progress strong{display:block;font-size:9px;text-transform:uppercase;font-weight:600;margin-top:3px}
+.process-mobile-progress [data-active=true] :is(.process-mobile-bar,.process-mobile-number){background:#ccff00}
+.process-mobile-window{flex:1;min-height:0;overflow:hidden;position:relative}
+.process-mobile-track{position:relative}
+.mobile-prozess-card{border-top:1px solid #1a1a1a;background:#fff;padding:18px 24px}
+.mobile-prozess-card>div{display:flex;align-items:center;gap:12px;margin-bottom:9px}
+.mobile-prozess-card>div>span{background:#ccff00;padding:0 4px;font-size:19px;font-weight:600;line-height:1.4}
+.mobile-prozess-card h3{font-size:16px;font-weight:700}
+.mobile-prozess-card p{font-size:13px;line-height:1.6;color:#666}
+.process-mobile-cta{flex:none;border-top:1px solid #1a1a1a;padding:16px 24px}
+.process-mobile-cta button{width:100%;padding:12px 10px;font-size:11px}
+@media(max-width:767px){
+  .process-steps-section{top:min(72px,calc(100svh - var(--process-mobile-min-height,0px)));height:max(calc(100svh - 72px),var(--process-mobile-min-height,0px))}
+  .process-mobile-layout{display:flex}
+}
+@media(max-width:767px) and (max-height:650px){
+  .process-mobile-intro{padding:14px 20px 12px}
+  .process-mobile-intro h2{font-size:22px;margin:8px 0}
+  .process-mobile-progress{margin-top:12px}
+  .mobile-prozess-card{padding:14px 20px}
+  .mobile-prozess-card p{font-size:12px;line-height:1.5}
+  .process-mobile-cta{padding:12px 20px}
+}
+.process-page[data-motion-paused=true] .process-mobile-layout{height:auto}
+.process-page[data-motion-paused=true] .process-mobile-window{overflow:visible}
+.process-page[data-motion-paused=true] .process-mobile-track{transform:none!important}
+@media(prefers-reduced-motion:reduce){
+  .process-mobile-layout{height:auto}
+  .process-mobile-window{overflow:visible}
+  .process-mobile-track{transform:none!important}
+}
+@media(max-width:1023px){
+  .why-card.why-card-active{background:#0a0a0a;border-color:#0a0a0a}
+  .why-card.why-card-active h3{color:#fff}
+  .why-card.why-card-active p{color:#d0d0d0;border-color:#ffffff33}
+}

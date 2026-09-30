@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import QuizModal from "@/components/QuizModal";
 import Applications from "./Applications";
+import Profile from "./Profile";
 import SiteNav from "@/components/SiteNav";
 import SiteFooter from "@/components/SiteFooter";
 import gsap from "gsap";
@@ -96,18 +97,22 @@ export default function Page() {
         const measure = () => {
             const available = window.innerHeight - 64;
             if (window.innerWidth < 768) {
-                const layout = root.querySelector<HTMLElement>('[data-mobile-process-layout]');
-                if (!layout) return;
-                const children = Array.from(layout.children) as HTMLElement[];
-                const needed = children.reduce((sum, el) => sum + el.offsetHeight, 0) + 24 + 24 + 2;
-                setProcessStatic(needed > available + 2);
+                // Mobile uses a moving text track, so it does not need every step to fit at once.
+                setProcessStatic(false);
+                const intro = root.querySelector<HTMLElement>('.process-mobile-intro');
+                const footer = root.querySelector<HTMLElement>('.process-mobile-cta');
+                const cards = Array.from(root.querySelectorAll<HTMLElement>('.mobile-prozess-card'));
+                if (intro && footer && cards.length) {
+                    const needed = intro.offsetHeight + footer.offsetHeight + Math.max(...cards.map(card => card.offsetHeight)) + 2;
+                    root.style.setProperty('--process-mobile-min-height', `${needed}px`);
+                }
             } else {
                 const cards = Array.from(root.querySelectorAll<HTMLElement>('.process-card-content'));
                 setProcessStatic(cards.some(el => el.offsetHeight + 40 > available / 4));
             }
         };
         const observer = new ResizeObserver(measure);
-        root.querySelectorAll('.process-card-content, [data-mobile-process-layout] > div').forEach(el => observer.observe(el));
+        root.querySelectorAll('.process-card-content, .mobile-prozess-card, [data-mobile-process-layout] > div').forEach(el => observer.observe(el));
         window.addEventListener('resize', measure);
         measure();
         return () => { observer.disconnect(); window.removeEventListener('resize', measure); };
@@ -142,7 +147,7 @@ export default function Page() {
         // --- HERO PARALLAX: subtle upward drift as user scrolls (DESKTOP ONLY).
         //     Scrubbing a position:fixed, full-screen (100svh) element every scroll frame is a
         //     major jank source on mobile, where the URL bar also resizes the viewport mid-scroll.
-        //     On mobile the hero simply stays put and content scrolls over it -- smooth by default. ---
+        //     Mobile disperses the words within its normally scrolling introduction. ---
         mm.add("(min-width: 768px) and (min-height: 741px) and (prefers-reduced-motion: no-preference)", () => {
             const heroSection = document.getElementById('hero-sticky-section');
             if (heroSection) {
@@ -291,58 +296,61 @@ export default function Page() {
         });
 
         mm.add("(max-width: 767px) and (prefers-reduced-motion: no-preference)", () => {
-            if (processStatic) { setActiveStep(3); return; }
-            const cards = gsap.utils.toArray('.mobile-prozess-card') as HTMLElement[];
-            const prozessWrapper = document.querySelector('#prozess');
+            // The introduction stays in document flow; only its words disperse.
+            const heroTl = gsap.timeline({ scrollTrigger: {
+                id: "process-mobile-hero", trigger: "#hero-sticky-section",
+                start: "top top", end: "top -45%", scrub: 0.35,
+                invalidateOnRefresh: true
+            }});
+            words.forEach((word, i) => {
+                heroTl.to(word, { x: (i % 2 ? 1 : -1) * (24 + i * 5), y: -45 - i * 6,
+                    z: -180, rotationX: 18, rotationY: i % 2 ? 20 : -20,
+                    rotationZ: i % 2 ? 6 : -6, opacity: 0, scale: 0.65,
+                    ease: "power1.in" }, 0);
+            });
 
-            if (cards.length > 0 && prozessWrapper) {
-                const tlMobile = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: prozessWrapper,
-                        start: "top 64px",
-                        end: "+=1000",
-                        // NO pin — the section is CSS-sticky and stays anchored while the
-                        // 1000px spacer after it scrolls by (spacer height must match `end`).
-                        // The next section then slides over the anchored one.
-                        scrub: 0.6,
-                        onUpdate: (self) => {
-                            let step = -1;
-                            if (self.progress >= 0.9) step = 3;
-                            else if (self.progress >= 0.67) step = 2;
-                            else if (self.progress >= 0.45) step = 1;
-                            else if (self.progress >= 0.22) step = 0;
-
-                            if (step !== activeStepRef.current) {
-                                activeStepRef.current = step;
-                                setActiveStep(step);
-                            }
-                        }
+            const cards = gsap.utils.toArray<HTMLElement>('.mobile-prozess-card');
+            const track = pageRef.current?.querySelector<HTMLElement>('.process-mobile-track');
+            const frame = pageRef.current?.querySelector<HTMLElement>('.process-mobile-window');
+            if (cards.length && track && frame) {
+                const tl = gsap.timeline({ scrollTrigger: {
+                    id: "process-mobile-steps", trigger: "#prozess",
+                    start: () => `top ${Math.min(72, window.innerHeight - (pageRef.current?.querySelector<HTMLElement>('.process-steps-section')?.offsetHeight || 0))}px`,
+                    end: "+=1400",
+                    scrub: 0.4, invalidateOnRefresh: true,
+                    onUpdate: self => {
+                        const step = Math.min(3, Math.floor(self.progress * 4));
+                        if (step !== activeStepRef.current) { activeStepRef.current = step; setActiveStep(step); }
                     }
+                }});
+                gsap.set(cards.slice(1), { opacity: 0, y: 40 });
+                gsap.set(track, { y: 0 });
+                cards.slice(1).forEach((card, index) => {
+                    const at = 0.2 + index * 0.25;
+                    tl.to(card, { opacity: 1, y: 0, duration: 0.16, ease: "none" }, at);
+                    tl.to(track, { y: () => -Math.max(0, card.offsetTop + card.offsetHeight - frame.clientHeight),
+                        duration: 0.16, ease: "none" }, at);
                 });
-                
-                // All cards start hidden and pushed down
-                gsap.set(cards, { opacity: 0, y: 50 });
-                
-                // Animate all cards in sequentially
-                cards.forEach((card, idx) => {
-                    tlMobile.to(card, {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.25,
-                        ease: "power2.out"
-                    }, idx * 0.25);
-                });
-                
-                // Add dead space (approx 100px / 1 scroll tick) so the 4th card finishes arriving just before unpinning
-                tlMobile.set({}, {}, 1.10);
+                tl.set({}, {}, 1);
             }
+        });
+
+        mm.add("(max-width: 1023px) and (prefers-reduced-motion: no-preference)", () => {
+            gsap.utils.toArray<HTMLElement>('.why-card').forEach(card => {
+                gsap.fromTo(card, { opacity: 0, y: 44 }, { opacity: 1, y: 0, ease: "none",
+                    scrollTrigger: { trigger: card, start: "top 92%", end: "top 65%", scrub: 0.35 }
+                });
+                ScrollTrigger.create({ trigger: card, start: "top 60%", end: "bottom 40%",
+                    toggleClass: { targets: card, className: "why-card-active" }
+                });
+            });
         });
 
         // Remaining desktop animations
         mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
             // 6. WARUM WIR
             const wwHeader = document.querySelector('#warum-ich > div > div:first-child') as HTMLElement;
-            const wwCards = gsap.utils.toArray('#warum-ich .group') as HTMLElement[];
+            const wwCards = gsap.utils.toArray('#warum-ich .why-card') as HTMLElement[];
             
             const wwTl = gsap.timeline({
                 scrollTrigger: {
@@ -493,8 +501,10 @@ export default function Page() {
                     </div>
 
                     <h1 className="hero-headline text-vanta mb-6 md:mb-8 process-hero-title" style={{ transformStyle: 'preserve-3d' }}>
-                        <span className="process-hero-line"><span className="hero-word inline-block">Systeme,</span>{" "}<br className="process-mobile-break" /><span className="hero-word inline-block">die</span>{" "}<span className="hero-word inline-block">Ihnen</span></span>{" "}
-                        <span className="process-hero-line"><span className="hero-word inline-block">Arbeit</span>{" "}<span className="hero-word inline-block brutalist-marker">abnehmen.</span></span>
+                        <span className="hero-word inline-block">Systeme,</span>{" "}<span className="hero-word inline-block">die</span>{" "}<br className="process-mobile-break" />
+                        <span className="hero-word inline-block">Ihnen</span>{" "}<br className="process-desktop-break" />
+                        <span className="hero-word inline-block">Arbeit</span>{" "}<br className="process-mobile-break" />
+                        <span className="hero-word inline-block brutalist-marker">abnehmen.</span>
                     </h1>
 
                     <p className="text-lg md:text-xl text-mute leading-relaxed mb-10 md:mb-10 hero-element process-hero-copy">
@@ -696,61 +706,26 @@ export default function Page() {
                     <div className="w-full max-w-[1440px] h-full md:h-auto">
                         
                         {/* Mobile view container */}
-                        <div data-mobile-process-layout className="md:hidden px-6 pt-6 border-x border-gridline bg-white flex flex-col justify-between h-full w-full gap-3">
-                            <div className="flex flex-col gap-2">
-                                <p className="font-mono text-xs uppercase tracking-widest">
-                                    <span className="brutalist-marker text-vanta">Prozess</span>
-                                </p>
-                                <h2 className="text-2xl  font-bold leading-tight text-vanta">Der Weg zu<br />Ihrer Lösung.</h2>
-                                <p className="text-mute text-xs leading-relaxed font-light">Transparente Meilensteine von der Analyse bis zum Betrieb. Keine Blackbox.</p>
-                                
-                                {/* Mobile Horizontal Progress bar */}
-                                <div aria-hidden="true" className="flex flex-col w-full relative z-20 mt-3 mb-2">
-                                    <div className="flex gap-1.5 w-full mb-2">
-                                        {prozessData.map((s, i) => (
-                                            <span key={s.n} className={`h-[2px] flex-1 transition-colors duration-500 ${i <= activeStep ? 'bg-lime' : 'bg-vanta/15'}`} />
-                                        ))}
-                                    </div>
-                                    <div className="flex justify-between w-full">
-                                        {prozessData.map((s, i) => (
-                                            <div key={s.n} className="flex-1 text-left pr-1">
-                                                <span className={`block w-fit font-mono text-[9px] tracking-widest px-1 -ml-1 transition-colors duration-300 ${activeStep >= i ? 'bg-lime text-vanta' : 'text-vanta/60'}`}>
-                                                    {s.n}
-                                                </span>
-                                                <span className={`block text-[9px] sm:text-[10px] uppercase font-bold tracking-tight transition-colors duration-300 mt-0.5 ${activeStep === i ? 'text-vanta' : 'text-vanta/60'} truncate sm:whitespace-normal`}>
-                                                    {s.title}
-                                                </span>
-                                            </div>
-                                        ))}
-                                    </div>
+                        <div data-mobile-process-layout className="process-mobile-layout md:hidden">
+                            <header className="process-mobile-intro">
+                                <p className="font-mono text-xs uppercase tracking-widest"><span className="brutalist-marker text-vanta">Prozess</span></p>
+                                <h2>Der Weg zu<br />Ihrer Lösung.</h2>
+                                <p className="process-mobile-lead">Transparente Meilensteine von der Analyse bis zum Betrieb. Keine Blackbox.</p>
+                                <div className="process-mobile-progress" aria-hidden="true">
+                                    {prozessData.map((step, index) => <div key={step.n} data-active={index <= activeStep}>
+                                        <span className="process-mobile-bar" /><span className="process-mobile-number">{step.n}</span><strong>{step.title}</strong>
+                                    </div>)}
+                                </div>
+                            </header>
+                            <div className="process-mobile-window">
+                                <div className="process-mobile-track">
+                                    {prozessData.map(step => <div className="mobile-prozess-card" key={step.n}>
+                                        <div><span>{step.n}</span><h3>{step.title}</h3></div>
+                                        <p>{step.text}</p>
+                                    </div>)}
                                 </div>
                             </div>
-
-                            {/* Mobile sequential cards under each other */}
-                            <div className="flex flex-col flex-1 w-[calc(100%+3rem)] -mx-6">
-                                {prozessData.map((s, i) => (
-                                    <div
-                                        key={s.n}
-                                        className="mobile-prozess-card border-t border-gridline px-6 py-3 sm:py-4 bg-white flex flex-col justify-center flex-1 will-change-transform"
-                                    >
-                                        <div className="flex items-center gap-3 mb-1">
-                                            <span className="font-mono bg-lime text-vanta px-1 text-base font-bold">{s.n}</span>
-                                            <h3 className="text-sm  font-bold text-vanta">{s.title}</h3>
-                                        </div>
-                                        <p className="text-mute text-[11px] sm:text-xs leading-normal font-light">{s.text}</p>
-                                    </div>
-                                ))}
-                            </div>
-
-                            {/* Mobile CTA Button — 5th tile */}
-                            <div className="mt-auto w-[calc(100%+3rem)] -mx-6 border-t border-gridline px-6 py-5 bg-white">
-                                <button 
-                                    onClick={openQuiz}
-                                    className="w-full btn-glitch bg-lime text-vanta font-mono font-bold uppercase py-3 px-5 border border-lime text-xs text-center cursor-pointer"
-                                >
-                                    Potenzial kostenlos analysieren
-                                </button>
-                            </div>
+                            <div className="process-mobile-cta"><button onClick={openQuiz} className="btn-glitch bg-lime text-vanta font-mono font-bold uppercase border border-lime cursor-pointer">Potenzial kostenlos analysieren</button></div>
                         </div>
 
                         {/* Desktop: Pinned 2-column Slider */}
@@ -870,9 +845,9 @@ export default function Page() {
                 </section>
 
                 {/* Mobile scrub distance: the section stays anchored (sticky) while this transparent
-                    spacer scrolls by; then #branchen slides over it. Height must stay in sync with
-                    the mobile ScrollTrigger end "+=1000". */}
-                <div className="process-scroll-space h-[1000px] md:hidden pointer-events-none motion-reduce:hidden" aria-hidden="true" />
+                    spacer scrolls by; then #anwendungen slides over it. Height matches
+                    the mobile ScrollTrigger end "+=1400". */}
+                <div className="process-scroll-space h-[1400px] md:hidden pointer-events-none motion-reduce:hidden" aria-hidden="true" />
 
                 <Applications onAnalyse={openQuiz} />
 
@@ -898,7 +873,7 @@ export default function Page() {
                         ].map((item, idx) => (
                             <div
                                 key={idx}
-                                className={`group relative p-6 sm:p-8 lg:p-10 overflow-hidden transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-[#0a0a0a] hover:border-[#0a0a0a] reveal z-10 ${
+                                className={`why-card group relative p-6 sm:p-8 lg:p-10 overflow-hidden transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-[#0a0a0a] hover:border-[#0a0a0a] reveal z-10 ${
                                     idx === 0
                                         ? 'border-b md:border-r lg:border-b-0 border-gridline'
                                         : idx === 1
@@ -935,16 +910,7 @@ export default function Page() {
                             <p className="text-bone/70 text-sm max-w-sm">Mich interessiert, wie Ihr Unternehmen arbeitet – und was Ihnen im Alltag tatsächlich helfen würde.</p>
                         </div>
 
-                        <article className="lg:col-span-8 bg-[#0a0a0a] process-profile">
-                            <img src={`${basePath}/FOTOS/leonid_cropped_2.webp`} alt="Leonid Ryazanskiy, Ihr Ansprechpartner bei leoquent" width="1400" height="1868" loading="lazy" className="process-portrait" />
-                            <div className="p-6 md:p-10">
-                                <h3 className="text-3xl font-bold mb-5">Leonid Ryazanskiy.</h3>
-                                <p className="text-base leading-relaxed text-white/80 mb-5">Seit über einem Jahrzehnt arbeite ich als Copywriter und Konzeptioner für Marken. In Agenturen wie Scholz &amp; Friends, Serviceplan und Havas habe ich gelernt, komplexe Aufgaben zu verstehen, die entscheidenden Fragen zu stellen und daraus klare Konzepte zu entwickeln.</p>
-                                <p className="text-base leading-relaxed text-white/80 mb-5">Diese Arbeit verbindet Strategie und Kreativität. Ein gutes Konzept muss zu den Menschen passen, die damit arbeiten – und sich im Alltag bewähren. Genau diesen Blick bringe ich in Ihre Prozesse ein: Was braucht Ihr Team? Wo stockt die Arbeit? Und welche Verbindung oder welches Werkzeug würde wirklich helfen?</p>
-                                <p className="text-base leading-relaxed text-white/80 mb-5">In KI-Workshops habe ich Creative Teams an neue Arbeitsweisen herangeführt. Heute entwickle ich selbst passende Anwendungen und Automatisierungen. Als Strategic AI Engineer übersetze ich zwischen dem, was Ihr Unternehmen braucht, und dem, was KI und Software dafür leisten müssen. Ich entwickle die strategische Richtung und mache aus Ihrer Geschäftslogik klare Regeln, Datenwege und überprüfbare Abläufe.</p>
-                                <p className="text-base leading-relaxed text-white/80 mb-5">Sie sprechen direkt mit mir – von der ersten Frage über den Prototyp bis zur Einführung. Ich mache Zusammenhänge verständlich und halte Ziele, Grenzen und nächste Schritte fest. Je nach Aufgabe ergänze ich meine Arbeit durch mein Netzwerk aus Entwicklung und Gestaltung.</p>
-                            </div>
-                        </article>
+                        <Profile />
 
                     </div>
                 </div>

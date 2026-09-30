@@ -59,7 +59,7 @@ export default function Applications({ onAnalyse }: { onAnalyse: () => void }) {
         <p className={styles.prompt}>Sechs Situationen. Was kennen Sie davon?</p>
         {applications.map(item => <div key={item.id}>
           <button type="button" className={styles.trigger} aria-expanded={openMobile === item.id} aria-controls={`application-${item.id}`} onClick={() => setOpenMobile(openMobile === item.id ? null : item.id)}>
-            <span>{item.label}</span><span className={styles.arrow} aria-hidden="true">{openMobile === item.id ? "−" : "+"}</span>
+            <span>{item.label}</span><span className={styles.expandIcon} aria-hidden="true"><svg viewBox="0 0 32 32"><path fill="currentColor" fillRule="evenodd" d={openMobile === item.id ? "M16 0a16 16 0 1 1 0 32A16 16 0 0 1 16 0ZM8 14v4h16v-4H8Z" : "M16 0a16 16 0 1 1 0 32A16 16 0 0 1 16 0ZM14 7v7H7v4h7v7h4v-7h7v-4h-7V7h-4Z"} /></svg></span>
           </button>
           <div className={styles.detail} id={`application-${item.id}`} hidden={openMobile !== item.id} role="region" aria-labelledby={`application-${item.id}-heading`}>
             <Example item={item} headingId={`application-${item.id}-heading`} />

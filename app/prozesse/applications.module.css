@@ -12,6 +12,7 @@
 @media(hover:hover){.trigger:hover{background:#171b0c}}
 .trigger[aria-pressed=true],.trigger[aria-expanded=true]{background:#ccff00;color:#050505}
 .trigger[aria-pressed=true] .arrow{transform:rotate(-45deg)}
+.expandIcon{display:block;flex:none;width:34px;height:34px;color:#ccff00}.expandIcon svg{display:block;width:100%;height:100%}.trigger[aria-expanded=true] .expandIcon{color:#050505}
 .trigger:focus-visible,.bottom button:focus-visible{outline:3px solid #ccff00;outline-offset:-5px}.trigger:is([aria-pressed=true],[aria-expanded=true]):focus-visible{outline-color:#050505}
 .detail{padding:34px 40px 30px;min-width:0;background:#10120d;line-height:1.5}.detail[hidden]{display:none}
 .context{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#ccff00;margin:0 0 16px}
