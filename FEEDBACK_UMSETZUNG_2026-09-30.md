@@ -80,6 +80,8 @@ Primärquellen, geprüft am 30.09.2026:
 
 ## Offene Angaben von Leo
 
+**Du musst nicht das gesamte Dokument beantworten.** Für die nächste Inhaltsrunde reichen die Punkte 1–3. Das Kundenzitat folgt, sobald der Kunde antwortet; Suchstatistik-Zugänge können wir nach der Sichtung klären. Deine Angaben zum Umfang des Gebrüder-Ross-Projekts sind inzwischen eingearbeitet.
+
 1. **Persönliche Motivation:** Warum hast du Leoquent gestartet, und welche Art Zusammenarbeit macht dir besonders Freude? Drei ehrliche Sätze reichen.
 2. **Awards konkret:** Welche zwei oder drei Arbeiten können wir mit Marke, Jahr, Wettbewerb, Auszeichnung und deinem genauen Anteil nennen oder verlinken?
 3. **Zielkunden/Region:** Welche Aufträge möchtest du in den nächsten sechs Monaten besonders gewinnen? Vor Ort im Raum Düsseldorf oder überregional?
@@ -118,3 +120,20 @@ Die Nachricht ist vorbereitet, nicht versendet. Ein freigegebenes Zitat passt di
 **Dokumentationsabweichungen:** Die bestehende `AGENTS.md` beschreibt den Lead-Versand noch als Web3Forms/offen; der aktuelle Code nutzt bereits `https://api.lqnt.de/lead`. Ältere Roadmap-/Copy-Dokumente sind daher nicht als ungeprüfte Quelle für den Live-Stand geeignet. Dieser Bericht hält die Entscheidungen dieser Überarbeitung fest.
 
 Screenshots und maschinenlesbare Prüfergebnisse liegen lokal unter `Eigener-Auftritt/gesammeltes Feedback/Website-Pruefung/`.
+
+## Ergänzung: Gebrüder Ross als vollständige Referenz
+
+Die ergänzenden Angaben von Leo und der achtseitige Projektbericht aus der Übergabe vom 29.09.2026 wurden ausgewertet. Die Referenz beschreibt jetzt Recherche, Zielgruppenverständnis, gesamte Textentwicklung, Logoentwicklung und Vektoraufbereitung, KI-gestützte Bildbearbeitung, sechs Leistungsseiten, mobile Optimierung, eigenen Formular-Endpunkt, Besucherstatistik sowie Domain und Hosting.
+
+Die fachliche Abstimmung mit einem Nachlasspfleger aus Stuttgart stammt aus Leos aktueller Angabe. Sie wird ohne Namensnennung oder erfundenes Empfehlungsschreiben beschrieben. Die Statistik wird konkret als selbst gehostet, ohne Analyse-Cookies und ohne IP-Speicherung in der Statistik eingeordnet. Daraus entsteht keine pauschale rechtliche Compliance-Zusage. Historische Kompressionswerte werden nicht als neu gemessener Ladezeitgewinn dargestellt. Private Verträge und Übergabedokumente bleiben außerhalb des öffentlichen Repositorys.
+
+### Einheitliches Format für weitere Referenzen
+
+1. **Aufgabe und Zielgruppe:** Was musste der Auftritt leisten?
+2. **Desktop-Rundgang und mobile Ansicht:** echte Websiteaufnahme mit bewusstem Start, Standbild vor Wiedergabe; keine automatisch laufende Schleife.
+3. **Entscheidungen und Beitrag:** Recherche, Sprache, Gestaltung und Umsetzung verständlich erläutern.
+4. **Zwei bis drei Detailansichten:** beispielsweise Menschen, Leistungserklärung oder besondere Interaktion. Jede Ansicht erklärt eine konkrete Entscheidung.
+5. **Betrieb und belegbare Ergebnisse:** Umfang und technische Entscheidungen; Geschäftserfolge nur mit Nachweis.
+6. **Echtes Kundenzitat:** sobald Wortlaut, Name und Funktion freigegeben sind.
+
+`ProjectShowcase` stellt das wiederverwendbare Medienformat bereit. Gebrüder Ross hat einen kurzen stummen WebM-Rundgang, eine Smartphoneansicht und zusätzliche Screenshots von Team und Leistungen. Das Video lädt erst auf Anforderung (`preload="none"`) und läuft nicht automatisch. Die Bilder und Texte vermitteln den Inhalt auch ohne Wiedergabe.

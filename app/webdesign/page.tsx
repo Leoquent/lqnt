@@ -93,13 +93,13 @@ export default function WebdesignPage() {
         <article className={s.project} data-reveal>
           <button className={s.projectSummary} aria-expanded={projectOpen} aria-controls="gebruederross-details" onClick={() => setProjectOpen(!projectOpen)}>
             <div className={s.projectVisual}><img src={basePath + "/referenzen/gebrueder-ross-desktop.webp"} alt="Gebrüder Ross: Website mit klarer Typografie in Dunkelblau und Gold" width="1440" height="1000" loading="lazy" /></div>
-            <div className={s.projectText}><p className={s.eyebrow}>Webdesign · Text · Interaktion</p><h3>Gebrüder Ross</h3><p>Nachlassabwicklung verständlich machen. Leistungen ordnen. Persönliches Vertrauen aufbauen.</p></div>
+            <div className={s.projectText}><p className={s.eyebrow}>Recherche · Marke · Website</p><h3>Gebrüder Ross</h3><p>Nachlassabwicklung verständlich machen. Leistungen ordnen. Persönliches Vertrauen aufbauen.</p></div>
             <span className={s.projectToggle}>{projectOpen ? "Weniger" : "Projekt ansehen"}<span className={s.plus} aria-hidden="true">{projectOpen ? "−" : "+"}</span></span>
           </button>
           <div id="gebruederross-details" className={s.expand} data-open={projectOpen} inert={!projectOpen}>
             <div className={s.expandInner}><div className={s.projectDetails}>
               <div><p className={s.eyebrow}>Die Aufgabe</p><h4>Ein sensibles Thema.<br />Eine klare Orientierung.</h4><p>Gebrüder Ross unterstützt Nachlasspfleger und Nachlassverwalter im Großraum Stuttgart. Die Website erklärt ein breites Angebot: von der ersten Objektbegehung über die Verwertung bis zur Räumung und Übergabe.</p></div>
-              <div><p className={s.eyebrow}>Der Auftritt</p><h4>Leistungen erklären.<br />Die Menschen dahinter zeigen.</h4><p>Eine ruhige Gestaltung, konkrete Leistungsbeschreibungen und persönliche Ansprechpartner machen das Angebot greifbar. Eigene Unterseiten geben wichtigen Anliegen mehr Raum.</p><ul><li>Leistungsübersicht mit gezielt aufklappbaren Details</li><li>Häufige Fragen und direkte Kontaktwege</li><li>Responsive Darstellung für Handy und Desktop</li></ul><Link href="/referenzen/gebrueder-ross/" className={s.textLink}>Das Projekt im Detail <Arrow diagonal /></Link></div>
+              <div><p className={s.eyebrow}>Der Auftritt</p><h4>Leistungen erklären.<br />Die Menschen dahinter zeigen.</h4><p>Von Zielgruppenrecherche und Logo über sämtliche Texte bis zur Entwicklung: Der Auftritt verbindet eine ruhige Gestaltung mit persönlichen Ansprechpartnern. Domain und Hosting übernehme ich ebenfalls.</p><ul><li>Sechs Leistungsseiten und mobile Detailansichten</li><li>Eigene Bildsprache mit KI-gestütztem Fotoshooting</li><li>Schlanke Umsetzung und eigener Formular-Endpunkt</li></ul><Link href="/referenzen/gebrueder-ross/" className={s.textLink}>Das Projekt im Detail <Arrow diagonal /></Link></div>
             </div></div>
           </div>
         </article>
