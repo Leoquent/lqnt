@@ -60,7 +60,7 @@
 .process-page:is([data-motion-paused="true"],[data-process-static="true"]) [class*="desktop-card-"]{position:relative!important;top:auto!important;height:auto!important;transform:none!important}
 @media(prefers-reduced-motion:reduce){.process-steps-section{position:relative!important;top:auto!important;height:auto!important;overflow:visible;z-index:auto}.process-card-frame{position:relative;height:auto;overflow:visible}[class*="desktop-card-"]{position:relative!important;top:auto!important;height:auto!important}}
 
-/* Native sticky scene; the text track keeps all four steps readable on small phones. */
+/* Original mobile scene: four fixed rows appear in sequence and stay together. */
 .process-mobile-layout{height:100%;flex-direction:column;background:#fff;border-inline:1px solid #1a1a1a}
 .process-mobile-intro{flex:none;padding:20px 24px 16px}
 .process-mobile-intro h2{font-size:26px;line-height:1.08;font-weight:700;margin:12px 0}
@@ -71,30 +71,37 @@
 .process-mobile-number{font-size:10px;display:block;width:fit-content;padding:0 3px}
 .process-mobile-progress strong{display:block;font-size:9px;text-transform:uppercase;font-weight:600;margin-top:3px}
 .process-mobile-progress [data-active=true] :is(.process-mobile-bar,.process-mobile-number){background:#ccff00}
-.process-mobile-window{flex:1;min-height:0;overflow:hidden;position:relative}
-.process-mobile-track{position:relative}
-.mobile-prozess-card{border-top:1px solid #1a1a1a;background:#fff;padding:18px 24px}
-.mobile-prozess-card>div{display:flex;align-items:center;gap:12px;margin-bottom:9px}
-.mobile-prozess-card>div>span{background:#ccff00;padding:0 4px;font-size:19px;font-weight:600;line-height:1.4}
-.mobile-prozess-card h3{font-size:16px;font-weight:700}
-.mobile-prozess-card p{font-size:13px;line-height:1.6;color:#666}
+.process-mobile-window{flex:1;min-height:0;position:relative;display:flex}
+.process-mobile-track{position:relative;display:flex;flex:1;flex-direction:column}
+.mobile-prozess-card{flex:1;display:flex;flex-direction:column;justify-content:center;border-top:1px solid #1a1a1a;background:#fff;padding:12px 24px}
+.mobile-prozess-card>div{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.mobile-prozess-card>div>span{background:#ccff00;padding:0 4px;font-size:16px;font-weight:700;line-height:1.4}
+.mobile-prozess-card h3{font-size:14px;font-weight:700}
+.mobile-prozess-card p{font-size:11px;line-height:1.5;color:#666}
 .process-mobile-cta{flex:none;border-top:1px solid #1a1a1a;padding:16px 24px}
 .process-mobile-cta button{width:100%;padding:12px 10px;font-size:11px}
 @media(max-width:767px){
   .process-steps-section{top:min(72px,calc(100svh - var(--process-mobile-min-height,0px)));height:max(calc(100svh - 72px),var(--process-mobile-min-height,0px))}
   .process-mobile-layout{display:flex}
 }
-@media(max-width:767px) and (max-height:650px){
+@media(max-width:767px) and (max-height:740px){
   .process-mobile-intro{padding:14px 20px 12px}
   .process-mobile-intro h2{font-size:22px;margin:8px 0}
   .process-mobile-progress{margin-top:12px}
-  .mobile-prozess-card{padding:14px 20px}
-  .mobile-prozess-card p{font-size:12px;line-height:1.5}
+  .mobile-prozess-card{padding:6px 20px}
   .process-mobile-cta{padding:12px 20px}
 }
 .process-page[data-motion-paused=true] .process-mobile-layout{height:auto}
+@media(max-width:350px) and (max-height:650px){
+  .mobile-prozess-card{padding-block:3px}
+}
 .process-page[data-motion-paused=true] .process-mobile-window{overflow:visible}
 .process-page[data-motion-paused=true] .process-mobile-track{transform:none!important}
+@media(max-width:767px) and (max-height:480px){
+  .process-steps-section{position:relative;top:auto;height:auto;overflow:visible;z-index:auto}
+  .process-mobile-layout{height:auto}
+  .process-scroll-space{display:none}
+}
 @media(prefers-reduced-motion:reduce){
   .process-mobile-layout{height:auto}
   .process-mobile-window{overflow:visible}

@@ -99,13 +99,20 @@ export default function Page() {
             if (window.innerWidth < 768) {
                 const hero = root.querySelector<HTMLElement>('.process-hero-content');
                 if (hero) root.style.setProperty('--process-hero-height', `${hero.offsetHeight}px`);
-                // Mobile uses a moving text track, so it does not need every step to fit at once.
+                // Reserve the natural height of all four rows, as in the original
+                // accumulating scene. Short screens may scroll the intro above it.
                 setProcessStatic(false);
                 const intro = root.querySelector<HTMLElement>('.process-mobile-intro');
                 const footer = root.querySelector<HTMLElement>('.process-mobile-cta');
                 const cards = Array.from(root.querySelectorAll<HTMLElement>('.mobile-prozess-card'));
                 if (intro && footer && cards.length) {
-                    const needed = intro.offsetHeight + footer.offsetHeight + Math.max(...cards.map(card => card.offsetHeight)) + 2;
+                    const needed = intro.offsetHeight + footer.offsetHeight + cards.reduce((total, card) => {
+                        const style = getComputedStyle(card);
+                        return total + Array.from(card.children).reduce((height, child) => {
+                            const childStyle = getComputedStyle(child);
+                            return height + (child as HTMLElement).offsetHeight + parseFloat(childStyle.marginTop) + parseFloat(childStyle.marginBottom);
+                        }, 0) + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) + 1;
+                    }, 0) + 2;
                     root.style.setProperty('--process-mobile-min-height', `${needed}px`);
                 }
             } else {
@@ -341,30 +348,40 @@ export default function Page() {
                 });
             });
 
+        });
+
+        mm.add("(max-width: 767px) and (min-height: 481px) and (prefers-reduced-motion: no-preference)", () => {
             const cards = gsap.utils.toArray<HTMLElement>('.mobile-prozess-card');
-            const track = pageRef.current?.querySelector<HTMLElement>('.process-mobile-track');
-            const frame = pageRef.current?.querySelector<HTMLElement>('.process-mobile-window');
-            if (cards.length && track && frame) {
+            if (cards.length) {
                 const tl = gsap.timeline({ scrollTrigger: {
                     id: "process-mobile-steps", trigger: "#prozess",
                     start: () => `top ${Math.min(72, window.innerHeight - (pageRef.current?.querySelector<HTMLElement>('.process-steps-section')?.offsetHeight || 0))}px`,
-                    end: "+=1400",
-                    scrub: 0.4, invalidateOnRefresh: true,
+                    end: "+=1000",
+                    scrub: 0.6, invalidateOnRefresh: true,
                     onUpdate: self => {
-                        const step = Math.min(3, Math.floor(self.progress * 4));
+                        const step = self.progress >= 0.9 ? 3 : self.progress >= 0.67 ? 2 : self.progress >= 0.45 ? 1 : self.progress >= 0.22 ? 0 : -1;
                         if (step !== activeStepRef.current) { activeStepRef.current = step; setActiveStep(step); }
                     }
                 }});
-                gsap.set(cards.slice(1), { opacity: 0, y: 40 });
-                gsap.set(track, { y: 0 });
-                cards.slice(1).forEach((card, index) => {
-                    const at = 0.2 + index * 0.25;
-                    tl.to(card, { opacity: 1, y: 0, duration: 0.16, ease: "none" }, at);
-                    tl.to(track, { y: () => -Math.max(0, card.offsetTop + card.offsetHeight - frame.clientHeight),
-                        duration: 0.16, ease: "none" }, at);
+                gsap.set(cards, { opacity: 0, y: 50 });
+                cards.forEach((card, index) => {
+                    tl.to(card, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" }, index * 0.25);
                 });
-                tl.set({}, {}, 1);
+                tl.set({}, {}, 1.1);
             }
+        });
+
+        // In very short landscape windows, keep the same rows readable in page
+        // flow and reveal them in sequence as they enter the viewport.
+        mm.add("(max-width: 767px) and (max-height: 480px) and (prefers-reduced-motion: no-preference)", () => {
+            gsap.utils.toArray<HTMLElement>('.mobile-prozess-card').forEach((card, index) => {
+                gsap.fromTo(card, { opacity: 0, y: 30 }, { opacity: 1, y: 0, ease: 'power2.out',
+                    scrollTrigger: { trigger: card, start: 'top bottom', end: 'top 60%', scrub: 0.6,
+                        onEnter: () => { activeStepRef.current = index; setActiveStep(index); },
+                        onLeaveBack: () => { activeStepRef.current = index - 1; setActiveStep(index - 1); },
+                    },
+                });
+            });
         });
 
         mm.add("(max-width: 1023px) and (prefers-reduced-motion: no-preference)", () => {
@@ -878,8 +895,8 @@ export default function Page() {
 
                 {/* Mobile scrub distance: the section stays anchored (sticky) while this transparent
                     spacer scrolls by; then #anwendungen slides over it. Height matches
-                    the mobile ScrollTrigger end "+=1400". */}
-                <div className="process-scroll-space h-[1400px] md:hidden pointer-events-none motion-reduce:hidden" aria-hidden="true" />
+                    the mobile ScrollTrigger end "+=1000". */}
+                <div className="process-scroll-space h-[1000px] md:hidden pointer-events-none motion-reduce:hidden" aria-hidden="true" />
 
                 <Applications onAnalyse={openQuiz} />
 
