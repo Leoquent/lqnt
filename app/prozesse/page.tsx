@@ -300,18 +300,24 @@ export default function Page() {
         mm.add("(max-width: 767px) and (prefers-reduced-motion: no-preference)", () => {
             // The ticker rises over the stationary intro. Start while the headline
             // is still visible, including when a very short viewport needs some overflow.
+            const heroStart = () => Math.max(0, (document.getElementById('content-wrapper')?.offsetTop || 0)
+                - (document.getElementById('hero-sticky-section')?.offsetHeight || 0)) + 24;
             const heroTl = gsap.timeline({ scrollTrigger: {
                 id: "process-mobile-hero", trigger: "#content-wrapper",
-                start: () => Math.max(0, (document.getElementById('content-wrapper')?.offsetTop || 0)
-                    - (document.getElementById('hero-sticky-section')?.offsetHeight || 0)) + 24,
+                start: heroStart,
                 end: () => `+=${Math.max(220, window.innerHeight * 0.45)}`, scrub: 0.35,
                 invalidateOnRefresh: true
             }});
             words.forEach((word, i) => {
                 heroTl.to(word, { x: (i % 2 ? 1 : -1) * (24 + i * 5), y: -45 - i * 6,
                     z: -180, rotationX: 18, rotationY: i % 2 ? 20 : -20,
-                    rotationZ: i % 2 ? 6 : -6, opacity: 0, scale: 0.65,
+                    rotationZ: i % 2 ? 6 : -6, scale: 0.65,
                     ease: "power1.in" }, 0);
+            });
+
+            gsap.fromTo(words, { opacity: 1 }, { opacity: 0, ease: 'power1.in',
+                scrollTrigger: { id: 'process-mobile-hero-fade', trigger: '#content-wrapper',
+                    start: heroStart, end: 'top 10%', scrub: 0.35, invalidateOnRefresh: true },
             });
 
             // Keep the desktop depth/fade on the supporting content, with shorter
@@ -319,21 +325,24 @@ export default function Page() {
             // ticker on short screens, so the CTA and conversation note can be read.
             elements.forEach((element, i) => {
                 const isActions = element.classList.contains('process-hero-actions');
-                gsap.fromTo(element, {
-                    y: 0, z: 0, scale: 1, opacity: 1,
-                }, {
-                    y: -48, z: -120, scale: 0.85, opacity: 0,
-                    transformOrigin: 'left top', ease: 'none',
-                    scrollTrigger: {
-                        id: `process-mobile-hero-element-${i}`,
-                        trigger: '#content-wrapper',
-                        start: () => isActions
-                            ? Math.max(0, (document.getElementById('hero-sticky-section')?.offsetHeight || 0)
-                                - window.innerHeight) + 8
-                            : element.classList.contains('process-hero-eyebrow') ? 0 : 24,
-                        end: () => `+=${Math.max(160, window.innerHeight * 0.3)}`,
-                        scrub: 0.35, invalidateOnRefresh: true,
-                    },
+                const elementTrigger = {
+                    id: `process-mobile-hero-element-${i}`,
+                    trigger: '#content-wrapper',
+                    start: () => isActions
+                        ? Math.max(0, (document.getElementById('hero-sticky-section')?.offsetHeight || 0)
+                            - window.innerHeight) + 8
+                        : element.classList.contains('process-hero-eyebrow') ? 0 : 24,
+                    end: () => `+=${Math.max(160, window.innerHeight * 0.3)}`,
+                    scrub: 0.35, invalidateOnRefresh: true,
+                };
+                gsap.fromTo(element, { y: 0, z: 0, scale: 1 }, {
+                    y: -48, z: -120, scale: 0.85,
+                    transformOrigin: 'left top', ease: 'none', scrollTrigger: elementTrigger,
+                });
+                // Like desktop, retain contrast early and fade more strongly late.
+                gsap.fromTo(element, { opacity: 1 }, {
+                    opacity: 0, ease: 'power1.in',
+                    scrollTrigger: { ...elementTrigger, id: `process-mobile-hero-fade-${i}`, end: 'top 10%' },
                 });
             });
 
