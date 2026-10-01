@@ -24,13 +24,15 @@ export default function ProjectShowcase({ name, poster, mobile, color = "#142333
         scrollTrigger: { trigger: root.current, start: "clamp(top bottom)", end: "bottom top", scrub: .35, invalidateOnRefresh: true },
       });
       motion.fromTo("[data-project-desktop]", {
-        rotationY: small ? -5 : -9, rotationX: small ? 4 : 8,
-        y: small ? 12 : 22, z: small ? -12 : -28,
-      }, { rotationY: small ? 2 : 3, rotationX: -3, y: small ? -20 : -38, z: small ? -12 : -28 }, 0);
+        rotationY: small ? -2 : -4, rotationX: small ? 1 : 2,
+        y: small ? 5 : 10, z: small ? -10 : -24,
+      }, { rotationY: 0, rotationX: 0, y: small ? -9 : -18, z: small ? -10 : -24 }, 0);
+      // The foreground phone drifts down relative to the screen as the page scrolls up.
+      // Percentage travel keeps the composition balanced at intermediate viewport sizes.
       motion.fromTo("[data-project-mobile]", {
-        rotationY: small ? 4 : 8, rotationZ: small ? 3 : 4,
-        y: small ? 26 : 50, z: small ? 20 : 48,
-      }, { rotationY: -4, rotationZ: small ? -2 : -3, y: small ? -44 : -76, z: small ? 20 : 48 }, 0);
+        rotationY: small ? -2 : -3, rotationZ: 1,
+        yPercent: small ? -12 : -14, z: small ? 24 : 70,
+      }, { yPercent: small ? 20 : 24 }, 0);
     }, root);
     return () => mm.revert();
   }, { scope: root });
