@@ -518,14 +518,26 @@ Die Antworten sind aufklappbar; jeweils eine kann geöffnet sein.
 
 **Kontaktwege:**
 
-- `Projekt besprechen` — E-Mail an `hi@lqnt.de`, Betreff `Lassen Sie uns über meine Website sprechen`.
+- `Projekt besprechen` — öffnet den Webdesign-Projektfragebogen, ebenso wie der Button im Header und im Hero.
 - `Oder direkt anrufen` — Telefonlink zu `+49 176 47177623` (`tel:+4917647177623`).
 
 **Hinweis:** `Kostenloses Erstgespräch · unverbindlich`
 
-Die Kontaktaktion auf dieser Seite öffnet eine E-Mail. Es gibt hier kein eingebautes
-Kontaktformular, Terminbuchungsmodul oder Analyse-Quiz; solche Funktionen in den Paketen
-beschreiben Leistungen für Kundenwebsites.
+### Projektfragebogen – überarbeitet am 01.10.2026
+
+Der Einstieg fragt „Was haben Sie vor?“. Die Antwort bestimmt die Folgefragen:
+
+| Vorhaben | Fragenfolge | Schritte einschließlich Kontakt |
+|---|---|---|
+| Eine neue Website erstellen | Wichtigstes Ziel → grober Umfang → gewünschter Projektstart → Kontakt | 5 |
+| Meine bestehende Website verbessern | Wichtigster Verbesserungsbedarf → gewünschter Projektstart → Kontakt | 4 |
+| Logo und Markenauftritt entwickeln | Ausgangspunkt der Marke → gewünschter Projektstart → Kontakt | 4 |
+| Ich brauche erst Orientierung | Direkt zum Kontakt, mit freiwilliger Beschreibung | 2 |
+| Sonstiges | Eigenes Anliegen beschreiben → Kontakt | 2 |
+
+Website-Anfragen erhalten keine wiederholten Logo-Fragen. Vorhandene Markengrundlagen können im Erstgespräch geklärt oder freiwillig ergänzt werden. „Das möchte ich gemeinsam klären“ bleibt bei den Fachfragen als Antwort möglich; der Zeitpunkt darf offen bleiben.
+
+Beim Kontakt: Name, E-Mail und Telefonnummer; Website-Adresse und ergänzende Wünsche freiwillig. „Ihre Angaben prüfen“ öffnet die Zusammenfassung mit direkten Änderungsmöglichkeiten. Beim Wechsel des Vorhabens werden vorherige abhängige Antworten verworfen. Die Anfrage wird über den bestehenden eigenen Endpunkt versendet; sichtbarer Ausweichweg bei einem Fehler bleibt erhalten. Keine Terminbuchung oder Preiszusage durch den Fragebogen.
 
 ## Brücke zu Prozesse & Automatisierung
 

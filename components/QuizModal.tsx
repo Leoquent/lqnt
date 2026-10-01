@@ -2,117 +2,12 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
+import { createQuizAnswers, createLeadPayload, getQuizSteps, getQuizSummary, isQuizStepValid, isWebsiteQuiz, optionLabel, optionValue, updateQuizAnswer, type QuizAnswers } from "@/lib/quiz-flow";
 
 // Ziel für die Quiz-Anfragen: eigener Endpunkt auf dem VPS (Container lqnt-api).
 // Er nimmt entgegen, legt ab und mailt an hi@lqnt.de. Beim Build statisch eingesetzt.
 // Fällt der Dienst aus, greift der sichtbare Ausweichweg mit Mail und Telefon unten.
 const LEAD_URL = process.env.NEXT_PUBLIC_LEAD_ENDPOINT || "https://api.lqnt.de/lead";
-
-// ─── QUIZ DATA ───────────────────────────────────────────────
-
-const STEPS = [
-    {
-        id: "goal",
-        label: "Schritt 1 von 5",
-        headline: "Was ist Ihr primäres Ziel?",
-        subline: "Wählen Sie die Option, die am besten zu Ihrem Vorhaben passt.",
-        type: "single-choice" as const,
-        options: [
-            "KI-Beratung / passende Werkzeuge einführen",
-            "Prozesse & Administration automatisieren",
-            "Individuelle Software / eigenes Tool entwickeln",
-            "Bestehende Software intelligent vernetzen",
-            "Neue Website / Digitales Rebranding",
-        ],
-        hasOther: true,
-    },
-    {
-        id: "painpoint",
-        label: "Schritt 2 von 5",
-        headline: "Wo geht in Ihrem Arbeitsalltag Zeit verloren?",
-        subline: "Eine erste Einschätzung genügt. Wir können das auch gemeinsam herausfinden.",
-        type: "single-choice-with-dropdown" as const,
-        options: [
-            "Manuelle Datenpflege & Dokumentation",
-            "Beantwortung von Standard-Kundenanfragen",
-            "Koordination & interne Abstimmung",
-            "Veraltete, unübersichtliche Software",
-            "Das möchte ich gemeinsam herausfinden",
-        ],
-        hasOther: true,
-        dropdown: {
-            label: "Teamgröße",
-            placeholder: "Mitarbeiteranzahl wählen",
-            options: [
-                "Ich arbeite allein",
-                "1 – 5 Mitarbeiter",
-                "6 – 20 Mitarbeiter",
-                "21 – 50 Mitarbeiter",
-                "51 – 200 Mitarbeiter",
-                "200+ Mitarbeiter",
-            ],
-        },
-    },
-    {
-        id: "timeline",
-        label: "Schritt 3 von 5",
-        headline: "Wie schnell soll die Lösung stehen?",
-        subline: "Das hilft mir, Ihr Projekt richtig einzuplanen.",
-        type: "single-choice" as const,
-        options: [
-            "So schnell wie möglich (akuter Bedarf)",
-            "In den nächsten 1 – 3 Monaten",
-            "In den nächsten 3 – 6 Monaten",
-            "Ich orientiere mich erstmal",
-        ],
-        hasOther: false,
-    },
-    {
-        id: "maturity",
-        label: "Schritt 4 von 5",
-        headline: "Nutzen Sie bereits KI-Tools oder Automatisierung?",
-        subline: "Damit ich weiß, worauf ich aufbauen kann.",
-        type: "single-choice" as const,
-        options: [
-            "Nein, noch gar nicht",
-            "Ja, einzelne Tools (z. B. ChatGPT, Zapier)",
-            "Ja, wir haben bereits eigene Automationen",
-            "Wir sind unsicher, was möglich ist",
-        ],
-        hasOther: false,
-    },
-    {
-        id: "contact",
-        label: "Schritt 5 von 5",
-        headline: "Fast geschafft – wie erreiche ich Sie?",
-        subline: "Die erste Potenzialanalyse ist kostenlos und unverbindlich. Ich nutze Ihre Angaben, um unser Gespräch vorzubereiten.",
-        type: "contact" as const,
-    },
-];
-
-const WEBSITE_STEPS: typeof STEPS = [
-    { id: "goal", label: "Schritt 1 von 5", headline: "Was möchten Sie entwickeln?", subline: "Ein paar Angaben helfen mir, unser Gespräch vorzubereiten.", type: "single-choice", options: ["Neue Website / Digitales Rebranding", "Bestehende Website verbessern", "Logo und Markengrundlagen entwickeln", "Ich brauche erst Orientierung"], hasOther: true },
-    { id: "painpoint", label: "Schritt 2 von 5", headline: "Was steht von Ihrer Marke schon?", subline: "Damit ich einschätzen kann, worauf wir aufbauen und was ich ergänzen soll.", type: "single-choice", options: ["Logo, Farben, Schriften und Tonalität stehen", "Ein Logo ist da, der Rest braucht eine klare Linie", "Der vorhandene Markenauftritt soll modernisiert werden", "Wir starten mit Logo und Marke neu"], hasOther: true },
-    { id: "timeline", label: "Schritt 3 von 5", headline: "Wann möchten Sie starten?", subline: "Den verbindlichen Zeitplan stimmen wir gemeinsam ab.", type: "single-choice", options: STEPS[2].options!, hasOther: false },
-    { id: "maturity", label: "Schritt 4 von 5", headline: "Welchen Umfang haben Sie im Kopf?", subline: "Eine erste Richtung genügt. Daraus entsteht noch keine Paket- oder Preiszusage.", type: "single-choice", options: ["Eine kompakte Seite für mein Angebot", "Mehrere Seiten für Leistungen und Unternehmen", "Eine Website mit Buchung, Karriere oder Anbindungen", "Nur Logo und Markenauftritt", "Das möchte ich gemeinsam klären"], hasOther: false },
-    { id: "contact", label: "Schritt 5 von 5", headline: "Wie erreiche ich Sie?", subline: "Das Erstgespräch ist kostenlos und unverbindlich. Ich nutze Ihre Angaben, um auf Ihr Vorhaben einzugehen.", type: "contact" },
-];
-
-// ─── TYPES ───────────────────────────────────────────────────
-
-interface QuizAnswers {
-    goal: string;
-    goalOther: string;
-    painpoint: string;
-    painpointOther: string;
-    teamSize: string;
-    timeline: string;
-    maturity: string;
-    name: string;
-    email: string;
-    phone: string;
-    website: string;
-}
 
 interface QuizModalProps {
     isOpen: boolean;
@@ -126,22 +21,14 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
     const [currentStep, setCurrentStep] = useState(0);
     const [direction, setDirection] = useState<"forward" | "backward">("forward");
     const [isAnimating, setIsAnimating] = useState(false);
-    const [answers, setAnswers] = useState<QuizAnswers>({
-        goal: "",
-        goalOther: "",
-        painpoint: "",
-        painpointOther: "",
-        teamSize: "",
-        timeline: "",
-        maturity: "",
-        name: "",
-        email: "",
-        phone: "",
-        website: "",
-    });
+    const [answers, setAnswers] = useState<QuizAnswers>(createQuizAnswers);
     const [submitState, setSubmitState] = useState<"idle" | "sending" | "success" | "error">("idle");
-    const isWebsite = mode === "webdesign" || answers.goal === "Neue Website / Digitales Rebranding";
-    const steps = isWebsite ? (mode === "prozesse" ? [STEPS[0], ...WEBSITE_STEPS.slice(1)] : WEBSITE_STEPS) : STEPS;
+    const isWebsite = isWebsiteQuiz(mode, answers);
+    const steps = getQuizSteps(mode, answers);
+    const summary = getQuizSummary(mode, answers);
+    const navigationTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const sessionRef = useRef(0);
+    const scrollRef = useRef<HTMLDivElement>(null);
 
     const containerRef = useRef<HTMLDivElement>(null);
     const lastFocusedRef = useRef<HTMLElement | null>(null);
@@ -159,7 +46,10 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
     }, [isOpen, submitState]);
 
     useEffect(() => {
-        if (isOpen) containerRef.current?.querySelector<HTMLElement>("[data-quiz-heading]")?.focus();
+        if (isOpen) {
+            if (scrollRef.current) scrollRef.current.scrollTop = 0;
+            containerRef.current?.querySelector<HTMLElement>("[data-quiz-heading]")?.focus({ preventScroll: true });
+        }
     }, [currentStep, isOpen]);
 
     useEffect(() => {
@@ -170,18 +60,20 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
         return () => siblings.forEach((el, i) => { el.inert = before[i]; });
     }, [isOpen]);
 
-    // Reset when modal opens
+    // Closing during a transition must not advance a freshly reopened quiz.
     useEffect(() => {
+        sessionRef.current += 1;
         if (isOpen) {
             setCurrentStep(0);
             setDirection("forward");
-            setAnswers({
-                goal: "", goalOther: "", painpoint: "", painpointOther: "",
-                teamSize: "", timeline: "", maturity: "",
-                name: "", email: "", phone: "", website: "",
-            });
+            setIsAnimating(false);
+            setAnswers(createQuizAnswers());
             setSubmitState("idle");
         }
+        return () => {
+            sessionRef.current += 1;
+            if (navigationTimer.current) clearTimeout(navigationTimer.current);
+        };
     }, [isOpen]);
 
     // Body scroll lock
@@ -201,9 +93,9 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
             return;
         }
         if (e.key === "Tab" && containerRef.current) {
-            const focusables = containerRef.current.querySelectorAll<HTMLElement>(
-                'button:not([disabled]), [href], input, select, textarea'
-            );
+            const focusables = Array.from(containerRef.current.querySelectorAll<HTMLElement>(
+                'button:not([disabled]), [href], input, select, textarea, summary'
+            )).filter(element => element.getClientRects().length > 0);
             if (focusables.length === 0) return;
             const first = focusables[0];
             const last = focusables[focusables.length - 1];
@@ -225,88 +117,42 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
         }
     }, [isOpen, handleKeyDown]);
 
-    // ─── NAVIGATION ──────────────────────────────────────────
-
-    const goNext = () => {
-        if (currentStep < steps.length - 1 && !isAnimating) {
-            setDirection("forward");
-            setIsAnimating(true);
-            setTimeout(() => {
-                setCurrentStep((s) => s + 1);
-                setIsAnimating(false);
-            }, 300);
-        }
+    const navigateTo = (index: number) => {
+        if (isAnimating || submitState === "sending" || index < 0 || index >= steps.length) return;
+        setDirection(index > currentStep ? "forward" : "backward");
+        setIsAnimating(true);
+        navigationTimer.current = setTimeout(() => {
+            setCurrentStep(index);
+            setIsAnimating(false);
+            navigationTimer.current = null;
+        }, 300);
     };
-
-    const goBack = () => {
-        if (currentStep > 0 && !isAnimating) {
-            setDirection("backward");
-            setIsAnimating(true);
-            setTimeout(() => {
-                setCurrentStep((s) => s - 1);
-                setIsAnimating(false);
-            }, 300);
-        }
-    };
-
-    // ─── VALIDATION ──────────────────────────────────────────
-
-    const isStepValid = (): boolean => {
-        const step = steps[currentStep];
-        switch (step.id) {
-            case "goal":
-                return answers.goal !== "" && (answers.goal !== "__other__" || answers.goalOther.trim() !== "");
-            case "painpoint":
-                return answers.painpoint !== "" && (answers.painpoint !== "__other__" || answers.painpointOther.trim() !== "") && (isWebsite || answers.teamSize !== "");
-            case "timeline":
-                return answers.timeline !== "";
-            case "maturity":
-                return answers.maturity !== "";
-            case "contact":
-                return answers.name.trim() !== "" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(answers.email.trim()) && answers.phone.trim() !== "";
-            default:
-                return false;
-        }
-    };
-
-    // ─── CHOICE SELECTION ────────────────────────────────────
+    const goNext = () => { if (isStepValid()) navigateTo(currentStep + 1); };
+    const goBack = () => navigateTo(currentStep - 1);
+    const isStepValid = () => isQuizStepValid(steps[currentStep], answers);
 
     const handleSelect = (field: keyof QuizAnswers, value: string) => {
-        setAnswers((prev) => ({ ...prev, ...(field === "goal" ? { painpoint: "", painpointOther: "", teamSize: "", maturity: "" } : {}), [field]: value }));
+        if (isAnimating || submitState === "sending") return;
+        setAnswers(previous => updateQuizAnswer(previous, field, value));
     };
-
     const handleInput = (field: keyof QuizAnswers, value: string) => {
-        setAnswers((prev) => ({ ...prev, [field]: value }));
+        setAnswers(previous => ({ ...previous, [field]: value }));
     };
 
     const handleSubmit = async () => {
-        if (!isStepValid() || submitState === "sending") return;
+        if (isAnimating || currentStep !== steps.length - 1 || !steps.every(step => isQuizStepValid(step, answers)) || submitState === "sending") return;
+        const session = sessionRef.current;
         setSubmitState("sending");
         setIsAnimating(true);
-
-        const goal = answers.goal === "__other__" ? answers.goalOther : answers.goal;
-        const painpoint = answers.painpoint === "__other__" ? answers.painpointOther : answers.painpoint;
 
         try {
             const res = await fetch(LEAD_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", Accept: "application/json" },
-                body: JSON.stringify({
-                    Name: answers.name,
-                    "E-Mail": answers.email,
-                    Telefon: answers.phone,
-                    Website: answers.website || "—",
-                    // Keep the existing endpoint contract; the complete website brief
-                    // also lives in Ziel so no backend field-label update is required.
-                    Ziel: isWebsite ? `Webdesign / Marke: ${goal}. Markengrundlagen: ${painpoint}. Umfang: ${answers.maturity}.` : goal || "—",
-                    Flaschenhals: isWebsite ? "Siehe Markengrundlagen im Projektziel" : painpoint || "—",
-                    "Teamgröße": answers.teamSize || "—",
-                    Zeitrahmen: answers.timeline || "—",
-                    "KI-Reife": isWebsite ? "Nicht zutreffend – Website-/Markenprojekt" : answers.maturity || "—",
-                    firma: "", // Honeypot: bleibt leer. Bots füllen ihn und werden verworfen.
-                }),
+                body: JSON.stringify(createLeadPayload(mode, answers)),
             });
             const json = await res.json();
+            if (session !== sessionRef.current) return;
             if (res.ok && json.ok) {
                 setSubmitState("success");
             } else {
@@ -314,10 +160,11 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                 setSubmitState("error");
             }
         } catch (err) {
+            if (session !== sessionRef.current) return;
             console.error("Failed to submit lead", err);
             setSubmitState("error");
         } finally {
-            setIsAnimating(false);
+            if (session === sessionRef.current) setIsAnimating(false);
         }
     };
 
@@ -401,17 +248,17 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                 </div>
 
                 {/* Scrollable Content Area */}
-                <div className="flex-1 overflow-y-auto bg-[#0a0a0a] border border-gridline border-t-0">
+                <div ref={scrollRef} className="flex-1 overflow-y-auto bg-[#0a0a0a] border border-gridline border-t-0">
                     <div className="px-6 py-8 sm:px-10 sm:py-12">
 
                         {/* Step Label */}
                         <div className="font-mono text-[10px] uppercase tracking-widest text-lime/90 mb-2">
-                            {step.label}
+                            {isWebsite && currentStep === 0 ? "Ihr Vorhaben" : `Schritt ${currentStep + 1} von ${steps.length}`}
                         </div>
 
                         {/* Headline */}
                         <h2 data-quiz-heading tabIndex={-1}
-                            className={`text-2xl sm:text-3xl uppercase font-bold text-white mb-2 tracking-tight quiz-step-content ${isAnimating ? (direction === "forward" ? "quiz-exit-left" : "quiz-exit-right") : "quiz-enter"}`}
+                            className={`text-2xl sm:text-3xl ${isWebsite ? "font-semibold" : "uppercase font-bold"} text-white mb-2 tracking-tight quiz-step-content ${isAnimating ? (direction === "forward" ? "quiz-exit-left" : "quiz-exit-right") : "quiz-enter"}`}
                         >
                             {step.headline}
                         </h2>
@@ -431,11 +278,11 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                 <div className="flex flex-col gap-3">
                                     {step.options?.map((option) => {
                                         const field = step.id as keyof QuizAnswers;
-                                        const isSelected = answers[field] === option;
+                                        const isSelected = answers[field] === optionValue(option);
                                         return (
                                             <button
-                                                key={option}
-                                                onClick={() => handleSelect(field, option)}
+                                                key={optionValue(option)}
+                                                onClick={() => handleSelect(field, optionValue(option))}
                                                 aria-pressed={isSelected}
                                                 className={`w-full text-left px-5 py-4 border font-mono text-sm transition-all duration-300 ${
                                                     isSelected
@@ -443,7 +290,7 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                                         : "bg-transparent text-white/80 border-gridline hover:border-lime/50 hover:text-white"
                                                 }`}
                                             >
-                                                {option}
+                                                {optionLabel(option)}
                                             </button>
                                         );
                                     })}
@@ -484,11 +331,11 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                     {/* Choices */}
                                     <div className="flex flex-col gap-3">
                                         {step.options?.map((option) => {
-                                            const isSelected = answers.painpoint === option;
+                                            const isSelected = answers.painpoint === optionValue(option);
                                             return (
                                                 <button
-                                                    key={option}
-                                                    onClick={() => handleSelect("painpoint", option)}
+                                                    key={optionValue(option)}
+                                                    onClick={() => handleSelect("painpoint", optionValue(option))}
                                                     aria-pressed={isSelected}
                                                     className={`w-full text-left px-5 py-4 border font-mono text-sm transition-all duration-300 ${
                                                         isSelected
@@ -496,7 +343,7 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                                             : "bg-transparent text-white/80 border-gridline hover:border-lime/50 hover:text-white"
                                                     }`}
                                                 >
-                                                    {option}
+                                                    {optionLabel(option)}
                                                 </button>
                                             );
                                         })}
@@ -563,7 +410,16 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                             {/* Step 5: Contact Form */}
                             {step.type === "contact" && (
                                 <div className="flex flex-col gap-5">
-                                    <div className="border border-gridline p-4 text-sm text-bone/80 leading-relaxed"><h3 className="font-bold text-white mb-2">Ihre Angaben</h3><p>{answers.goal === "__other__" ? answers.goalOther : answers.goal}</p><p>{isWebsite ? "Marke: " : "Engpass: "}{answers.painpoint === "__other__" ? answers.painpointOther : answers.painpoint}</p><p>{isWebsite ? "Umfang: " : "KI-Nutzung: "}{answers.maturity}</p><p>Zeitrahmen: {answers.timeline}</p></div>
+                                    <details className="border border-gridline px-4 text-sm text-bone/80 leading-relaxed">
+                                        <summary className="py-3 min-h-11 cursor-pointer font-semibold text-white">Ihre Angaben prüfen</summary>
+                                        <dl className="divide-y divide-white/10">
+                                            {summary.map(row => <div key={row.id} className="flex items-start justify-between gap-3 py-2">
+                                                <div><dt className="text-xs text-bone/60">{row.label}</dt><dd>{row.value}</dd></div>
+                                                <button type="button" onClick={() => navigateTo(row.index)} disabled={isAnimating || submitState === "sending"} aria-label={`${row.label} ändern`} className="min-h-11 shrink-0 text-lime underline underline-offset-4 disabled:opacity-40">Ändern</button>
+                                            </div>)}
+                                        </dl>
+                                    </details>
+
                                     <div>
                                         <label htmlFor="quiz-name" className="font-mono text-[10px] uppercase tracking-widest text-lime/90 block mb-2">Name *</label>
                                         <input
@@ -600,7 +456,7 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                             className="w-full bg-transparent border border-gridline text-white px-5 py-4 font-mono text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none"
                                         />
                                     </div>
-                                    <p className="text-sm text-bone/80">Mit dem Absenden fragen Sie ein unverbindliches Gespräch an. Informationen zur Verarbeitung Ihrer Angaben finden Sie in der <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/datenschutz/`} className="text-lime underline" target="_blank" rel="noreferrer">Datenschutzerklärung</a>.</p>
+
                                     <div>
                                         <label htmlFor="quiz-website" className="font-mono text-[10px] uppercase tracking-widest text-lime/90 block mb-2">Website <span className="text-bone/80">(Optional)</span></label>
                                         <input
@@ -613,6 +469,11 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                             className="w-full bg-transparent border border-gridline text-white px-5 py-4 font-mono text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none"
                                         />
                                     </div>
+                                    {isWebsite && <div>
+                                        <label htmlFor="quiz-notes" className="text-sm text-bone block mb-2">Was ist Ihnen noch wichtig? <span className="text-bone/60">(optional)</span></label>
+                                        <textarea id="quiz-notes" rows={3} maxLength={1000} value={answers.notes} onChange={e => handleInput("notes", e.target.value)} placeholder="Ihr Unternehmen, besondere Wünsche oder eine Frage an mich …" className="w-full resize-y bg-transparent border border-gridline text-white px-4 py-3 text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none" />
+                                    </div>}
+                                    <p className="text-sm text-bone/80">Mit dem Absenden fragen Sie ein unverbindliches Gespräch an. Informationen zur Verarbeitung Ihrer Angaben finden Sie in der <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/datenschutz/`} className="text-lime underline" target="_blank" rel="noreferrer">Datenschutzerklärung</a>.</p>
                                 </div>
                             )}
                         </div>
@@ -625,7 +486,8 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                     {currentStep > 0 ? (
                         <button
                             onClick={goBack}
-                            className="font-mono text-xs uppercase tracking-widest text-bone/80 hover:text-white transition-colors flex items-center gap-2"
+                            disabled={isAnimating || submitState === "sending"}
+                            className="font-mono text-xs uppercase tracking-widest text-bone/80 hover:text-white transition-colors flex items-center gap-2 min-h-11 disabled:opacity-40"
                         >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="square" strokeWidth={2} d="M19 12H5m7-7l-7 7 7 7" />
@@ -640,7 +502,7 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                     {currentStep < steps.length - 1 ? (
                         <button
                             onClick={goNext}
-                            disabled={!isStepValid()}
+                            disabled={!isStepValid() || isAnimating}
                             className={`font-mono text-sm uppercase tracking-wider px-6 py-3 border transition-all duration-300 flex items-center gap-2 ${
                                 isStepValid()
                                     ? "bg-lime text-vanta border-lime hover:bg-white hover:text-vanta hover:border-white btn-glitch"
@@ -675,7 +537,7 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                             )}
                             <button
                                 onClick={handleSubmit}
-                                disabled={!isStepValid() || submitState === "sending"}
+                                disabled={!isStepValid() || isAnimating || submitState === "sending"}
                                 className={`font-mono text-sm uppercase tracking-wider px-6 py-3 border transition-all duration-300 ${
                                     isStepValid() && submitState !== "sending"
                                         ? "bg-lime text-vanta border-lime hover:bg-white hover:text-vanta hover:border-white btn-glitch"
