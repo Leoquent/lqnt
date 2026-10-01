@@ -245,7 +245,8 @@
 }
 
 .stepWindow { min-width: 0; }
-.readControl { display: inline-block; padding: 8px 0; margin-top: 10px; background: transparent; color: var(--collaboration-secondary); font: inherit; font-size: 12px; text-align: left; text-decoration: underline; text-underline-offset: 4px; }
+.collaboration .readControl { display: inline-block; min-height: 44px; padding: 8px 0; margin-top: 4px; background: transparent; color: var(--collaboration-muted); font: inherit; font-size: 12px; line-height: 1.5; text-align: left; text-decoration: underline; text-decoration-color: #636958; text-underline-offset: 4px; }
+.collaboration .readControl:hover { color: var(--collaboration-ink); }
 @media (max-width: 960px) {
   .collaboration .frame { align-content: start; }
   .collaboration[data-collaboration-pin="true"] .frame { align-content: start; }
@@ -255,6 +256,11 @@
   .collaboration[data-collaboration-pin="true"] .stepWindow { height: var(--collaboration-step-height); overflow: hidden; border-top: 1px solid var(--collaboration-line); border-bottom: 1px solid var(--collaboration-line); }
   .collaboration[data-collaboration-pin="true"] .step { min-height: var(--collaboration-step-height); border: 0; }
   .collaboration .step { padding-block: 18px; }
+}
+
+@media (max-width: 960px) and (max-height: 800px) {
+  .collaboration .frame { padding-block: 18px; }
+  .collaboration .illustration { height: 105px; }
 }
 
 @media (max-width: 380px) {

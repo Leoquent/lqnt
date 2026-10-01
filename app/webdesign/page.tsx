@@ -10,8 +10,9 @@ import { Arrow, Drawing } from "./Drawings";
 import HeroPresentation from "./HeroPresentation";
 import CopyStatement from "./CopyStatement";
 import Collaboration from "./Collaboration";
+import PricingCards from "./PricingCards";
 import QuizModal from "@/components/QuizModal";
-import { brandPackage, faqs, packages } from "./content";
+import { brandPackage, faqs } from "./content";
 import s from "./webdesign.module.css";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -165,11 +166,10 @@ export default function WebdesignPage() {
 
       <section id="preise" className={s.section} aria-labelledby="prices-title">
         <div className={s.sectionRule} data-line />
+        <PricingCards motionPaused={motionPaused}>
         <div className={s.sectionHeading + " " + s.headingStraight} data-reveal><p className={s.eyebrow}>03 / Der passende Rahmen</p><h2 id="prices-title">So viel Website,<br /><span>wie Ihr Vorhaben braucht.</span></h2><p>Umfang, Funktionen und die Inszenierung machen den Unterschied. Sie wählen den Rahmen, der zu Ihrem Vorhaben passt.</p></div>
         <p className={s.taxNote}>Angebot für Unternehmen. Alle Preise netto zuzüglich gesetzlicher Umsatzsteuer.</p>
-        <div className={s.packages}>{packages.map((pkg, i) => <article className={s.package} data-featured={i === 1} data-reveal key={pkg.name}>
-          <div className={s.packageTop}><span>0{i + 1}</span><h3>{pkg.name}</h3>{i === 1 && <span className={s.packageHint}>Mehr Raum fürs Angebot</span>}</div><p className={s.packageLead}>{pkg.lead.map(line => <span key={line}>{line}</span>)}</p><p className={s.packageDescription}>{pkg.description}</p><p className={s.price}><span>ab</span> {pkg.price} <span>€</span></p><span className={s.once}>Einmaliges Website-Projekt</span><div className={s.packageRule} /><ul>{pkg.features.map(f => <li key={f}><span aria-hidden="true"><Arrow diagonal /></span>{f}</li>)}</ul><a href={mail("Website-Projekt – Paket " + pkg.name)} className={i === 1 ? s.button : s.outlineButton}>Über {pkg.name} sprechen <Arrow diagonal /></a>
-        </article>)}</div>
+        </PricingCards>
         <div className={s.brandModule}><p className={s.eyebrow}>Bei Bedarf dazu: Ihre Marke</p><h3>Die Website braucht ein Gesicht.<br />Und eine eigene Stimme.</h3><p>Ihr Logo und Markenstil stehen schon? Dann baue ich darauf auf. Wenn sie fehlen oder nicht mehr passen, entwickle ich mit Ihnen eine stimmige Grundlage für Ihren Auftritt. Zu jedem Website-Paket oder als eigenes Projekt.</p><p className={s.brandPrice}>Markengrundlage <strong>ab {brandPackage.price} €</strong><span>Einmalig · netto zuzüglich Umsatzsteuer</span></p><ul className={s.brandScope}>{brandPackage.features.map(feature => <li key={feature}>{feature}</li>)}</ul><p className={s.brandScopeNote}>Für eine klar umrissene Marke. Umfangreichere Markenstrategie, Namensentwicklung und zusätzliche Anwendungen kalkuliere ich separat. Kleine Anpassungen an einem vorhandenen Logo sind auch nach Aufwand möglich. Den genauen Umfang und Festpreis vereinbaren wir vor dem Start.</p><a href={mail("Logo und Markenauftritt besprechen")} className={s.textLink}>Über meine Marke sprechen <Arrow diagonal /></a></div>
         <p className={s.packageBasics}>Immer dabei: ein gemeinsames Briefing, eigene Website-Texte, mobile Optimierung, technische SEO-Grundlagen, Prüfung vor dem Livegang und die Anbindung Ihrer Domain. Die Website-Preise setzen ein nutzbares Logo und vorhandene Markengrundlagen voraus; Neuentwicklung oder Modernisierung kommt bei Bedarf dazu.</p>
         <p className={s.priceNote}>Auch der technische Start gehört zum Website-Paket: Ich verbinde Ihre Domain mit der neuen Website und richte die nötigen DNS-Einträge und HTTPS ein. Umfangreiche Website-Umzüge oder die Übernahme von E-Mail-Postfächern stimmen wir gesondert ab. Der genaue Festpreis, besondere Funktionen und etwaige Lizenzkosten stehen vor dem Start im Angebot. Hosting und Domainkosten fallen laufend an; dafür können Sie meine Betreuung wählen oder den Betrieb selbst organisieren.</p>

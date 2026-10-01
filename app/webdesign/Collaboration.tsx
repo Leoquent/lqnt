@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useId, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -68,6 +68,8 @@ export default function Collaboration({ motionPaused }: { motionPaused: boolean 
   const frame = useRef<HTMLDivElement>(null);
   const intro = useRef<HTMLDivElement>(null);
   const list = useRef<HTMLOListElement>(null);
+  const readingButton = useRef<HTMLButtonElement>(null);
+  const switchAnchor = useRef<number | null>(null);
   const titleId = useId();
   const [staticReading, setStaticReading] = useState(false);
 
@@ -112,7 +114,11 @@ export default function Collaboration({ motionPaused }: { motionPaused: boolean 
           + parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth);
         // Measure natural child boxes: ScrollTrigger may have fixed the frame height.
         // Opacity/child transforms never change these boxes, so reveals cannot toggle fit.
+        // Measure the natural rows, including after the mobile browser changes height.
+        // A previous pinned minimum must not keep the fit check artificially too tall.
+        section.style.setProperty("--collaboration-step-height", "0px");
         const stepHeight = Math.max(...items.map(item => item.offsetHeight));
+        section.style.setProperty("--collaboration-step-height", `${stepHeight}px`);
         const requiredHeight = mobile
           ? introduction.offsetHeight + stepHeight + parseFloat(style.rowGap) + padding
           : Math.max(introduction.offsetHeight, stepList.offsetHeight) + padding;
@@ -240,6 +246,18 @@ export default function Collaboration({ motionPaused }: { motionPaused: boolean 
     };
   }, { scope: root, dependencies: [motionPaused, staticReading], revertOnUpdate: true });
 
+  useLayoutEffect(() => {
+    const top = switchAnchor.current;
+    if (top === null) return;
+    switchAnchor.current = null;
+    const pending = requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+      const button = readingButton.current;
+      if (button) window.scrollBy({ top: button.getBoundingClientRect().top - top, behavior: "instant" });
+    });
+    return () => cancelAnimationFrame(pending);
+  }, [staticReading]);
+
   return (
     <section id="ablauf" className={s.collaboration} ref={root} aria-labelledby={titleId}>
       <div className={s.frame} ref={frame}>
@@ -248,7 +266,10 @@ export default function Collaboration({ motionPaused }: { motionPaused: boolean 
           <h2 id={titleId} className={s.title}>Ihr Wissen.<br />Mein Handwerk.<br /><span>Unser Projekt.</span></h2>
           <p className={s.lead}>Sie kennen Ihr Unternehmen. Ich bringe es in Form. Mit klaren Schritten und Zwischenständen, die Sie sehen können.</p>
           <ProjectIllustration />
-          <button className={s.readControl} aria-pressed={staticReading} onClick={() => setStaticReading(!staticReading)}>{staticReading ? "Mit Scrollanimation ansehen" : "Alle Schritte ohne Animation lesen"}</button>
+          <button ref={readingButton} className={s.readControl} aria-pressed={staticReading} onClick={() => {
+            switchAnchor.current = readingButton.current?.getBoundingClientRect().top ?? null;
+            setStaticReading(!staticReading);
+          }}>{staticReading ? "Mit Scrollanimation ansehen" : "Alle Schritte ohne Animation lesen"}</button>
         </div>
         <div className={s.stepWindow}>
         <ol className={s.steps} ref={list} role="list">
