@@ -22,11 +22,38 @@ const links = [["Arbeiten", "arbeiten"], ["Leistungen", "leistungen"], ["Preise"
 export default function WebdesignPage() {
   const root = useRef<HTMLDivElement>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
+  const header = useRef<HTMLElement>(null);
+  const [headerHidden, setHeaderHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [projectOpen, setProjectOpen] = useState(false);
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
   const [motionPaused, setMotionPaused] = useState(false);
   const [quizOpen, setQuizOpen] = useState(false);
+
+  useEffect(() => {
+    const mobile = window.matchMedia('(max-width: 700px)');
+    let lastY = window.scrollY;
+    let direction = 0;
+    let distance = 0;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const y = Math.max(0, window.scrollY);
+      const delta = y - lastY;
+      lastY = y;
+      if (!mobile.matches || menuOpen || y < 56 || header.current?.contains(document.activeElement)) {
+        setHeaderHidden(false); distance = 0; return;
+      }
+      if (Math.sign(delta) !== direction) { direction = Math.sign(delta); distance = 0; }
+      distance += Math.abs(delta);
+      if (distance >= 12) { setHeaderHidden(direction > 0); distance = 0; }
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    window.addEventListener('scroll', schedule, { passive: true });
+    mobile.addEventListener('change', schedule);
+    update();
+    return () => { cancelAnimationFrame(frame); window.removeEventListener('scroll', schedule); mobile.removeEventListener('change', schedule); };
+  }, [menuOpen]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -62,7 +89,7 @@ export default function WebdesignPage() {
 
   return <div className={s.page} ref={root} data-paused={motionPaused}>
     <a href="#inhalt" className={s.skip}>Zum Inhalt</a>
-    <header className={s.header}>
+    <header ref={header} className={s.header} data-hidden={headerHidden && !menuOpen} onFocusCapture={() => setHeaderHidden(false)}>
       <div className={s.headerInner}>
         <a href="#inhalt" className={s.brand} aria-label="leoquent – zum Seitenanfang" onClick={() => setMenuOpen(false)}><LqntMark className={s.mark} /><span>leoquent</span></a>
         <nav aria-label="Hauptnavigation" className={s.desktopNav}>{links.map(([label, id]) => <a key={id} href={"#" + id}>{label}</a>)}</nav>
@@ -77,14 +104,16 @@ export default function WebdesignPage() {
 
     <main id="inhalt">
       <section className={s.hero} aria-labelledby="hero-title">
-        <div className={s.heroCopy}>
+        <div className={s.heroHeading}>
           <p className={s.eyebrow} data-intro><span className={s.dot} /> Webdesign & Markenauftritt</p>
           <h1 id="hero-title" data-intro>Ihr Unternehmen<br />kann was.<br /><em>Zeigen wir es.</em></h1>
+        </div>
+        <HeroPresentation motionPaused={motionPaused} />
+        <div className={s.heroDetails}>
           <p className={s.heroLead} data-intro>Mit einer Website, die zeigt, was Sie ausmacht. Mit klaren Texten und eigenständigem Design. Und bei Bedarf mit einem neuen Markenauftritt – inklusive Logo.</p>
           <div className={s.heroActions} data-intro><a className={s.button} href="#arbeiten">Arbeiten entdecken <Arrow diagonal /></a><a className={s.textLink} href="#preise">Pakete ab 1.900 € <Arrow /></a></div>
           <p className={s.heroFootnote} data-intro>Ausgezeichneter Copywriter. Konzept, Text und Webdesign aus einer Hand. <a href="#ueber-mich">Mehr über mich</a></p>
         </div>
-        <HeroPresentation motionPaused={motionPaused} />
       </section>
 
 

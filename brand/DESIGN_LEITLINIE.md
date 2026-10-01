@@ -61,6 +61,8 @@ Diese Beschlüsse ersetzen insbesondere ältere Preis- und Betreuungsmodelle sow
 
 ## Umsetzung auf `/webdesign` — 26.09.2026
 
+**Mobiler Einstieg – Versuch nach Leos Freigabe vom 01.10.2026:** Reihenfolge Headline → vollständige Drei-Schritte-Demo → Einleitung, Links und Copywriter-Hinweis. Alle Texte bleiben erhalten. Desktop behält seine beiden Spalten. Die mobile Navigation ist kompakt (56 Pixel plus Rahmen), anfangs sichtbar, verschwindet beim Herunterscrollen und kehrt beim Hochscrollen zurück; geöffnetes Menü und Tastaturfokus halten sie sichtbar. Der automatische Demo-Durchlauf wartet mobil auf mindestens 95 % Sichtbarkeit der gesamten Demo einschließlich Bedienung; Desktop behält 45 %. Reale Sichtung dieses Versuchs steht aus.
+
 Die vollständige implementierte Copy steht in [copy/02-webdesign.md](../copy/02-webdesign.md). Maßgeblich für diesen Abgleich sind die aktuelle Seite, ihre Inhaltsdaten und die eingebundenen Komponenten; aus einer visuellen Darstellung entstehen keine zusätzlichen Leistungsversprechen.
 
 - **Besucherführung breiter als eine Anfrage denken:** Im Hero heißen die drei Zustände „Botschaft“, „Gestaltung“ und „Aktion“. Die Beispielwebsite zeigt auch das Öffnen weiterer Informationen. Informieren, Kontakt aufnehmen und Bewerben sind passende nächste Schritte je nach Ziel.

@@ -19,6 +19,8 @@ export default function HeroPresentation({ motionPaused }: { motionPaused: boole
     if (!stage || manual || motionPaused || scene === 2) return;
     if (remaining.current.scene !== scene) remaining.current = { scene, ms: HOLD_MS };
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobile = window.matchMedia('(max-width: 700px)');
+    let intersectionRatio = 0;
     let visible = false;
     let hovered = window.matchMedia("(hover: hover) and (pointer: fine)").matches && stage.matches(":hover");
     let focused = stage.contains(document.activeElement);
@@ -31,6 +33,7 @@ export default function HeroPresentation({ motionPaused }: { motionPaused: boole
       remaining.current.ms = Math.max(0, remaining.current.ms - (performance.now() - started));
     };
     const sync = () => {
+      visible = intersectionRatio >= (mobile.matches ? 0.95 : 0.45);
       if (!visible || hovered || focused || document.hidden || reduced.matches) { pause(); return; }
       if (timer !== undefined) return;
       started = performance.now();
@@ -41,9 +44,9 @@ export default function HeroPresentation({ motionPaused }: { motionPaused: boole
       }, remaining.current.ms);
     };
     const observer = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting && entry.intersectionRatio >= 0.45;
+      intersectionRatio = entry.isIntersecting ? entry.intersectionRatio : 0;
       sync();
-    }, { threshold: [0, 0.45] });
+    }, { threshold: [0, 0.45, 0.95] });
     const enter = (event: PointerEvent) => { if (event.pointerType === "mouse") { hovered = true; sync(); } };
     const leave = () => { hovered = false; sync(); };
     const focusIn = () => { focused = true; sync(); };
@@ -55,6 +58,7 @@ export default function HeroPresentation({ motionPaused }: { motionPaused: boole
     stage.addEventListener("focusout", focusOut);
     document.addEventListener("visibilitychange", sync);
     reduced.addEventListener("change", sync);
+    mobile.addEventListener('change', sync);
     return () => {
       pause(); observer.disconnect();
       stage.removeEventListener("pointerenter", enter);
@@ -63,6 +67,7 @@ export default function HeroPresentation({ motionPaused }: { motionPaused: boole
       stage.removeEventListener("focusout", focusOut);
       document.removeEventListener("visibilitychange", sync);
       reduced.removeEventListener("change", sync);
+      mobile.removeEventListener('change', sync);
     };
   }, [scene, manual, motionPaused]);
 
