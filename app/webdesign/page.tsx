@@ -29,6 +29,8 @@ export default function WebdesignPage() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
+  const faqSplit = Math.ceil(faqs.length / 2);
+  const faqColumns = [faqs.slice(0, faqSplit), faqs.slice(faqSplit)];
   const [motionPaused, setMotionPaused] = useState(false);
   const [quizOpen, setQuizOpen] = useState(false);
 
@@ -180,7 +182,10 @@ export default function WebdesignPage() {
 
       <section className={s.section + " " + s.faqSection} aria-labelledby="faq-title">
         <div data-reveal><p className={s.eyebrow}>06 / Noch offen?</p><h2 id="faq-title">Gute Fragen.<br /><span>Klare Antworten.</span></h2></div>
-        <div className={s.faqList}>{faqs.map((faq, i) => <div className={s.faq} key={faq.q} data-reveal><h3><button aria-expanded={faqOpen === i} aria-controls={"faq-answer-" + i} onClick={() => setFaqOpen(faqOpen === i ? null : i)}>{faq.q}<span aria-hidden="true">{faqOpen === i ? "−" : "+"}</span></button></h3><div id={"faq-answer-" + i} className={s.expand} data-open={faqOpen === i} inert={faqOpen !== i}><div className={s.expandInner}><p className={s.faqAnswer}>{faq.a}</p></div></div></div>)}</div>
+        <div className={s.faqList}>{faqColumns.map((column, columnIndex) => <div className={s.faqColumn} key={columnIndex}>{column.map((faq, columnItemIndex) => {
+          const i = columnIndex * faqSplit + columnItemIndex;
+          return <div className={s.faq} key={faq.q} data-reveal><h3><button aria-expanded={faqOpen === i} aria-controls={"faq-answer-" + i} onClick={() => setFaqOpen(faqOpen === i ? null : i)}>{faq.q}<span aria-hidden="true">{faqOpen === i ? "−" : "+"}</span></button></h3><div id={"faq-answer-" + i} className={s.expand} data-open={faqOpen === i} inert={faqOpen !== i}><div className={s.expandInner}><p className={s.faqAnswer}>{faq.a}</p></div></div></div>;
+        })}</div>)}</div>
       </section>
 
       <section id="kontakt" className={s.contact} aria-labelledby="contact-title" data-ambient>
