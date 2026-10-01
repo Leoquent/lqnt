@@ -1,11 +1,11 @@
 .gallery{display:flex;gap:24px;margin-top:40px;align-items:stretch}
 .project{flex:1 1 0;min-width:0;color:inherit;text-decoration:none;transition:flex-grow .65s cubic-bezier(.22,1,.36,1)}
-.visual{position:relative;height:385px;overflow:hidden;background:#142333;border:1px solid #344251;perspective:1100px;padding:75px 26px 0}
-.project[data-theme=yellow] .visual{background:#f2c400;border-color:#f2c400}
+.visual{position:relative;height:385px;overflow:hidden;background:radial-gradient(ellipse at 44% 30%,#243c4e 0%,#142333 62%,#0d1924 100%);border:1px solid #344251;perspective:1100px;padding:75px 26px 0}
+.project[data-theme=yellow] .visual{background:radial-gradient(ellipse at 44% 30%,#ffde40 0%,#edc400 52%,#b38b09 100%);border-color:#d3ad15}
 .index{position:absolute;left:25px;top:23px;font-size:11px;letter-spacing:.08em;color:#c9d1d7;text-transform:uppercase}
 .project[data-theme=yellow] .index{color:#3c3100}
 .browser{width:112%;border:1px solid #ffffff38;border-radius:9px 9px 0 0;background:#11171c;overflow:hidden;transform:rotateY(-8deg) rotateX(5deg) translateY(12px);transform-origin:center bottom;box-shadow:0 24px 45px #0005;transition:transform .7s cubic-bezier(.22,1,.36,1)}
-.project[data-theme=yellow] .browser{transform:rotateY(8deg) rotateX(5deg) translateY(12px);background:#20201b}
+.project[data-theme=yellow] .browser{background:#20201b}
 .browserBar{height:28px;display:flex;align-items:center;justify-content:space-between;padding:0 13px;font-size:9px;letter-spacing:.03em;color:#a2a6a7}.browserBar span:first-child{letter-spacing:3px;font-size:7px}
 .browser img{display:block;width:100%;height:auto}
 .open{position:absolute;right:20px;bottom:20px;width:48px;height:48px;display:grid;place-items:center;border:1px solid #ffffff75;border-radius:50%;color:#fff;background:#142333c9;backdrop-filter:blur(8px);transition:background .25s,color .25s,transform .5s}

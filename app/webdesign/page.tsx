@@ -145,8 +145,10 @@ export default function WebdesignPage() {
             <div><h4>Die passende Technik dahinter.</h4><p>Ein schlanker Auftritt, selbst pflegbare Inhalte oder eine Anbindung an bestehende Systeme: Die Umsetzung richtet sich danach, was Sie später mit der Website tun möchten. Datenschutz plane ich mit – mit lokal eingebundenen Schriften, datensparsamen Formularen und bewusst ausgewählten Diensten.</p></div>
             <div><h4>Vor dem Livegang geprüft.</h4><p>Ich prüfe Darstellung, Tastaturbedienung und Kontaktwege. Ladezeiten, Bildgrößen und technische SEO-Grundlagen gehören ebenso dazu wie eine klare Übergabe.</p></div>
           </div>
+          <div className={s.searchGrid}>
           <div className={s.searchIntro}><h4>Gefunden werden. Auch in der KI-Suche.</h4><p>Ich schreibe Inhalte, die echte Fragen Ihrer Kunden beantworten. Klare Leistungsseiten, nachvollziehbare Beispiele und eine technisch zugängliche Website helfen Suchmaschinen und KI-Suchdiensten, Ihr Angebot einzuordnen. SEO und die Optimierung für KI-Suche, oft GEO genannt, plane ich deshalb gemeinsam.</p><Link href="/webdesign/seo-und-ki-suche/" className={s.textLink}>So plane ich Inhalte für die Suche <Arrow diagonal /></Link></div>
           <div className={s.searchIntro}><h4>Auch vor Ort sichtbar.</h4><p>Für lokale Unternehmen richte ich auf Wunsch ein Google-Unternehmensprofil ein oder überarbeite den bestehenden Eintrag: mit passenden Angaben, Leistungen und Bildern. Die Inhaberschaft liegt bei Ihnen. Ich begleite Einrichtung und Bestätigung durch Google – als Ergänzung zur Website oder als eigenes Projekt.</p><p className={s.localProfileNote}>Google stellt das Profil kostenlos bereit. Mein Angebot umfasst die Einrichtung und Abstimmung; Voraussetzung ist, dass Ihr Unternehmen für ein Profil zugelassen ist. <a href="https://support.google.com/business/answer/7163406?hl=de">Google-Hinweise zur Zusammenarbeit mit Dienstleistern</a></p></div>
+          </div>
           <p className={s.expertiseFoot}>Was das für Sie heißt: Text, Gestaltung und Technik entstehen aus demselben Konzept.</p>
         </div>
       </section>
