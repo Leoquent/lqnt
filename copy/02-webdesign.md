@@ -68,7 +68,7 @@ Eine eigene Problemsektion und eine Branchensektion gehören nicht zu dieser Fas
 
 > Eine Website, die zeigt, was Sie ausmacht. Durchdacht im Aufbau, eigenständig im Design – mit Texten, die ich für Sie schreibe.
 
-**Links:** `Arbeiten entdecken` → `#arbeiten` · `Pakete ab 1.900 €` → `#preise`
+**Aktionen (aktualisiert am 01.10.2026):** `Projekt besprechen` öffnet die Webdesign-Projektanfrage (`QuizModal`, wie der Kontaktbutton in Header und Kontaktsektion). `Pakete ab 1.900 €` → `#preise` bleibt der sekundäre Link.
 
 **Fußzeile:**
 

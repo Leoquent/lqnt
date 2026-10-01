@@ -113,7 +113,7 @@ export default function WebdesignPage() {
         <HeroPresentation motionPaused={motionPaused} />
         <div className={s.heroDetails}>
           <p className={s.heroLead} data-intro>Mit einer Website, die zeigt, was Sie ausmacht. Mit klaren Texten und eigenständigem Design. Und bei Bedarf mit einem neuen Markenauftritt – inklusive Logo.</p>
-          <div className={s.heroActions} data-intro><a className={s.button} href="#arbeiten">Arbeiten entdecken <Arrow diagonal /></a><a className={s.textLink} href="#preise">Pakete ab 1.900 € <Arrow /></a></div>
+          <div className={s.heroActions} data-intro><button type="button" className={s.button} onClick={() => setQuizOpen(true)}>Projekt besprechen <Arrow diagonal /></button><a className={s.textLink} href="#preise">Pakete ab 1.900 € <Arrow /></a></div>
           <p className={s.heroFootnote} data-intro>Ausgezeichneter Copywriter. Konzept, Text und Webdesign aus einer Hand. <a href="#ueber-mich">Mehr über mich</a></p>
         </div>
       </section>

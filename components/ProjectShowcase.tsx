@@ -24,11 +24,13 @@ export default function ProjectShowcase({ name, poster, mobile, color = "#142333
         scrollTrigger: { trigger: root.current, start: "clamp(top bottom)", end: "bottom top", scrub: .35, invalidateOnRefresh: true },
       });
       motion.fromTo("[data-project-desktop]", {
-        rotationY: small ? -4 : -7, rotationX: small ? 3 : 6, y: small ? 6 : 12,
-      }, { rotationY: 2, rotationX: -2, y: small ? -12 : -22 }, 0);
+        rotationY: small ? -5 : -9, rotationX: small ? 4 : 8,
+        y: small ? 12 : 22, z: small ? -12 : -28,
+      }, { rotationY: small ? 2 : 3, rotationX: -3, y: small ? -20 : -38, z: small ? -12 : -28 }, 0);
       motion.fromTo("[data-project-mobile]", {
-        rotationY: small ? 2 : 6, rotationZ: small ? 2 : 3, y: small ? 12 : 20,
-      }, { rotationY: -3, rotationZ: -2, y: small ? -18 : -32 }, 0);
+        rotationY: small ? 4 : 8, rotationZ: small ? 3 : 4,
+        y: small ? 26 : 50, z: small ? 20 : 48,
+      }, { rotationY: -4, rotationZ: small ? -2 : -3, y: small ? -44 : -76, z: small ? 20 : 48 }, 0);
     }, root);
     return () => mm.revert();
   }, { scope: root });
