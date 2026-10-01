@@ -333,6 +333,19 @@ Die mittlere Karte ist visuell hervorgehoben; eine zusätzliche Empfehlung wird 
 
 > Der genaue Festpreis steht vor dem Start fest. Seitenumfang, individuelle Animationen und Anbindungen stimmen wir im Angebot ab. Für den laufenden Betrieb können Sie die Betreuung unten wählen oder Hosting und Domain selbst organisieren. Etwaige Lizenzkosten sind im Angebot ausgewiesen.
 
+### Markengrundlage — aktualisiert am 01.10.2026
+
+**Preis:** ab **990 €**, einmalig, netto zuzüglich Umsatzsteuer. Als Ergänzung zur Website oder als eigenes Projekt.
+
+**Enthalten:**
+
+- Briefing zu Angebot und Zielgruppe
+- Logo entwickeln oder modernisieren: eine Gestaltungsrichtung, eine Korrekturrunde
+- Farbpalette und Schriftkombination
+- Kompakte Markenübersicht und Logo-Dateien für Web und Druck
+
+Markenbotschaft, Sprachleitlinien, vertiefte Markenstrategie, Namensentwicklung und zusätzliche Anwendungen werden separat kalkuliert. Kleine Anpassungen an einem vorhandenen Logo sind auch nach Aufwand möglich. Umfang, Dateien und Festpreis werden vor dem Start vereinbart. Preis und Umfang stehen identisch im Markenbaustein und in der Logo-FAQ; die drei Website-Paketpreise bleiben unverändert.
+
 ## Betreuung — Nach dem Livegang
 
 **Gestaltung:** Olivfarbene Fläche `#191e11`.

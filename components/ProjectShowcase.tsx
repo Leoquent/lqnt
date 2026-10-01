@@ -18,6 +18,7 @@ export default function ProjectShowcase({ name, poster, mobile, color = "#142333
     mm.add({ mobile: "(max-width: 700px)", desktop: "(min-width: 701px)", reduced: "(prefers-reduced-motion: reduce)" }, context => {
       if (context.conditions?.reduced) return;
       const small = context.conditions?.mobile;
+      const travel = () => Math.min(small ? 30 : 46, (root.current?.clientWidth || 0) * (small ? .06 : .045));
       // The stationary figure includes the moving edges. Both tweens span its full visibility.
       const motion = gsap.timeline({
         defaults: { duration: 1, ease: "none" },
@@ -25,14 +26,14 @@ export default function ProjectShowcase({ name, poster, mobile, color = "#142333
       });
       motion.fromTo("[data-project-desktop]", {
         rotationY: small ? -2 : -4, rotationX: small ? 1 : 2,
-        y: small ? 5 : 10, z: small ? -10 : -24,
-      }, { rotationY: 0, rotationX: 0, y: small ? -9 : -18, z: small ? -10 : -24 }, 0);
-      // The foreground phone drifts down relative to the screen as the page scrolls up.
-      // Percentage travel keeps the composition balanced at intermediate viewport sizes.
+        y: () => travel() / 2, z: small ? -10 : -24,
+      }, { rotationY: 0, rotationX: 0, y: () => -travel() / 2, z: small ? -10 : -24 }, 0);
+      // Split the restrained drift evenly between both planes around their resting positions.
+      // Function values recalculate the shared travel when ScrollTrigger refreshes on resize.
       motion.fromTo("[data-project-mobile]", {
         rotationY: small ? -2 : -3, rotationZ: 1,
-        yPercent: small ? -12 : -14, z: small ? 24 : 70,
-      }, { yPercent: small ? 20 : 24 }, 0);
+        yPercent: small ? 4 : 5, y: () => -travel() / 2, z: small ? 24 : 70,
+      }, { y: () => travel() / 2 }, 0);
     }, root);
     return () => mm.revert();
   }, { scope: root });

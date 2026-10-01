@@ -17,12 +17,12 @@ export const packages = [
 ];
 
 export const brandPackage = {
-  price: "1.900",
+  price: "990",
   features: [
-    "Briefing zu Angebot, Zielgruppe und zentraler Markenbotschaft",
-    "Logo entwickeln oder modernisieren: eine Gestaltungsrichtung, zwei Korrekturrunden",
-    "Farbpalette, Schriftkombination und Leitlinien für Ihre Sprache",
-    "Kompakter Markenleitfaden und Logo-Dateien für Web und Druck",
+    "Briefing zu Angebot und Zielgruppe",
+    "Logo entwickeln oder modernisieren: eine Gestaltungsrichtung, eine Korrekturrunde",
+    "Farbpalette und Schriftkombination",
+    "Kompakte Markenübersicht und Logo-Dateien für Web und Druck",
   ],
 };
 
@@ -34,7 +34,7 @@ export const steps = [
 ];
 
 export const faqs = [
-  { q: "Ich habe noch kein Logo. Können Sie das mitentwickeln?", a: `Ja. Die kompakte Markengrundlage beginnt bei ${brandPackage.price} € netto zuzüglich Umsatzsteuer. Dazu gehören Briefing und Markenbotschaft, ein neues oder modernisiertes Logo in einer Gestaltungsrichtung mit zwei Korrekturrunden, Farben, Schriften, Leitlinien für die Sprache und ein kompakter Markenleitfaden. Sie können den Baustein mit einer Website oder einzeln beauftragen. Kleinere Anpassungen an einem vorhandenen Logo kalkuliere ich nach Aufwand. Umfang und Dateien stehen vorab im Angebot.` },
+  { q: "Ich habe noch kein Logo. Können Sie das mitentwickeln?", a: `Ja. Die kompakte Markengrundlage beginnt bei ${brandPackage.price} € netto zuzüglich Umsatzsteuer. Dazu gehören ein Briefing zu Angebot und Zielgruppe, ein neues oder modernisiertes Logo in einer Gestaltungsrichtung mit einer Korrekturrunde, eine Farbpalette und Schriftkombination sowie eine kompakte Markenübersicht und Logo-Dateien für Web und Druck. Markenbotschaft, Sprachleitlinien und vertiefte Markenstrategie können Sie zusätzlich beauftragen. Den Baustein können Sie mit einer Website oder einzeln buchen. Kleinere Anpassungen an einem vorhandenen Logo kalkuliere ich nach Aufwand. Umfang, Dateien und Festpreis vereinbaren wir vor dem Start.` },
   { q: "Muss ich die Texte selbst schreiben?", a: "Nein. Die Texte sind in jedem Paket enthalten. Ich brauche Ihr Wissen über Ihr Unternehmen – aus einem Gespräch, vorhandenen Unterlagen und Ihrem Feedback. Daraus entwickle ich die Inhalte für den vereinbarten Website-Umfang." },
   { q: "Was bedeutet der Ab-Preis?", a: "Er ist der Einstieg für den beschriebenen Umfang. Im Gespräch klären wir Seiten, Inhalte, Funktionen und Animationen. Danach erhalten Sie ein konkretes Festpreisangebot. Zusätzliche Wünsche stimmen wir gesondert ab, bevor weitere Kosten entstehen." },
   { q: "Geht auch ein großer Onepager?", a: "Ja. Die Zahl der URLs entscheidet nicht über die Qualität. Ein Onepager kann Ihr Angebot ausführlich erzählen. Eigene Unterseiten sind sinnvoll, wenn Leistungen unterschiedliche Fragen beantworten oder gezielt einzeln gefunden und verlinkt werden sollen." },
