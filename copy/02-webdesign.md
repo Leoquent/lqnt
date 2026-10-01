@@ -1,7 +1,9 @@
 # Webdesign — implementierte Copy für `lqnt.de/webdesign`
 
-**Stand: 26.09.2026 — implementierter Stand.** Diese Datei dokumentiert den
-tatsächlich implementierten Inhalt aus [page.tsx](../app/webdesign/page.tsx),
+**Historische Momentaufnahme vom 26.09.2026.** Die Feedback-Runden vom 30.09.2026
+sind im [aktuellen Review](../REVIEW_2026-09-30.md), besonders Abschnitt 9, dokumentiert.
+Für den heutigen Wortlaut sind die folgenden Implementierungsdateien maßgeblich.
+Diese Datei dokumentiert den damaligen Inhalt aus [page.tsx](../app/webdesign/page.tsx),
 [content.ts](../app/webdesign/content.ts), [HeroPresentation.tsx](../app/webdesign/HeroPresentation.tsx),
 [HeroScene.tsx](../app/webdesign/HeroScene.tsx), [QArtwork.tsx](../app/webdesign/QArtwork.tsx),
 [CopyStatement.tsx](../app/webdesign/CopyStatement.tsx) und
@@ -33,7 +35,7 @@ Eine eigene Problemsektion und eine Branchensektion gehören nicht zu dieser Fas
 |---|---|---|
 | 1 | Hero und interaktive Illustration | Botschaft, Gestaltung und Aktion zeigen; den nächsten Schritt passend zum Besucherziel erklären. |
 | 2 | Auszeichnungen | Den Hintergrund als Werbetexter zeigen. |
-| 3 | Arbeiten | RümpelRoss kompakt vorstellen, Details auf Wunsch öffnen. |
+| 3 | Arbeiten | Gebrüder Ross und Rümpelross zeigen und zu eigenen Projektseiten führen. |
 | 4 | Leistungen und Expertise | Text, Design, Besucherführung und die passende technische Umsetzung erklären. |
 | 5 | Text-Statement | Die Texterstellung als persönliche Leistung in jedem Paket verankern. |
 | 6 | Pakete und Betreuung | Projektumfang, Animationsaufwand und optionale Betreuung ab 69 €/Monat einschließlich Hosting, technischem Betrieb und Standard-Domain erklären. |
@@ -66,7 +68,7 @@ Eine eigene Problemsektion und eine Branchensektion gehören nicht zu dieser Fas
 
 > Eine Website, die zeigt, was Sie ausmacht. Durchdacht im Aufbau, eigenständig im Design – mit Texten, die ich für Sie schreibe.
 
-**Links:** `Arbeiten entdecken` → `#arbeiten` · `Pakete ab 1.900 €` → `#preise`
+**Aktionen (aktualisiert am 01.10.2026):** `Projekt besprechen` öffnet die Webdesign-Projektanfrage (`QuizModal`, wie der Kontaktbutton in Header und Kontaktsektion). `Pakete ab 1.900 €` → `#preise` bleibt der sekundäre Link.
 
 **Fußzeile:**
 
@@ -135,52 +137,29 @@ angekündigt; automatische Wechsel erzeugen keine Live-Ansage.
 
 **Anker:** `#arbeiten`
 
-**Headline:**
+**Headline:** Von der Idee / zum Auftritt.
 
-> Ein neuer Auftritt.  
-> Ein vertrauter Charakter.
+**Einleitung:** Wie ich Angebot, Botschaft und Gestaltung zusammenbringe. Einblicke in meine Arbeit.
 
-**Einleitung:**
+Zwei direkt verlinkte Projektflächen. Desktop: nebeneinander, leichte Breitenverschiebung und Bildbewegung auf Hover oder Tastaturfokus. Mobil: untereinander, Projektlink immer sichtbar.
 
-> Wie aus einem bestehenden Unternehmen eine Website mit klarer Linie wird.
+### Gebrüder Ross
 
-### RümpelRoss — kompakte, aufklappbare Projektansicht
+**Auszeichnung:** Recherche · Marke · Website
 
-**Auszeichnung:** `Webdesign · Text · Interaktion`
+**Kurztext:** Nachlassabwicklung verständlich machen. Leistungen ordnen. Persönliches Vertrauen aufbauen.
 
-**Projektname:** `RümpelRoss`
+**Link:** Projekt ansehen → `/referenzen/gebrueder-ross/`
 
-**Kurztext:**
+### Rümpelross
 
-> Den Charakter behalten. Das Angebot schärfen. Den Weg zur Anfrage vereinfachen.
+**Auszeichnung:** Text · Webdesign · Interaktion
 
-**Bildplatzhalter:** `Projektansicht folgt`
+**Kurztext:** Entrümpelung verständlich erklären. Leistungen zeigen. Den Weg zur Anfrage verkürzen.
 
-**Taste:** `Projekt ansehen` / `Weniger`
+**Link:** Projekt ansehen → `/referenzen/ruempelross/`
 
-**Aufgeklappter Inhalt — Die Ausgangslage:**
-
-> Viel Persönlichkeit.  
-> Wenig Orientierung.
->
-> Die selbst gebaute Website zeigte den Betrieb, machte es Besuchern aber schwer, sich zurechtzufinden. Botschaften, Leistungen und Kontaktmöglichkeiten brauchten eine klarere Ordnung.
-
-**Aufgeklappter Inhalt — Mein Beitrag:**
-
-> Ein roter Faden.  
-> Vom ersten Blick bis zur Anfrage.
->
-> Markenfarben und Comic-Charakter bleiben. Neu sind die Texte, die Gestaltung und eine Dramaturgie, die durch das Angebot führt.
-
-- Responsive Gestaltung, eigene Grafiken und Icons
-- Scroll-Animationen und Vorher-nachher-Slider
-- Quiz zur Anfrage und zusätzliche Kontaktwege
-
-**Link:** [Projektvorschau öffnen](https://leoquent.github.io/ruempelross/) — öffnet in einem neuen Tab.
-
-**Nachsatz:**
-
-> Weitere Projekte entstehen gerade. Hier zeige ich sie, sobald sie bereit sind.
+**Nachsatz:** Zwei Unternehmen, zwei eigenständige Auftritte. Mehr zu Konzept und Gestaltung auf den Projektseiten.
 
 ## 02 / Was Ihre Website ausmacht
 
@@ -354,6 +333,19 @@ Die mittlere Karte ist visuell hervorgehoben; eine zusätzliche Empfehlung wird 
 
 > Der genaue Festpreis steht vor dem Start fest. Seitenumfang, individuelle Animationen und Anbindungen stimmen wir im Angebot ab. Für den laufenden Betrieb können Sie die Betreuung unten wählen oder Hosting und Domain selbst organisieren. Etwaige Lizenzkosten sind im Angebot ausgewiesen.
 
+### Markengrundlage — aktualisiert am 01.10.2026
+
+**Preis:** ab **990 €**, einmalig, netto zuzüglich Umsatzsteuer. Als Ergänzung zur Website oder als eigenes Projekt.
+
+**Enthalten:**
+
+- Briefing zu Angebot und Zielgruppe
+- Logo entwickeln oder modernisieren: eine Gestaltungsrichtung, eine Korrekturrunde
+- Farbpalette und Schriftkombination
+- Kompakte Markenübersicht und Logo-Dateien für Web und Druck
+
+Markenbotschaft, Sprachleitlinien, vertiefte Markenstrategie, Namensentwicklung und zusätzliche Anwendungen werden separat kalkuliert. Kleine Anpassungen an einem vorhandenen Logo sind auch nach Aufwand möglich. Umfang, Dateien und Festpreis werden vor dem Start vereinbart. Preis und Umfang stehen identisch im Markenbaustein und in der Logo-FAQ; die drei Website-Paketpreise bleiben unverändert.
+
 ## Betreuung — Nach dem Livegang
 
 **Gestaltung:** Olivfarbene Fläche `#191e11`.
@@ -526,14 +518,26 @@ Die Antworten sind aufklappbar; jeweils eine kann geöffnet sein.
 
 **Kontaktwege:**
 
-- `Projekt besprechen` — E-Mail an `hi@lqnt.de`, Betreff `Lassen Sie uns über meine Website sprechen`.
+- `Projekt besprechen` — öffnet den Webdesign-Projektfragebogen, ebenso wie der Button im Header und im Hero.
 - `Oder direkt anrufen` — Telefonlink zu `+49 176 47177623` (`tel:+4917647177623`).
 
 **Hinweis:** `Kostenloses Erstgespräch · unverbindlich`
 
-Die Kontaktaktion auf dieser Seite öffnet eine E-Mail. Es gibt hier kein eingebautes
-Kontaktformular, Terminbuchungsmodul oder Analyse-Quiz; solche Funktionen in den Paketen
-beschreiben Leistungen für Kundenwebsites.
+### Projektfragebogen – überarbeitet am 01.10.2026
+
+Der Einstieg fragt „Was haben Sie vor?“. Die Antwort bestimmt die Folgefragen:
+
+| Vorhaben | Fragenfolge | Schritte einschließlich Kontakt |
+|---|---|---|
+| Eine neue Website erstellen | Wichtigstes Ziel → grober Umfang → gewünschter Projektstart → Kontakt | 5 |
+| Meine bestehende Website verbessern | Wichtigster Verbesserungsbedarf → gewünschter Projektstart → Kontakt | 4 |
+| Logo und Markenauftritt entwickeln | Ausgangspunkt der Marke → gewünschter Projektstart → Kontakt | 4 |
+| Ich brauche erst Orientierung | Direkt zum Kontakt, mit freiwilliger Beschreibung | 2 |
+| Sonstiges | Eigenes Anliegen beschreiben → Kontakt | 2 |
+
+Website-Anfragen erhalten keine wiederholten Logo-Fragen. Vorhandene Markengrundlagen können im Erstgespräch geklärt oder freiwillig ergänzt werden. „Das möchte ich gemeinsam klären“ bleibt bei den Fachfragen als Antwort möglich; der Zeitpunkt darf offen bleiben.
+
+Beim Kontakt: Name, E-Mail und Telefonnummer; Website-Adresse und ergänzende Wünsche freiwillig. „Ihre Angaben prüfen“ öffnet die Zusammenfassung mit direkten Änderungsmöglichkeiten. Beim Wechsel des Vorhabens werden vorherige abhängige Antworten verworfen. Die Anfrage wird über den bestehenden eigenen Endpunkt versendet; sichtbarer Ausweichweg bei einem Fehler bleibt erhalten. Keine Terminbuchung oder Preiszusage durch den Fragebogen.
 
 ## Brücke zu Prozesse & Automatisierung
 

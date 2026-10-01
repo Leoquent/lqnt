@@ -1,0 +1,21 @@
+.card{position:relative;isolation:isolate;display:flex;align-items:flex-end;min-width:0;min-height:560px;background:#0a0a0a;overflow:hidden;cursor:pointer}
+.portrait{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 8%;transition:transform .65s,filter .65s}
+.shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,5,5,.03) 25%,rgba(5,5,5,.25) 65%,rgba(5,5,5,.92) 100%);transition:background .5s}
+.content{position:relative;z-index:1;width:100%;padding:32px 24px;color:#eaeaea}
+.heading{margin:0;font-size:clamp(25px,3.1vw,40px);line-height:1.1;font-weight:700;letter-spacing:-.025em}
+.heading button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;text-align:left;cursor:pointer;color:#fff}
+.heading small{display:block;margin-top:12px;color:#ccff00;font-size:11px;font-weight:500;line-height:1.5;text-transform:uppercase;letter-spacing:.06em}
+.arrow{flex:none;display:grid;place-items:center;width:44px;height:44px;border:1px solid #ccff00;color:#ccff00;border-radius:50%;transition:transform .4s,background .4s,color .4s}
+.arrow svg{width:24px;height:24px}
+.reveal{display:grid;grid-template-rows:0fr;opacity:0;visibility:hidden;transition:grid-template-rows .45s,opacity .4s,visibility .45s}
+.clip{min-height:0;overflow:hidden}
+.copy{padding-top:24px;font-size:16px;line-height:1.65;color:#eaeaea}
+.copy p{margin:0 0 20px}.copy p:last-child{margin:0}
+.card[data-profile-open=true] .portrait{transform:scale(1.04);filter:grayscale(1)}
+.card[data-profile-open=true] .shade{background:rgba(5,5,5,.88)}
+.card[data-profile-open=true] .reveal{grid-template-rows:1fr;opacity:1;visibility:visible}
+.card[data-profile-open=true] .arrow{transform:rotate(180deg);background:#ccff00;color:#050505}
+@media(min-width:768px){.content{padding:40px}.card{min-height:650px}}
+@media(hover:hover) and (pointer:fine){.card{min-height:max(650px,var(--profile-content-height,740px))}}
+@media(max-width:359px){.content{padding:28px 20px}.copy{font-size:15px}.heading{font-size:24px}.heading button{gap:10px}}
+@media(prefers-reduced-motion:reduce){.portrait,.reveal,.arrow,.shade{transition:none}}

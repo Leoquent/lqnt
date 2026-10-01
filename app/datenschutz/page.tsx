@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { absoluteUrl } from "@/lib/seo";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export const metadata: Metadata = {
-  title: "Datenschutzerklärung | Leoquent",
+  title: "Datenschutzerklärung | leoquent",
+  alternates: { canonical: absoluteUrl("/datenschutz/") },
   robots: { index: false, follow: true },
 };
 
@@ -15,24 +17,24 @@ export const metadata: Metadata = {
 // Serverstandort Deutschland ist bestätigt (14.08.2026) — kein Drittland-Hinweis nötig,
 // und die Aussage "gehostet in Deutschland" auf der Startseite ist gedeckt.
 //
-// Calendly (Abschnitt 4) ist derzeit NICHT eingebunden — der Abschnitt bleibt vorbereitet
-// stehen, bis der eigene Account eingerichtet ist. Falls Calendly doch nicht kommt: streichen.
+// Formularbeschreibung gegen den aktuellen Client-Endpunkt abgeglichen.
+// Serverbetrieb, Empfänger, Löschfristen und AVV vor Veröffentlichung bestätigen.
 
 export default function DatenschutzPage() {
   return (
-    <main className="bg-vanta text-bone min-h-screen">
+    <main className="bg-vanta text-bone min-h-screen break-words">
       <div className="max-w-3xl mx-auto px-6 py-16 md:py-24">
-        <a href={`${basePath}/`} className="font-mono text-xs uppercase tracking-widest text-lime hover:opacity-80 transition-opacity">
+        <a href={`${basePath}/`} className="font-mono text-xs uppercase tracking-widest text-lime underline underline-offset-4 hover:opacity-80 transition-opacity">
           ← Zurück zur Startseite
         </a>
 
-        <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-tight mt-8 mb-10">Datenschutzerklärung</h1>
+        <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-tight mt-8 mb-10">Datenschutz<wbr />erklärung</h1>
 
         <h2 className="text-lg font-bold uppercase tracking-tight mb-3">1. Verantwortlicher</h2>
         <p className="text-sm text-bone/70 leading-relaxed mb-6">
           Verantwortlich für die Datenverarbeitung auf dieser Website ist:<br />
-          Leonid Ryazanskiy (Leoquent), Uerdinger Str. 75, 40474 Düsseldorf<br />
-          E-Mail: <a href="mailto:hi@lqnt.de" className="text-lime hover:opacity-80">hi@lqnt.de</a>
+          Leonid Ryazanskiy (leoquent), Uerdinger Str. 75, 40474 Düsseldorf<br />
+          E-Mail: <a href="mailto:hi@lqnt.de" className="text-lime underline underline-offset-4 hover:opacity-80">hi@lqnt.de</a>
         </p>
 
         <h2 className="text-lg font-bold uppercase tracking-tight mb-3">2. Hosting &amp; Server-Logfiles</h2>
@@ -48,22 +50,20 @@ export default function DatenschutzPage() {
 
         <h2 className="text-lg font-bold uppercase tracking-tight mb-3">3. Kontakt- und Analyse-Formular</h2>
         <p className="text-sm text-bone/70 leading-relaxed mb-6">
-          Wenn Sie unser Analyse-Formular auf der Website nutzen, verarbeiten wir die von Ihnen
-          angegebenen Daten (Name, E-Mail, Telefonnummer, ggf. Website sowie Ihre Angaben zu Ziel,
-          Flaschenhals, Teamgröße, Zeitrahmen und KI-Reife), um Ihre Anfrage zu bearbeiten und Kontakt
-          aufzunehmen (Art. 6 Abs. 1 lit. b und lit. f DSGVO). Der Versand erfolgt über den Dienst
-          <strong> Web3Forms</strong> (Softminds Consultancy) als Auftragsverarbeiter, der die
-          Formulardaten per E-Mail an uns zustellt. Die Daten werden gelöscht, sobald sie für die
-          Zweckerreichung nicht mehr erforderlich sind. [Falls ein anderer Formular-/CRM-Dienst
-          eingesetzt wird, hier anpassen.]
+          Wenn Sie ein Kontakt- oder Projektformular nutzen, verarbeite ich Ihre Angaben
+          (Name, E-Mail, Telefonnummer, ggf. Website sowie Informationen zu Ihrem Vorhaben,
+          Markengrundlagen, gewünschtem Umfang, Zeitrahmen oder betrieblichen Abläufen),
+          um Ihre Anfrage zu bearbeiten und Kontakt aufzunehmen (Art. 6 Abs. 1 lit. b und lit. f DSGVO).
+          Die Website übermittelt die Angaben an meinen Formular-Endpunkt unter api.lqnt.de.
+          Die Daten werden gelöscht, sobald sie für die Bearbeitung nicht mehr erforderlich sind
+          und keine gesetzlichen Aufbewahrungspflichten entgegenstehen.
         </p>
 
-        <h2 className="text-lg font-bold uppercase tracking-tight mb-3">4. Terminbuchung (Calendly)</h2>
+        <h2 className="text-lg font-bold uppercase tracking-tight mb-3">4. Kontakt per E-Mail und Telefon</h2>
         <p className="text-sm text-bone/70 leading-relaxed mb-6">
-          Für die Buchung von Terminen nutzen wir <strong>Calendly</strong> (Calendly LLC, USA). Wenn
-          Sie einen Termin buchen, werden die dort eingegebenen Daten von Calendly verarbeitet.
-          Rechtsgrundlage ist Art. 6 Abs. 1 lit. b und lit. f DSGVO. Details finden Sie in der
-          Datenschutzerklärung von Calendly.
+          Wenn Sie mich per E-Mail oder telefonisch kontaktieren, verarbeite ich Ihre Kontaktdaten
+          und den Inhalt Ihrer Anfrage zur Bearbeitung Ihres Anliegens und zur Vorbereitung einer
+          möglichen Zusammenarbeit (Art. 6 Abs. 1 lit. b und lit. f DSGVO).
         </p>
 
         <h2 className="text-lg font-bold uppercase tracking-tight mb-3">5. Schriftarten</h2>
@@ -74,8 +74,7 @@ export default function DatenschutzPage() {
 
         <h2 className="text-lg font-bold uppercase tracking-tight mb-3">6. Cookies</h2>
         <p className="text-sm text-bone/70 leading-relaxed mb-6">
-          Diese Website setzt keine Tracking- oder Marketing-Cookies. [Falls später Analyse-Tools
-          eingesetzt werden, ist hier ein Cookie-/Consent-Banner erforderlich.]
+          Diese Website setzt keine Tracking- oder Marketing-Cookies.
         </p>
 
         <h2 className="text-lg font-bold uppercase tracking-tight mb-3">7. Ihre Rechte</h2>
@@ -84,10 +83,10 @@ export default function DatenschutzPage() {
           Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) sowie Widerspruch
           (Art. 21 DSGVO). Zudem haben Sie das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu
           beschweren. Wenden Sie sich dazu an{" "}
-          <a href="mailto:hi@lqnt.de" className="text-lime hover:opacity-80">hi@lqnt.de</a>.
+          <a href="mailto:hi@lqnt.de" className="text-lime underline underline-offset-4 hover:opacity-80">hi@lqnt.de</a>.
         </p>
 
-        <p className="text-xs text-mute/60 leading-relaxed mt-12 border-t border-gridline pt-6 font-mono">
+        <p className="text-xs text-bone/70 leading-relaxed mt-12 border-t border-gridline pt-6 font-mono">
           Stand: {new Date().getFullYear()} · Vorlage – bitte vor dem Launch an die tatsächlich
           eingesetzten Dienste anpassen und rechtlich prüfen lassen.
         </p>

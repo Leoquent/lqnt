@@ -115,9 +115,9 @@
 
 .collaboration .legend {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 9px 18px;
-  max-width: 310px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  max-width: 440px;
   padding: 0;
   margin: 12px 0 0;
   color: var(--collaboration-secondary);
@@ -128,7 +128,8 @@
 
 .legend li {
   display: flex;
-  gap: 10px;
+  gap: 3px;
+  flex-wrap: wrap;
 }
 
 .legend span {
@@ -145,7 +146,7 @@
   margin: 0;
   border-left: 1px solid var(--collaboration-line);
   list-style: none;
-  /* All rows always occupy their final positions. Never translate or clip this list. */
+  position: relative;
 }
 
 .step {
@@ -203,7 +204,7 @@
 @media (max-width: 960px) {
   .collaboration .frame {
     grid-template-columns: minmax(0, 1fr);
-    gap: 30px;
+    gap: 16px;
   }
 
   .collaboration .title {
@@ -215,11 +216,12 @@
   }
 
   .visual {
-    max-width: 320px;
+    max-width: 440px;
+    margin-top: 12px;
   }
 
   .illustration {
-    height: 155px;
+    height: 125px;
   }
 
   .collaboration .steps {
@@ -240,6 +242,25 @@
     max-width: 48ch;
     font-size: 16px;
   }
+}
+
+.stepWindow { min-width: 0; }
+.collaboration .readControl { display: inline-block; min-height: 44px; padding: 8px 0; margin-top: 4px; background: transparent; color: var(--collaboration-muted); font: inherit; font-size: 12px; line-height: 1.5; text-align: left; text-decoration: underline; text-decoration-color: #636958; text-underline-offset: 4px; }
+.collaboration .readControl:hover { color: var(--collaboration-ink); }
+@media (max-width: 960px) {
+  .collaboration .frame { align-content: start; }
+  .collaboration[data-collaboration-pin="true"] .frame { align-content: start; }
+  .collaboration .title { margin: 14px 0 12px; }
+  .collaboration .lead { font-size: 14px; line-height: 1.6; }
+  .collaboration .legend { font-size: 11px; }
+  .collaboration[data-collaboration-pin="true"] .stepWindow { height: var(--collaboration-step-height); overflow: hidden; border-top: 1px solid var(--collaboration-line); border-bottom: 1px solid var(--collaboration-line); }
+  .collaboration[data-collaboration-pin="true"] .step { min-height: var(--collaboration-step-height); border: 0; }
+  .collaboration .step { padding-block: 18px; }
+}
+
+@media (max-width: 960px) and (max-height: 800px) {
+  .collaboration .frame { padding-block: 18px; }
+  .collaboration .illustration { height: 105px; }
 }
 
 @media (max-width: 380px) {

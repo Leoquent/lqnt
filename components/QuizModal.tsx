@@ -1,132 +1,34 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
+import { createQuizAnswers, createLeadPayload, getQuizSteps, getQuizSummary, isQuizStepValid, isWebsiteQuiz, optionLabel, optionValue, updateQuizAnswer, type QuizAnswers } from "@/lib/quiz-flow";
 
 // Ziel für die Quiz-Anfragen: eigener Endpunkt auf dem VPS (Container lqnt-api).
 // Er nimmt entgegen, legt ab und mailt an hi@lqnt.de. Beim Build statisch eingesetzt.
 // Fällt der Dienst aus, greift der sichtbare Ausweichweg mit Mail und Telefon unten.
 const LEAD_URL = process.env.NEXT_PUBLIC_LEAD_ENDPOINT || "https://api.lqnt.de/lead";
 
-// ─── QUIZ DATA ───────────────────────────────────────────────
-
-const STEPS = [
-    {
-        id: "goal",
-        label: "Schritt 1 von 5",
-        headline: "Was ist Ihr primäres Ziel?",
-        subline: "Wählen Sie die Option, die am besten zu Ihrem Vorhaben passt.",
-        type: "single-choice" as const,
-        options: [
-            "Prozesse & Administration automatisieren",
-            "Mehr Leads / Kundenanfragen generieren",
-            "Bestehende Software intelligent vernetzen",
-            "Neue Website / Digitales Rebranding",
-        ],
-        hasOther: true,
-    },
-    {
-        id: "painpoint",
-        label: "Schritt 2 von 5",
-        headline: "Wo verliert Ihr Team am meisten Zeit?",
-        subline: "Identifizieren Sie den größten Flaschenhals.",
-        type: "single-choice-with-dropdown" as const,
-        options: [
-            "Manuelle Datenpflege & Dokumentation",
-            "Beantwortung von Standard-Kundenanfragen",
-            "Koordination & interne Abstimmung",
-            "Veraltete, unübersichtliche Software",
-        ],
-        hasOther: true,
-        dropdown: {
-            label: "Teamgröße",
-            placeholder: "Mitarbeiteranzahl wählen",
-            options: [
-                "1 – 5 Mitarbeiter",
-                "6 – 20 Mitarbeiter",
-                "21 – 50 Mitarbeiter",
-                "51 – 200 Mitarbeiter",
-                "200+ Mitarbeiter",
-            ],
-        },
-    },
-    {
-        id: "timeline",
-        label: "Schritt 3 von 5",
-        headline: "Wie schnell soll die Lösung stehen?",
-        subline: "Das hilft uns, Ihr Projekt richtig einzuplanen.",
-        type: "single-choice" as const,
-        options: [
-            "So schnell wie möglich (akuter Bedarf)",
-            "In den nächsten 1 – 3 Monaten",
-            "In den nächsten 3 – 6 Monaten",
-            "Ich orientiere mich erstmal",
-        ],
-        hasOther: false,
-    },
-    {
-        id: "maturity",
-        label: "Schritt 4 von 5",
-        headline: "Nutzen Sie bereits KI-Tools oder Automatisierung?",
-        subline: "Damit wir genau wissen, wo wir ansetzen können.",
-        type: "single-choice" as const,
-        options: [
-            "Nein, noch gar nicht",
-            "Ja, einzelne Tools (z. B. ChatGPT, Zapier)",
-            "Ja, wir haben bereits eigene Automationen",
-            "Wir sind unsicher, was möglich ist",
-        ],
-        hasOther: false,
-    },
-    {
-        id: "contact",
-        label: "Schritt 5 von 5",
-        headline: "Fast geschafft – wie erreichen wir Sie?",
-        subline: "100% kostenlos & unverbindlich. Ihre Daten werden vertraulich behandelt und dienen uns zur Vorbereitung auf unser Gespräch.",
-        type: "contact" as const,
-    },
-];
-
-// ─── TYPES ───────────────────────────────────────────────────
-
-interface QuizAnswers {
-    goal: string;
-    goalOther: string;
-    painpoint: string;
-    painpointOther: string;
-    teamSize: string;
-    timeline: string;
-    maturity: string;
-    name: string;
-    email: string;
-    phone: string;
-    website: string;
-}
-
 interface QuizModalProps {
     isOpen: boolean;
     onClose: () => void;
+    mode?: "prozesse" | "webdesign";
 }
 
 // ─── COMPONENT ───────────────────────────────────────────────
 
-export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
+export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizModalProps) {
     const [currentStep, setCurrentStep] = useState(0);
     const [direction, setDirection] = useState<"forward" | "backward">("forward");
     const [isAnimating, setIsAnimating] = useState(false);
-    const [answers, setAnswers] = useState<QuizAnswers>({
-        goal: "",
-        goalOther: "",
-        painpoint: "",
-        painpointOther: "",
-        teamSize: "",
-        timeline: "",
-        maturity: "",
-        name: "",
-        email: "",
-        phone: "",
-        website: "",
-    });
+    const [answers, setAnswers] = useState<QuizAnswers>(createQuizAnswers);
     const [submitState, setSubmitState] = useState<"idle" | "sending" | "success" | "error">("idle");
+    const isWebsite = isWebsiteQuiz(mode, answers);
+    const steps = getQuizSteps(mode, answers);
+    const summary = getQuizSummary(mode, answers);
+    const navigationTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const sessionRef = useRef(0);
+    const scrollRef = useRef<HTMLDivElement>(null);
 
     const containerRef = useRef<HTMLDivElement>(null);
     const lastFocusedRef = useRef<HTMLElement | null>(null);
@@ -135,7 +37,7 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
     useEffect(() => {
         if (!isOpen) return;
         lastFocusedRef.current = document.activeElement as HTMLElement | null;
-        return () => lastFocusedRef.current?.focus();
+        return () => queueMicrotask(() => lastFocusedRef.current?.focus());
     }, [isOpen]);
 
     // Move focus into the dialog on open and when switching to the success screen
@@ -143,18 +45,35 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
         if (isOpen) containerRef.current?.focus();
     }, [isOpen, submitState]);
 
-    // Reset when modal opens
     useEffect(() => {
+        if (isOpen) {
+            if (scrollRef.current) scrollRef.current.scrollTop = 0;
+            containerRef.current?.querySelector<HTMLElement>("[data-quiz-heading]")?.focus({ preventScroll: true });
+        }
+    }, [currentStep, isOpen]);
+
+    useEffect(() => {
+        if (!isOpen) return;
+        const siblings = Array.from(document.body.children).filter((el): el is HTMLElement => el instanceof HTMLElement && el !== containerRef.current);
+        const before = siblings.map(el => el.inert);
+        siblings.forEach(el => { el.inert = true; });
+        return () => siblings.forEach((el, i) => { el.inert = before[i]; });
+    }, [isOpen]);
+
+    // Closing during a transition must not advance a freshly reopened quiz.
+    useEffect(() => {
+        sessionRef.current += 1;
         if (isOpen) {
             setCurrentStep(0);
             setDirection("forward");
-            setAnswers({
-                goal: "", goalOther: "", painpoint: "", painpointOther: "",
-                teamSize: "", timeline: "", maturity: "",
-                name: "", email: "", phone: "", website: "",
-            });
+            setIsAnimating(false);
+            setAnswers(createQuizAnswers());
             setSubmitState("idle");
         }
+        return () => {
+            sessionRef.current += 1;
+            if (navigationTimer.current) clearTimeout(navigationTimer.current);
+        };
     }, [isOpen]);
 
     // Body scroll lock
@@ -174,14 +93,14 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
             return;
         }
         if (e.key === "Tab" && containerRef.current) {
-            const focusables = containerRef.current.querySelectorAll<HTMLElement>(
-                'button:not([disabled]), [href], input, select, textarea'
-            );
+            const focusables = Array.from(containerRef.current.querySelectorAll<HTMLElement>(
+                'button:not([disabled]), [href], input, select, textarea, summary'
+            )).filter(element => element.getClientRects().length > 0);
             if (focusables.length === 0) return;
             const first = focusables[0];
             const last = focusables[focusables.length - 1];
             const active = document.activeElement as HTMLElement | null;
-            if (e.shiftKey && (active === first || !containerRef.current.contains(active))) {
+            if (e.shiftKey && (active === first || active === containerRef.current || !containerRef.current.contains(active))) {
                 e.preventDefault();
                 last.focus();
             } else if (!e.shiftKey && active === last) {
@@ -198,85 +117,42 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
         }
     }, [isOpen, handleKeyDown]);
 
-    // ─── NAVIGATION ──────────────────────────────────────────
-
-    const goNext = () => {
-        if (currentStep < STEPS.length - 1 && !isAnimating) {
-            setDirection("forward");
-            setIsAnimating(true);
-            setTimeout(() => {
-                setCurrentStep((s) => s + 1);
-                setIsAnimating(false);
-            }, 300);
-        }
+    const navigateTo = (index: number) => {
+        if (isAnimating || submitState === "sending" || index < 0 || index >= steps.length) return;
+        setDirection(index > currentStep ? "forward" : "backward");
+        setIsAnimating(true);
+        navigationTimer.current = setTimeout(() => {
+            setCurrentStep(index);
+            setIsAnimating(false);
+            navigationTimer.current = null;
+        }, 300);
     };
-
-    const goBack = () => {
-        if (currentStep > 0 && !isAnimating) {
-            setDirection("backward");
-            setIsAnimating(true);
-            setTimeout(() => {
-                setCurrentStep((s) => s - 1);
-                setIsAnimating(false);
-            }, 300);
-        }
-    };
-
-    // ─── VALIDATION ──────────────────────────────────────────
-
-    const isStepValid = (): boolean => {
-        const step = STEPS[currentStep];
-        switch (step.id) {
-            case "goal":
-                return answers.goal !== "" && (answers.goal !== "__other__" || answers.goalOther.trim() !== "");
-            case "painpoint":
-                return answers.painpoint !== "" && (answers.painpoint !== "__other__" || answers.painpointOther.trim() !== "") && answers.teamSize !== "";
-            case "timeline":
-                return answers.timeline !== "";
-            case "maturity":
-                return answers.maturity !== "";
-            case "contact":
-                return answers.name.trim() !== "" && answers.email.trim() !== "" && answers.phone.trim() !== "";
-            default:
-                return false;
-        }
-    };
-
-    // ─── CHOICE SELECTION ────────────────────────────────────
+    const goNext = () => { if (isStepValid()) navigateTo(currentStep + 1); };
+    const goBack = () => navigateTo(currentStep - 1);
+    const isStepValid = () => isQuizStepValid(steps[currentStep], answers);
 
     const handleSelect = (field: keyof QuizAnswers, value: string) => {
-        setAnswers((prev) => ({ ...prev, [field]: value }));
+        if (isAnimating || submitState === "sending") return;
+        setAnswers(previous => updateQuizAnswer(previous, field, value));
     };
-
     const handleInput = (field: keyof QuizAnswers, value: string) => {
-        setAnswers((prev) => ({ ...prev, [field]: value }));
+        setAnswers(previous => ({ ...previous, [field]: value }));
     };
 
     const handleSubmit = async () => {
+        if (isAnimating || currentStep !== steps.length - 1 || !steps.every(step => isQuizStepValid(step, answers)) || submitState === "sending") return;
+        const session = sessionRef.current;
         setSubmitState("sending");
         setIsAnimating(true);
-
-        const goal = answers.goal === "__other__" ? answers.goalOther : answers.goal;
-        const painpoint = answers.painpoint === "__other__" ? answers.painpointOther : answers.painpoint;
 
         try {
             const res = await fetch(LEAD_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", Accept: "application/json" },
-                body: JSON.stringify({
-                    Name: answers.name,
-                    "E-Mail": answers.email,
-                    Telefon: answers.phone,
-                    Website: answers.website || "—",
-                    Ziel: goal || "—",
-                    Flaschenhals: painpoint || "—",
-                    "Teamgröße": answers.teamSize || "—",
-                    Zeitrahmen: answers.timeline || "—",
-                    "KI-Reife": answers.maturity || "—",
-                    firma: "", // Honeypot: bleibt leer. Bots füllen ihn und werden verworfen.
-                }),
+                body: JSON.stringify(createLeadPayload(mode, answers)),
             });
             const json = await res.json();
+            if (session !== sessionRef.current) return;
             if (res.ok && json.ok) {
                 setSubmitState("success");
             } else {
@@ -284,22 +160,23 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                 setSubmitState("error");
             }
         } catch (err) {
+            if (session !== sessionRef.current) return;
             console.error("Failed to submit lead", err);
             setSubmitState("error");
         } finally {
-            setIsAnimating(false);
+            if (session === sessionRef.current) setIsAnimating(false);
         }
     };
 
     // ─── PROGRESS ────────────────────────────────────────────
 
-    const progress = ((currentStep + 1) / STEPS.length) * 100;
+    const progress = ((currentStep + 1) / steps.length) * 100;
 
     if (!isOpen) return null;
 
     // ─── SUCCESS SCREEN ──────────────────────────────────────
     if (submitState === "success") {
-        return (
+        return createPortal(
             <div ref={containerRef} tabIndex={-1} className="fixed inset-0 z-[9998] flex items-center justify-center" role="dialog" aria-modal="true" aria-label="Anfrage gesendet">
                 <div className="absolute inset-0 bg-vanta/90 backdrop-blur-md quiz-backdrop-enter" onClick={onClose} />
                 <div className="relative z-10 w-full max-w-lg mx-4 sm:mx-6 quiz-modal-enter bg-[#0a0a0a] border border-gridline">
@@ -308,10 +185,10 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                     </button>
                     <div className="h-1 bg-lime w-full" />
                     <div className="px-6 py-10 sm:px-10 sm:py-14 text-center">
-                        <div className="font-mono text-[10px] uppercase tracking-widest text-lime/70 mb-4">Anfrage erhalten</div>
-                        <h2 className="text-2xl sm:text-3xl uppercase font-bold text-white mb-3 tracking-tight">Danke, wir melden uns.</h2>
-                        <p className="text-sm text-bone/60 font-light mb-8 leading-relaxed">
-                            Ihre Angaben sind eingegangen. Wir melden uns. Wenn es schneller gehen soll, schreiben Sie direkt.
+                        <div className="font-mono text-[10px] uppercase tracking-widest text-lime/90 mb-4">Anfrage erhalten</div>
+                        <h2 className="text-2xl sm:text-3xl uppercase font-bold text-white mb-3 tracking-tight">Danke, ich melde mich.</h2>
+                        <p className="text-sm text-bone/80 font-light mb-8 leading-relaxed">
+                            Ihre Angaben sind eingegangen. Ich melde mich. Wenn es schneller gehen soll, schreiben Sie direkt.
                         </p>
                         {/* Der frühere Button führte auf einen fremden Calendly-Account
                             (calendly.com/ofxffm) und ist deshalb entfernt. Sobald ein eigener
@@ -320,27 +197,27 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                         <a href="mailto:hi@lqnt.de" className="inline-block bg-lime text-vanta font-mono font-bold uppercase px-8 py-4 border border-lime btn-glitch text-sm">
                             hi@lqnt.de
                         </a>
-                        <button onClick={onClose} className="block mx-auto mt-6 font-mono text-xs uppercase tracking-widest text-bone/60 hover:text-white transition-colors">
+                        <button onClick={onClose} className="block mx-auto mt-6 font-mono text-xs uppercase tracking-widest text-bone/80 hover:text-white transition-colors">
                             Schließen
                         </button>
                     </div>
                 </div>
-            </div>
+            </div>, document.body
         );
     }
 
-    const step = STEPS[currentStep];
+    const step = steps[currentStep];
 
     // ─── RENDER ──────────────────────────────────────────────
 
-    return (
+    return createPortal(
         <div
             ref={containerRef}
             tabIndex={-1}
             className="fixed inset-0 z-[9998] flex items-center justify-center"
             role="dialog"
             aria-modal="true"
-            aria-label="Potenzialanalyse Quiz"
+            aria-label={isWebsite ? "Website-Projekt besprechen" : "Potenzialanalyse Quiz"}
         >
             {/* Backdrop */}
             <div
@@ -371,24 +248,24 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                 </div>
 
                 {/* Scrollable Content Area */}
-                <div className="flex-1 overflow-y-auto bg-[#0a0a0a] border border-gridline border-t-0">
+                <div ref={scrollRef} className="flex-1 overflow-y-auto bg-[#0a0a0a] border border-gridline border-t-0">
                     <div className="px-6 py-8 sm:px-10 sm:py-12">
 
                         {/* Step Label */}
-                        <div className="font-mono text-[10px] uppercase tracking-widest text-lime/70 mb-2">
-                            {step.label}
+                        <div className="font-mono text-[10px] uppercase tracking-widest text-lime/90 mb-2">
+                            {isWebsite && currentStep === 0 ? "Ihr Vorhaben" : `Schritt ${currentStep + 1} von ${steps.length}`}
                         </div>
 
                         {/* Headline */}
-                        <h2
-                            className={`text-2xl sm:text-3xl uppercase font-bold text-white mb-2 tracking-tight quiz-step-content ${isAnimating ? (direction === "forward" ? "quiz-exit-left" : "quiz-exit-right") : "quiz-enter"}`}
+                        <h2 data-quiz-heading tabIndex={-1}
+                            className={`text-2xl sm:text-3xl ${isWebsite ? "font-semibold" : "uppercase font-bold"} text-white mb-2 tracking-tight quiz-step-content ${isAnimating ? (direction === "forward" ? "quiz-exit-left" : "quiz-exit-right") : "quiz-enter"}`}
                         >
                             {step.headline}
                         </h2>
 
                         {/* Subline */}
                         <p
-                            className={`text-sm text-bone/60 font-light mb-8 sm:mb-10 quiz-step-content ${isAnimating ? (direction === "forward" ? "quiz-exit-left" : "quiz-exit-right") : "quiz-enter"}`}
+                            className={`text-sm text-bone/80 font-light mb-8 sm:mb-10 quiz-step-content ${isAnimating ? (direction === "forward" ? "quiz-exit-left" : "quiz-exit-right") : "quiz-enter"}`}
                         >
                             {step.subline}
                         </p>
@@ -401,11 +278,11 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                                 <div className="flex flex-col gap-3">
                                     {step.options?.map((option) => {
                                         const field = step.id as keyof QuizAnswers;
-                                        const isSelected = answers[field] === option;
+                                        const isSelected = answers[field] === optionValue(option);
                                         return (
                                             <button
-                                                key={option}
-                                                onClick={() => handleSelect(field, option)}
+                                                key={optionValue(option)}
+                                                onClick={() => handleSelect(field, optionValue(option))}
                                                 aria-pressed={isSelected}
                                                 className={`w-full text-left px-5 py-4 border font-mono text-sm transition-all duration-300 ${
                                                     isSelected
@@ -413,7 +290,7 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                                                         : "bg-transparent text-white/80 border-gridline hover:border-lime/50 hover:text-white"
                                                 }`}
                                             >
-                                                {option}
+                                                {optionLabel(option)}
                                             </button>
                                         );
                                     })}
@@ -454,11 +331,11 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                                     {/* Choices */}
                                     <div className="flex flex-col gap-3">
                                         {step.options?.map((option) => {
-                                            const isSelected = answers.painpoint === option;
+                                            const isSelected = answers.painpoint === optionValue(option);
                                             return (
                                                 <button
-                                                    key={option}
-                                                    onClick={() => handleSelect("painpoint", option)}
+                                                    key={optionValue(option)}
+                                                    onClick={() => handleSelect("painpoint", optionValue(option))}
                                                     aria-pressed={isSelected}
                                                     className={`w-full text-left px-5 py-4 border font-mono text-sm transition-all duration-300 ${
                                                         isSelected
@@ -466,7 +343,7 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                                                             : "bg-transparent text-white/80 border-gridline hover:border-lime/50 hover:text-white"
                                                     }`}
                                                 >
-                                                    {option}
+                                                    {optionLabel(option)}
                                                 </button>
                                             );
                                         })}
@@ -500,7 +377,7 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
 
                                     {/* Team Size Dropdown */}
                                     <div className="border-t border-gridline pt-6">
-                                        <label htmlFor="quiz-teamsize" className="font-mono text-[10px] uppercase tracking-widest text-lime/70 block mb-3">
+                                        <label htmlFor="quiz-teamsize" className="font-mono text-[10px] uppercase tracking-widest text-lime/90 block mb-3">
                                             {step.dropdown?.label}
                                         </label>
                                         <div className="relative">
@@ -533,8 +410,18 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                             {/* Step 5: Contact Form */}
                             {step.type === "contact" && (
                                 <div className="flex flex-col gap-5">
+                                    <details className="border border-gridline px-4 text-sm text-bone/80 leading-relaxed">
+                                        <summary className="py-3 min-h-11 cursor-pointer font-semibold text-white">Ihre Angaben prüfen</summary>
+                                        <dl className="divide-y divide-white/10">
+                                            {summary.map(row => <div key={row.id} className="flex items-start justify-between gap-3 py-2">
+                                                <div><dt className="text-xs text-bone/60">{row.label}</dt><dd>{row.value}</dd></div>
+                                                <button type="button" onClick={() => navigateTo(row.index)} disabled={isAnimating || submitState === "sending"} aria-label={`${row.label} ändern`} className="min-h-11 shrink-0 text-lime underline underline-offset-4 disabled:opacity-40">Ändern</button>
+                                            </div>)}
+                                        </dl>
+                                    </details>
+
                                     <div>
-                                        <label htmlFor="quiz-name" className="font-mono text-[10px] uppercase tracking-widest text-lime/70 block mb-2">Name *</label>
+                                        <label htmlFor="quiz-name" className="font-mono text-[10px] uppercase tracking-widest text-lime/90 block mb-2">Name *</label>
                                         <input
                                             id="quiz-name"
                                             type="text"
@@ -546,7 +433,7 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                                         />
                                     </div>
                                     <div>
-                                        <label htmlFor="quiz-email" className="font-mono text-[10px] uppercase tracking-widest text-lime/70 block mb-2">E-Mail *</label>
+                                        <label htmlFor="quiz-email" className="font-mono text-[10px] uppercase tracking-widest text-lime/90 block mb-2">E-Mail *</label>
                                         <input
                                             id="quiz-email"
                                             type="email"
@@ -558,7 +445,7 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                                         />
                                     </div>
                                     <div>
-                                        <label htmlFor="quiz-phone" className="font-mono text-[10px] uppercase tracking-widest text-lime/70 block mb-2">Telefonnummer *</label>
+                                        <label htmlFor="quiz-phone" className="font-mono text-[10px] uppercase tracking-widest text-lime/90 block mb-2">Telefonnummer *</label>
                                         <input
                                             id="quiz-phone"
                                             type="tel"
@@ -569,8 +456,9 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                                             className="w-full bg-transparent border border-gridline text-white px-5 py-4 font-mono text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none"
                                         />
                                     </div>
+
                                     <div>
-                                        <label htmlFor="quiz-website" className="font-mono text-[10px] uppercase tracking-widest text-lime/70 block mb-2">Website <span className="text-bone/60">(Optional)</span></label>
+                                        <label htmlFor="quiz-website" className="font-mono text-[10px] uppercase tracking-widest text-lime/90 block mb-2">Website <span className="text-bone/80">(Optional)</span></label>
                                         <input
                                             id="quiz-website"
                                             type="url"
@@ -581,6 +469,11 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                                             className="w-full bg-transparent border border-gridline text-white px-5 py-4 font-mono text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none"
                                         />
                                     </div>
+                                    {isWebsite && <div>
+                                        <label htmlFor="quiz-notes" className="text-sm text-bone block mb-2">Was ist Ihnen noch wichtig? <span className="text-bone/60">(optional)</span></label>
+                                        <textarea id="quiz-notes" rows={3} maxLength={1000} value={answers.notes} onChange={e => handleInput("notes", e.target.value)} placeholder="Ihr Unternehmen, besondere Wünsche oder eine Frage an mich …" className="w-full resize-y bg-transparent border border-gridline text-white px-4 py-3 text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none" />
+                                    </div>}
+                                    <p className="text-sm text-bone/80">Mit dem Absenden fragen Sie ein unverbindliches Gespräch an. Informationen zur Verarbeitung Ihrer Angaben finden Sie in der <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/datenschutz/`} className="text-lime underline" target="_blank" rel="noreferrer">Datenschutzerklärung</a>.</p>
                                 </div>
                             )}
                         </div>
@@ -593,7 +486,8 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                     {currentStep > 0 ? (
                         <button
                             onClick={goBack}
-                            className="font-mono text-xs uppercase tracking-widest text-bone/60 hover:text-white transition-colors flex items-center gap-2"
+                            disabled={isAnimating || submitState === "sending"}
+                            className="font-mono text-xs uppercase tracking-widest text-bone/80 hover:text-white transition-colors flex items-center gap-2 min-h-11 disabled:opacity-40"
                         >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="square" strokeWidth={2} d="M19 12H5m7-7l-7 7 7 7" />
@@ -605,10 +499,10 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                     )}
 
                     {/* Next / Submit */}
-                    {currentStep < STEPS.length - 1 ? (
+                    {currentStep < steps.length - 1 ? (
                         <button
                             onClick={goNext}
-                            disabled={!isStepValid()}
+                            disabled={!isStepValid() || isAnimating}
                             className={`font-mono text-sm uppercase tracking-wider px-6 py-3 border transition-all duration-300 flex items-center gap-2 ${
                                 isStepValid()
                                     ? "bg-lime text-vanta border-lime hover:bg-white hover:text-vanta hover:border-white btn-glitch"
@@ -628,7 +522,7 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                             {submitState === "error" && (
                                 <div role="alert" className="text-right font-mono text-[10px] uppercase tracking-wider">
                                     <span className="text-red-400 block mb-1">Senden fehlgeschlagen.</span>
-                                    <span className="text-bone/60 block normal-case tracking-normal">
+                                    <span className="text-bone/80 block normal-case tracking-normal">
                                         Bitte erneut versuchen — oder direkt:{" "}
                                         <a href="mailto:hi@lqnt.de" className="text-lime hover:underline">hi@lqnt.de</a>
                                         {" · "}
@@ -643,19 +537,19 @@ export default function QuizModal({ isOpen, onClose }: QuizModalProps) {
                             )}
                             <button
                                 onClick={handleSubmit}
-                                disabled={!isStepValid() || submitState === "sending"}
+                                disabled={!isStepValid() || isAnimating || submitState === "sending"}
                                 className={`font-mono text-sm uppercase tracking-wider px-6 py-3 border transition-all duration-300 ${
                                     isStepValid() && submitState !== "sending"
                                         ? "bg-lime text-vanta border-lime hover:bg-white hover:text-vanta hover:border-white btn-glitch"
                                         : "bg-transparent text-mute/40 border-gridline/50 cursor-not-allowed"
                                 }`}
                             >
-                                {submitState === "sending" ? "Wird gesendet…" : "Jetzt Termin vereinbaren"}
+                                {submitState === "sending" ? "Wird gesendet…" : "Anfrage senden"}
                             </button>
                         </div>
                     )}
                 </div>
             </div>
-        </div>
+        </div>, document.body
     );
 }

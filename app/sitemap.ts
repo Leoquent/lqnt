@@ -1,18 +1,6 @@
-import type { MetadataRoute } from 'next';
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://leoquent.github.io';
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
-
-export const dynamic = 'force-static';
-
+import type { MetadataRoute } from "next";
+import { absoluteUrl } from "@/lib/seo";
+export const dynamic = "force-static";
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = `${siteUrl}${basePath}`;
-  return [
-    {
-      url: `${base}/`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 1,
-    },
-  ];
+  return ["/", "/webdesign/", "/prozesse/", "/referenzen/gebrueder-ross/", "/referenzen/ruempelross/", "/webdesign/seo-und-ki-suche/"].map(path => ({ url: absoluteUrl(path) }));
 }

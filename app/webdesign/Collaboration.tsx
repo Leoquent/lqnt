@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef } from "react";
+import { useId, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -10,7 +10,7 @@ import s from "./collaboration.module.css";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const PIN_QUERY =
-  "(min-width: 961px) and (min-height: 800px) and (prefers-reduced-motion: no-preference)";
+  "(min-height: 600px) and (prefers-reduced-motion: no-preference)";
 const PHASES = ["Zuhören", "Struktur", "Umsetzung", "Übergabe"];
 const CAMERA_START = "translate(210 140) scale(1) translate(-210 -140)";
 const CAMERA_END = "translate(210 140) scale(12) translate(-210 -140)";
@@ -68,22 +68,26 @@ export default function Collaboration({ motionPaused }: { motionPaused: boolean 
   const frame = useRef<HTMLDivElement>(null);
   const intro = useRef<HTMLDivElement>(null);
   const list = useRef<HTMLOListElement>(null);
+  const readingButton = useRef<HTMLButtonElement>(null);
+  const switchAnchor = useRef<number | null>(null);
   const titleId = useId();
+  const [staticReading, setStaticReading] = useState(false);
 
   useGSAP(() => {
     const section = root.current;
     const stage = frame.current;
     const introduction = intro.current;
     const stepList = list.current;
-    if (!section || !stage || !introduction || !stepList || motionPaused) return;
+    if (!section || !stage || !introduction || !stepList || motionPaused || staticReading) return;
 
     const mm = gsap.matchMedia();
-    mm.add(PIN_QUERY, () => {
+    mm.add({ mobile: PIN_QUERY + " and (max-width: 960px)", desktop: PIN_QUERY + " and (min-width: 961px)" }, (context) => {
       let pinContext: gsap.Context | null = null;
       let disposed = false;
       let fitFrame = 0;
       let refreshFrame = 0;
-      const items = Array.from(stepList.children);
+      const items = Array.from(stepList.children) as HTMLElement[];
+      const mobile = Boolean(context.conditions?.mobile);
       const legend = gsap.utils.toArray<HTMLElement>("[data-collaboration-legend]", section);
       const header = section.closest("main")?.parentElement?.querySelector("header");
       const pinTop = () => parseFloat(getComputedStyle(section).getPropertyValue("--collaboration-pin-top"));
@@ -99,6 +103,7 @@ export default function Collaboration({ motionPaused }: { motionPaused: boolean 
         pinContext?.revert();
         pinContext = null;
         delete section.dataset.collaborationPin;
+        section.style.removeProperty("--collaboration-step-height");
       };
 
       const updateFit = () => {
@@ -109,7 +114,14 @@ export default function Collaboration({ motionPaused }: { motionPaused: boolean 
           + parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth);
         // Measure natural child boxes: ScrollTrigger may have fixed the frame height.
         // Opacity/child transforms never change these boxes, so reveals cannot toggle fit.
-        const requiredHeight = Math.max(introduction.offsetHeight, stepList.offsetHeight) + padding;
+        // Measure the natural rows, including after the mobile browser changes height.
+        // A previous pinned minimum must not keep the fit check artificially too tall.
+        section.style.setProperty("--collaboration-step-height", "0px");
+        const stepHeight = Math.max(...items.map(item => item.offsetHeight));
+        section.style.setProperty("--collaboration-step-height", `${stepHeight}px`);
+        const requiredHeight = mobile
+          ? introduction.offsetHeight + stepHeight + parseFloat(style.rowGap) + padding
+          : Math.max(introduction.offsetHeight, stepList.offsetHeight) + padding;
         const fits = requiredHeight <= window.innerHeight - pinTop();
         if (fits === Boolean(pinContext)) return;
 
@@ -117,6 +129,7 @@ export default function Collaboration({ motionPaused }: { motionPaused: boolean 
         if (fits) {
           // Expand only the outer stage; natural child heights stay measurable.
           section.dataset.collaborationPin = "true";
+          section.style.setProperty("--collaboration-step-height", `${stepHeight}px`);
           pinContext = gsap.context(() => {
             const ear = stage.querySelector<SVGGElement>("[data-collaboration-ear]")!;
             const camera = stage.querySelectorAll<SVGGElement>("[data-collaboration-camera]");
@@ -127,8 +140,8 @@ export default function Collaboration({ motionPaused }: { motionPaused: boolean 
             const check = stage.querySelector<SVGPathElement>("[data-collaboration-check]")!;
 
             // Opacity only: text stays in the accessibility tree; there are no controls.
-            gsap.set(items.slice(1), { opacity: 0 });
-            gsap.set(legend.slice(1), { opacity: 0, y: 7 });
+            if (!mobile) gsap.set(items.slice(1), { opacity: 0 });
+            gsap.set(legend.slice(1), { opacity: 0.65 });
             gsap.set(ear, { opacity: 1 });
             gsap.set(camera, { attr: { transform: CAMERA_START } });
             gsap.set(disc, { opacity: 0, attr: { r: 6 } });
@@ -154,7 +167,8 @@ export default function Collaboration({ motionPaused }: { motionPaused: boolean 
             });
 
             const reveal = (index: number, position: number) => {
-              timeline.to(items[index], { opacity: 1, duration: 0.5 }, position);
+              if (mobile) timeline.to(stepList, { y: () => -(items[index].offsetTop - items[0].offsetTop), duration: 0.5 }, position);
+              else timeline.to(items[index], { opacity: 1, duration: 0.5 }, position);
               timeline.to(legend[index], { opacity: 1, y: 0, duration: 0.5 }, position);
             };
 
@@ -230,7 +244,19 @@ export default function Collaboration({ motionPaused }: { motionPaused: boolean 
       mm.revert();
       delete section.dataset.collaborationPin;
     };
-  }, { scope: root, dependencies: [motionPaused], revertOnUpdate: true });
+  }, { scope: root, dependencies: [motionPaused, staticReading], revertOnUpdate: true });
+
+  useLayoutEffect(() => {
+    const top = switchAnchor.current;
+    if (top === null) return;
+    switchAnchor.current = null;
+    const pending = requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+      const button = readingButton.current;
+      if (button) window.scrollBy({ top: button.getBoundingClientRect().top - top, behavior: "instant" });
+    });
+    return () => cancelAnimationFrame(pending);
+  }, [staticReading]);
 
   return (
     <section id="ablauf" className={s.collaboration} ref={root} aria-labelledby={titleId}>
@@ -240,7 +266,12 @@ export default function Collaboration({ motionPaused }: { motionPaused: boolean 
           <h2 id={titleId} className={s.title}>Ihr Wissen.<br />Mein Handwerk.<br /><span>Unser Projekt.</span></h2>
           <p className={s.lead}>Sie kennen Ihr Unternehmen. Ich bringe es in Form. Mit klaren Schritten und Zwischenständen, die Sie sehen können.</p>
           <ProjectIllustration />
+          <button ref={readingButton} className={s.readControl} aria-pressed={staticReading} onClick={() => {
+            switchAnchor.current = readingButton.current?.getBoundingClientRect().top ?? null;
+            setStaticReading(!staticReading);
+          }}>{staticReading ? "Mit Scrollanimation ansehen" : "Alle Schritte ohne Animation lesen"}</button>
         </div>
+        <div className={s.stepWindow}>
         <ol className={s.steps} ref={list} role="list">
           {steps.map((step, index) => (
             <li className={s.step} key={step.title}>
@@ -252,6 +283,7 @@ export default function Collaboration({ motionPaused }: { motionPaused: boolean 
             </li>
           ))}
         </ol>
+        </div>
       </div>
     </section>
   );

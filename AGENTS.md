@@ -30,7 +30,7 @@ Prüfvorbehalt, siehe Abschnitt 8. Nicht überstimmen, ohne mit Leo zu sprechen.
 
 | Thema | Entscheidung |
 |---|---|
-| **Name** | `Leoquent`. Im Fließtext, Impressum, Titel, Signatur immer ausgeschrieben. |
+| **Name** | `leoquent` (Leos ausdrückliche Korrektur vom 30.09.2026, auch am Satzanfang und im Impressum). Im Fließtext, Impressum, Titel, Signatur immer ausgeschrieben. |
 | **LQNT** | Ausschließlich die Bildmarke und die Domain. **Nie als Firmenname im Text.** |
 | **Domain** | `lqnt.de`. `leoquent.de` gehört jemand anderem und wird nicht verfolgt. Keine Defensivdomains. |
 | **Rechtsform** | Einzelunternehmen. Geschäftsbezeichnung „Leoquent", Firma ist der Personenname. |
@@ -38,6 +38,7 @@ Prüfvorbehalt, siehe Abschnitt 8. Nicht überstimmen, ohne mit Leo zu sprechen.
 | **Logo** | Fertig. Siehe `brand/LOGO.md` und `brand/marks/`. Nicht neu bauen. |
 | **Sprache** | Alles Deutsch. Ton: direkt, ohne Agentur-Floskeln. |
 | **Ansprache** | Durchgehend **„ich"** (entschieden 28.09.2026). Siehe Abschnitt 4. |
+| **Preisdarstellung** | Leo plant nach abgeschlossener Anmeldung reguläre Umsatzsteuerberechnung (30.09.2026). Die Website-Vorschau weist Geschäftskundenpreise netto zzgl. Umsatzsteuer aus. Der tatsächliche Abschluss der Anmeldung ist damit nicht bestätigt. Angebot und Preisvorschlag für Branding stehen im `REVIEW_2026-09-30.md`, Abschnitt 9. |
 
 ---
 
@@ -288,8 +289,10 @@ bevor du Logo oder Typografie anfasst.
 - **Header** nutzt bewusst **kein** Lockup, sondern Bildmarke + `leoquent` als HTML-Text
 - Master-Dateien tragen `fill="currentColor"` → als React-Komponente einbinden, nicht als `<img>`
 
-**Deskriptor — entschieden:** `WEBDESIGN, PROZESSE &` / `AUTOMATISIERUNG`, zweizeilig,
-linksbündig unter der Wortmarke. Einstiegsprodukt zuerst, Upsell danach.
+**Deskriptor — von Leo am 30.09.2026 geändert:** `MARKE, WEBDESIGN` / `& AUTOMATISIERUNG`,
+zweizeilig und linksbündig. Der Umbruch vor `&` ergibt mit Outfit die ausgeglicheneren
+Zeilenlängen. Gilt für Website, Metadaten, Signatur und Logo-Vorlagen. Die linke Auswahl
+auf der Startseite heißt **„Webdesign & Branding“**. Die zwei Einstiege bleiben erhalten.
 
 Nicht mehr diskutieren: „Prozessoptimierung" (für den Kunden dasselbe wie Automatisierung)
 und „KI" (Trendwort mit Zeitstempel — gehört in Website-Texte, nicht ins Logo).

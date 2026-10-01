@@ -53,11 +53,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Repository für Vorschau-Prüfung auschecken
+        uses: actions/checkout@v4
+
       - name: Build-Artefakt herunterladen
         uses: actions/download-artifact@v4
         with:
           name: lqnt-static-site-${{ github.sha }}
           path: publish
+
+      - name: Vorschau von Suchmaschinen ausschließen
+        run: python3 scripts/prepare-preview.py publish
 
       - name: Build in site veröffentlichen
         env:

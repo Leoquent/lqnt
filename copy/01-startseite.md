@@ -5,7 +5,7 @@ Sekunden, wer hier arbeitet und ob man ihm zutraut, was man braucht.
 
 ## A1 · Hero
 
-**Auszeichnung oben:** `Webdesign, Prozesse & Automatisierung`
+**Auszeichnung oben:** `Marke, Webdesign` / `& Automatisierung` (Freigabe 30.09.2026). Linke Auswahl: `Webdesign & Branding`.
 
 **Headline:**
 > ## Analog läuft Ihr Betrieb.

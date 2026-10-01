@@ -4,11 +4,12 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import LqntMark from "@/components/LqntMark";
 import s from "./gateway.module.css";
+import DirectionArrow from "./DirectionArrow";
 gsap.registerPlugin(useGSAP);
 const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const options = [
- {id:"webdesign", label:"Webdesign", title:<>Sichtbar <br/>werden.</>, copy:"Ein Auftritt, der zeigt, was Sie können. Mit klaren Texten, eigenem Charakter und einem einfachen Weg zur Anfrage.", tags:"Konzept · Text · Design · Entwicklung"},
- {id:"prozesse", label:"Prozesse & Automatisierung", title:<>Luft <br/>bekommen.</>, copy:"Weniger Handarbeit im Arbeitsalltag. Mit verbundenen Werkzeugen, individuellen Anwendungen und sinnvoll eingesetzter KI.", tags:"Analyse · Software · Automatisierung · KI"}
+ {id:"webdesign", label:"Webdesign & Branding", title:<>Sichtbar <br/>werden.</>, copy:"Ein Auftritt, der zeigt, was Sie können. Mit klaren Texten, eigenem Charakter und auf Wunsch auch Logo und Markenauftritt.", tags:"Konzept · Text · Marke · Webdesign"},
+ {id:"prozesse", label:"Prozesse & Automatisierung", title:<>Zeit <br/>gewinnen.</>, copy:"Weniger Handarbeit im Arbeitsalltag. Mit verbundenen Werkzeugen, individuellen Anwendungen und sinnvoll eingesetzter KI.", tags:"Analyse · Software · Automatisierung · KI"}
 ];
 function Illustration({kind}:{kind:string}) {
  return kind === "webdesign" ? <svg viewBox="0 0 520 280" fill="none" aria-hidden="true">
@@ -37,8 +38,8 @@ export default function Gateway({mode}:{mode:"filmisch"|"interaktiv"}) {
  },{scope:root,dependencies:[mode,replay],revertOnUpdate:true});
  return <div ref={root} className={`${s.gateway} ${mode==="filmisch"?s.film:s.interactive}`} data-active={active||""}>
   <header className={s.header} data-reveal>
-   <a href={`${base}/`} className={s.brand} aria-label="Leoquent — bisherige Startseite"><LqntMark className={s.mark}/><span>leoquent</span></a>
-   <span className={s.descriptor}>Webdesign, Prozesse &<br/>Automatisierung</span>
+   <a href={`${base}/`} className={s.brand} aria-label="leoquent – Startseite"><LqntMark className={s.mark}/><span>leoquent</span></a>
+   <span className={s.descriptor}>Marke, Webdesign<br/>&amp; Automatisierung</span>
   </header>
   <main className={s.main}>
    <div className={s.intro} data-reveal>
@@ -48,14 +49,14 @@ export default function Gateway({mode}:{mode:"filmisch"|"interaktiv"}) {
    <div className={s.choices} onMouseLeave={()=>setActive(null)}>
     {options.map((o,i)=><a key={o.id} className={s.choice} href={`${base}/${o.id}/`} onMouseEnter={()=>setActive(o.id)} onFocus={()=>setActive(o.id)} onBlur={()=>setActive(null)} data-reveal>
      <div className={s.rule} data-rule/>
-     <div className={s.label}><span>{o.label}</span><span className={s.arrow} aria-hidden="true">↗</span></div>
+     <div className={s.label}><span>{o.label}</span><span className={s.arrow} aria-hidden="true"><DirectionArrow diagonal /></span></div>
      <div className={s.illustration}><Illustration kind={o.id}/></div>
      <h2>{o.title}</h2>
      <p className={s.copy}>{o.copy}</p>
-     <div className={s.bottom}><span>{o.tags}</span><span className={s.discover}>Entdecken <span aria-hidden="true">→</span></span></div>
+     <div className={s.bottom}><span>{o.tags}</span><span className={s.discover}>Entdecken <span aria-hidden="true"><DirectionArrow /></span></span></div>
     </a>)}
    </div>
   </main>
-  <footer className={s.footer}><span>© {new Date().getFullYear()} Leoquent</span><div><a href={`${base}/impressum/`}>Impressum</a><a href={`${base}/datenschutz/`}>Datenschutz</a></div></footer>
+  <footer className={s.footer}><span>© {new Date().getFullYear()} leoquent</span><div><a href={`${base}/impressum/`}>Impressum</a><a href={`${base}/datenschutz/`}>Datenschutz</a></div></footer>
  </div>;
 }

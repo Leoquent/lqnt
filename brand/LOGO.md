@@ -11,9 +11,10 @@ Outfit 700 in Pfade gewandelt und damit schriftunabhängig.
 
 **Wortmarke** — `leoquent`, Outfit 700, durchgehend klein, Laufweite `-0.035em`. 3726 × 931.
 
-**Deskriptor** — `WEBSITES, PROZESSE &` / `AUTOMATISIERUNG`, Outfit 500, Laufweite `+0.10em`,
-zweizeilig, linksbündig unter der Wortmarke. (Bestätigt 14.08.2026. Die frühere Fassung
-`AUTOMATISIERUNG & PROZESSOPTIMIERUNG` ist überholt — Einstiegsprodukt zuerst, Upsell danach.)
+**Deskriptor** — `MARKE, WEBDESIGN` / `& AUTOMATISIERUNG`, Outfit 500, Laufweite `+0.10em`,
+zweizeilig, linksbündig unter der Wortmarke. Von Leo am 30.09.2026 für alle Anwendungen
+freigegeben. Der Umbruch vor `&` gleicht die Zeilenlängen an. Er ersetzt die früheren
+Fassungen mit „Websites“ bzw. „Webdesign, Prozesse“. Bildmarke und Wortmarke bleiben erhalten.
 
 ---
 
@@ -48,6 +49,11 @@ Pixeln korrigierbar ohne neue Datei.
 | `leoquent-lockup-v*.svg` | vertikal gestapelt |
 | `favicon.svg` | Lime auf Vanta-Kachel, Eckenradius 22 % |
 | `favicon-mono*.svg` | enger Beschnitt ohne Kachel |
+
+Die Deskriptor-Pfade lassen sich mit `scripts/update-brand-descriptor.py` und der lokalen
+Outfit-Variablenschrift neu erzeugen (Python, fonttools mit WOFF-Unterstützung). Das Skript
+prüft, dass Bildmarke und Wortmarke unverändert bleiben. Linkvorschaubilder werden aus
+dem weißen SVG-Master auf Vanta gerendert, mit 700 px Logobreite auf 1200 px Bildbreite.
 
 ---
 

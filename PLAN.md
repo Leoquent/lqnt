@@ -21,7 +21,7 @@ und sind jetzt geklärt:
 | **Referenz** | **RümpelRoss** (Entrümpelung, Stuttgart) darf gezeigt werden, alte Seite ausdrücklich auch. **Noch nicht live** — Stand unter `leoquent.github.io/ruempelross/`, Livegang in den nächsten Wochen. |
 | **Preise** | **Webdesign: sichtbar**, Einstieg **ab 1.490 €**. Übrige Leistungen individuell. Potenzialanalyse bleibt kostenlos. **Betreuung Basis ist optional (keine Pflicht).** |
 | **Serverstandort** | **Deutschland** — bestätigt. Kein Drittland-Hinweis nötig, „gehostet in Deutschland" ist gedeckt. |
-| **Deskriptor** | `WEBDESIGN, PROZESSE &` / `AUTOMATISIERUNG` — „Webdesign" statt „Websites". |
+| **Deskriptor** | `MARKE, WEBDESIGN` / `& AUTOMATISIERUNG` — von Leo am 30.09.2026 geändert. |
 | **rümpelOS** | Eigenes Produkt (`D:\Coding\ruempelross os\ruempelOS`), Phase 0 — Klick-Prototyp auf Leos VPS, zum Testen und Entwickeln. **Kommt vorerst nicht auf die Website**, auch die übrigen Produkte nicht. Später eigene Domain und eigener Auftritt, danach als Portfolio-Eintrag auf `lqnt.de`. Das alte Geschäft (KI, Automatisierung) wird weiterhin verkauft. |
 | **Calendly** | Leo richtet einen eigenen Account später selbst ein. Der Fremdlink muss trotzdem sofort raus. |
 | **Web3Forms** | Formular „lqnt", Website-URL `https://lqnt.de` (ohne Pfad — das Quiz ist ein Overlay auf `/`, es gibt keine `/quiz`-Route). Zustellung an `hi@lqnt.de`. Domain-Beschränkung bis zum Umzug auf `lqnt.de` ausgeschaltet lassen. |
@@ -146,7 +146,7 @@ Grund: solange sie im Wurzelverzeichnis liegen, greift jede künftige KI-Sitzung
 
 | Sektion | Neu |
 |---|---|
-| **Hero** | Websites zuerst. Konkretes Versprechen statt Abstraktion. Der Deskriptor der Marke gibt die Reihenfolge vor: *Websites, Prozesse & Automatisierung* |
+| **Hero** | Konkretes Versprechen. Der am 30.09.2026 freigegebene Deskriptor lautet *Marke, Webdesign & Automatisierung*. Die Startseite behält zwei Wege. |
 | **Ticker** | GENERATIVE UI / NEURAL NETWORKS ersetzen oder Sektion streichen. Der Ticker spricht Entwickler an, nicht Handwerksbetriebe |
 | **Status Quo** | Typewriter-Painpoints auf echte Kundenprobleme umschreiben (Anfragen gehen unter, Website von 2014, keine Termine). **Mission/Vision-Block bleibt.** „Das autonome Betriebssystem für den Mittelstand" ist keine Behauptung mehr, sondern beschreibt, woran Leo baut — Prinzip P3 des rümpelOS-Konzepts sagt wörtlich, aus dem einen OS werde später „X OS" für weitere Branchen. Der Block wird aber auf die neue Reihenfolge umgeschrieben: Website zuerst, Prozesse und Automatisierung danach, das Betriebssystem als Fluchtpunkt — **ohne das Produkt zu nennen oder zu bewerben** |
 | **Solutions** | Die vier KI-Kacheln durch die drei Angebote aus `NEUAUSRICHTUNG_2026.md` 4.4 ersetzen: **Der Auftritt** (Website) · **Die Nachtschicht** (ein automatisierter Prozess) · **Rückendeckung** (Betreuung). Reihenfolge = Kaufreihenfolge |

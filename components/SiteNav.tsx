@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import LqntMark from "@/components/LqntMark";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
@@ -25,6 +25,8 @@ export default function SiteNav({ links, onQuizOpen, homeHref = "/", darkFrom = 
     const [navScrolled, setNavScrolled] = useState(false);
     const [pastHero, setPastHero] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const menuButton = useRef<HTMLButtonElement>(null);
+    const overlay = useRef<HTMLDivElement>(null);
 
     // rAF-gekoppelt: höchstens ein State-Abgleich pro Frame, blockiert das Scrollen nie
     useEffect(() => {
@@ -47,7 +49,22 @@ export default function SiteNav({ links, onQuizOpen, homeHref = "/", darkFrom = 
     }, [darkFrom]);
 
     useEffect(() => {
-        document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
+        if (!isMobileMenuOpen) return;
+        const previous = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        const onKey = (event: KeyboardEvent) => {
+            if (event.key === "Escape") { setIsMobileMenuOpen(false); menuButton.current?.focus(); }
+            if (event.key === "Tab") {
+                const targets = [menuButton.current, ...Array.from(overlay.current?.querySelectorAll<HTMLElement>("a,button") || [])].filter(Boolean) as HTMLElement[];
+                const index = targets.indexOf(document.activeElement as HTMLElement);
+                event.preventDefault();
+                targets[(index + (event.shiftKey ? targets.length - 1 : 1)) % targets.length]?.focus();
+            }
+        };
+        const closeOnDesktop = () => { if (window.innerWidth >= 1280) setIsMobileMenuOpen(false); };
+        window.addEventListener("keydown", onKey);
+        window.addEventListener("resize", closeOnDesktop);
+        return () => { document.body.style.overflow = previous; window.removeEventListener("keydown", onKey); window.removeEventListener("resize", closeOnDesktop); };
     }, [isMobileMenuOpen]);
 
     const closeMenu = () => setIsMobileMenuOpen(false);
@@ -100,7 +117,7 @@ export default function SiteNav({ links, onQuizOpen, homeHref = "/", darkFrom = 
                     <span className="font-sans font-bold text-lg sm:text-xl lowercase tracking-[-0.035em] leading-none mt-[-1px]">leoquent</span>
                 </a>
 
-                <div className={`hidden lg:flex items-center gap-8 font-mono text-[10px] uppercase tracking-widest ${dark ? "text-bone/70" : "text-mute"}`}>
+                <div className={`hidden xl:flex items-center gap-6 font-mono text-[10px] uppercase tracking-widest whitespace-nowrap ${dark ? "text-bone/70" : "text-mute"}`}>
                     {links.map((link) => (
                         <a key={link.name} href={link.href} className={`transition-colors ${dark ? "hover:text-lime" : "hover:text-vanta"}`}>
                             {link.name}
@@ -115,8 +132,10 @@ export default function SiteNav({ links, onQuizOpen, homeHref = "/", darkFrom = 
                     </a>
                     {cta}
                     <button
+                        ref={menuButton}
+                        aria-controls="process-mobile-menu"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        className={`lg:hidden flex flex-col justify-center items-center w-11 h-11 -m-1.5 z-50 relative ${isMobileMenuOpen ? "menu-open" : ""}`}
+                        className={`xl:hidden flex flex-col justify-center items-center w-11 h-11 -m-1.5 z-50 relative ${isMobileMenuOpen ? "menu-open" : ""}`}
                         aria-label={isMobileMenuOpen ? "Menü schließen" : "Menü öffnen"}
                         aria-expanded={isMobileMenuOpen}
                     >
@@ -128,11 +147,14 @@ export default function SiteNav({ links, onQuizOpen, homeHref = "/", darkFrom = 
             </div>
 
             <div
-                className={`fixed inset-0 bg-vanta z-40 mobile-menu-overlay flex flex-col justify-center items-center lg:hidden ${
+                ref={overlay}
+                id="process-mobile-menu"
+                inert={!isMobileMenuOpen}
+                className={`fixed inset-0 bg-vanta z-40 mobile-menu-overlay flex flex-col items-center overflow-y-auto pt-24 pb-10 xl:hidden ${
                     isMobileMenuOpen ? "opacity-100 visible mobile-menu-open" : "opacity-0 invisible pointer-events-none"
                 }`}
             >
-                <div className="flex flex-col gap-8 text-center px-10">
+                <div className="flex flex-col gap-6 text-center px-10 my-auto shrink-0">
                     <a href="/" onClick={closeMenu} className="mobile-menu-link text-xl font-bold uppercase tracking-widest text-lime hover:text-white transition-colors" style={{ transitionDelay: "0ms" }}>
                         Alle Leistungen
                     </a>
