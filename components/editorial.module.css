@@ -15,4 +15,11 @@
 .detailFigure{margin:20px 0 60px;padding:clamp(16px,3vw,36px);background:#141c22;border:1px solid #344251}.detailFigure img{display:block;width:100%;height:auto}.detailFigure figcaption{font-size:14px;line-height:1.7;color:#b4b4ac;margin-top:18px}
 .page main p a,.page main li a{text-decoration:underline;text-underline-offset:4px}
 
+/* Client work uses the client's palette; navigation and editorial content remain leoquent. */
+.page[data-project]{overflow:clip;--project-surface:#141c22;--project-line:#344251;--project-ink:#b4b4ac}
+.page[data-project=yellow]{--project-surface:#edc400;--project-line:#d3ad15;--project-ink:#302800}
+.page[data-project] .header,.page[data-project] main,.page[data-project] .footer{width:min(1600px,100%);padding-left:clamp(24px,5vw,86px);padding-right:clamp(24px,5vw,86px)}
+.page[data-project] .detailFigure{background:var(--project-surface);border-color:var(--project-line)}
+.page[data-project] .detailFigure figcaption{color:var(--project-ink)}
+
 .section a:not(.button){text-decoration:underline;text-underline-offset:4px}
