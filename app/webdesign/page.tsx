@@ -11,6 +11,7 @@ import HeroPresentation from "./HeroPresentation";
 import CopyStatement from "./CopyStatement";
 import Collaboration from "./Collaboration";
 import PricingCards from "./PricingCards";
+import ProjectGallery from "@/components/ProjectGallery";
 import QuizModal from "@/components/QuizModal";
 import { brandPackage, faqs } from "./content";
 import s from "./webdesign.module.css";
@@ -26,7 +27,7 @@ export default function WebdesignPage() {
   const header = useRef<HTMLElement>(null);
   const [headerHidden, setHeaderHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [projectOpen, setProjectOpen] = useState(false);
+
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
   const [motionPaused, setMotionPaused] = useState(false);
   const [quizOpen, setQuizOpen] = useState(false);
@@ -86,7 +87,7 @@ export default function WebdesignPage() {
   useEffect(() => {
     const timer = window.setTimeout(() => ScrollTrigger.refresh(), 550);
     return () => window.clearTimeout(timer);
-  }, [projectOpen, faqOpen]);
+  }, [faqOpen]);
 
   return <div className={s.page} ref={root} data-paused={motionPaused}>
     <a href="#inhalt" className={s.skip}>Zum Inhalt</a>
@@ -122,20 +123,8 @@ export default function WebdesignPage() {
       <section id="arbeiten" className={s.section} aria-labelledby="work-title">
         <div className={s.sectionRule} data-line />
         <div className={s.sectionHeading + " " + s.headingStraight} data-reveal><p className={s.eyebrow}>01 / Aus der Arbeit</p><h2 id="work-title">Von der Idee<br /><span>zum Auftritt.</span></h2><p>Wie ich Angebot, Botschaft und Gestaltung zusammenbringe. Einblicke in meine Arbeit.</p></div>
-        <article className={s.project} data-reveal>
-          <button className={s.projectSummary} aria-expanded={projectOpen} aria-controls="gebruederross-details" onClick={() => setProjectOpen(!projectOpen)}>
-            <div className={s.projectVisual}><img src={basePath + "/referenzen/gebrueder-ross-desktop.webp"} alt="Gebrüder Ross: Website mit klarer Typografie in Dunkelblau und Gold" width="1440" height="1000" loading="lazy" /></div>
-            <div className={s.projectText}><p className={s.eyebrow}>Recherche · Marke · Website</p><h3>Gebrüder Ross</h3><p>Nachlassabwicklung verständlich machen. Leistungen ordnen. Persönliches Vertrauen aufbauen.</p></div>
-            <span className={s.projectToggle}>{projectOpen ? "Weniger" : "Projekt ansehen"}<span className={s.plus} aria-hidden="true">{projectOpen ? "−" : "+"}</span></span>
-          </button>
-          <div id="gebruederross-details" className={s.expand} data-open={projectOpen} inert={!projectOpen}>
-            <div className={s.expandInner}><div className={s.projectDetails}>
-              <div><p className={s.eyebrow}>Die Aufgabe</p><h4>Ein sensibles Thema.<br />Eine klare Orientierung.</h4><p>Gebrüder Ross unterstützt Nachlasspfleger und Nachlassverwalter im Großraum Stuttgart. Die Website erklärt ein breites Angebot: von der ersten Objektbegehung über die Verwertung bis zur Räumung und Übergabe.</p></div>
-              <div><p className={s.eyebrow}>Der Auftritt</p><h4>Leistungen erklären.<br />Die Menschen dahinter zeigen.</h4><p>Von Zielgruppenrecherche und Logo über sämtliche Texte bis zur Entwicklung: Der Auftritt verbindet eine ruhige Gestaltung mit persönlichen Ansprechpartnern. Domain und Hosting übernehme ich ebenfalls.</p><ul><li>Sechs Leistungsseiten und mobile Detailansichten</li><li>Eigene Bildsprache mit KI-gestütztem Fotoshooting</li><li>Schlanke Umsetzung und eigener Formular-Endpunkt</li></ul><Link href="/referenzen/gebrueder-ross/" className={s.textLink}>Das Projekt im Detail <Arrow diagonal /></Link></div>
-            </div></div>
-          </div>
-        </article>
-        <p className={s.workNote}>Ein Einblick in meine Arbeit für ein Unternehmen mit einem erklärungsbedürftigen Angebot.</p>
+        <ProjectGallery motionPaused={motionPaused} />
+        <p className={s.workNote}>Zwei Unternehmen, zwei eigenständige Auftritte. Mehr zu Konzept und Gestaltung auf den Projektseiten.</p>
       </section>
 
       <section id="leistungen" className={s.section} aria-labelledby="services-title">

@@ -35,7 +35,7 @@ Eine eigene Problemsektion und eine Branchensektion gehören nicht zu dieser Fas
 |---|---|---|
 | 1 | Hero und interaktive Illustration | Botschaft, Gestaltung und Aktion zeigen; den nächsten Schritt passend zum Besucherziel erklären. |
 | 2 | Auszeichnungen | Den Hintergrund als Werbetexter zeigen. |
-| 3 | Arbeiten | RümpelRoss kompakt vorstellen, Details auf Wunsch öffnen. |
+| 3 | Arbeiten | Gebrüder Ross und Rümpelross zeigen und zu eigenen Projektseiten führen. |
 | 4 | Leistungen und Expertise | Text, Design, Besucherführung und die passende technische Umsetzung erklären. |
 | 5 | Text-Statement | Die Texterstellung als persönliche Leistung in jedem Paket verankern. |
 | 6 | Pakete und Betreuung | Projektumfang, Animationsaufwand und optionale Betreuung ab 69 €/Monat einschließlich Hosting, technischem Betrieb und Standard-Domain erklären. |
@@ -137,52 +137,29 @@ angekündigt; automatische Wechsel erzeugen keine Live-Ansage.
 
 **Anker:** `#arbeiten`
 
-**Headline:**
+**Headline:** Von der Idee / zum Auftritt.
 
-> Ein neuer Auftritt.  
-> Ein vertrauter Charakter.
+**Einleitung:** Wie ich Angebot, Botschaft und Gestaltung zusammenbringe. Einblicke in meine Arbeit.
 
-**Einleitung:**
+Zwei direkt verlinkte Projektflächen. Desktop: nebeneinander, leichte Breitenverschiebung und Bildbewegung auf Hover oder Tastaturfokus. Mobil: untereinander, Projektlink immer sichtbar.
 
-> Wie aus einem bestehenden Unternehmen eine Website mit klarer Linie wird.
+### Gebrüder Ross
 
-### RümpelRoss — kompakte, aufklappbare Projektansicht
+**Auszeichnung:** Recherche · Marke · Website
 
-**Auszeichnung:** `Webdesign · Text · Interaktion`
+**Kurztext:** Nachlassabwicklung verständlich machen. Leistungen ordnen. Persönliches Vertrauen aufbauen.
 
-**Projektname:** `RümpelRoss`
+**Link:** Projekt ansehen → `/referenzen/gebrueder-ross/`
 
-**Kurztext:**
+### Rümpelross
 
-> Den Charakter behalten. Das Angebot schärfen. Den Weg zur Anfrage vereinfachen.
+**Auszeichnung:** Text · Webdesign · Interaktion
 
-**Bildplatzhalter:** `Projektansicht folgt`
+**Kurztext:** Entrümpelung verständlich erklären. Leistungen zeigen. Den Weg zur Anfrage verkürzen.
 
-**Taste:** `Projekt ansehen` / `Weniger`
+**Link:** Projekt ansehen → `/referenzen/ruempelross/`
 
-**Aufgeklappter Inhalt — Die Ausgangslage:**
-
-> Viel Persönlichkeit.  
-> Wenig Orientierung.
->
-> Die selbst gebaute Website zeigte den Betrieb, machte es Besuchern aber schwer, sich zurechtzufinden. Botschaften, Leistungen und Kontaktmöglichkeiten brauchten eine klarere Ordnung.
-
-**Aufgeklappter Inhalt — Mein Beitrag:**
-
-> Ein roter Faden.  
-> Vom ersten Blick bis zur Anfrage.
->
-> Markenfarben und Comic-Charakter bleiben. Neu sind die Texte, die Gestaltung und eine Dramaturgie, die durch das Angebot führt.
-
-- Responsive Gestaltung, eigene Grafiken und Icons
-- Scroll-Animationen und Vorher-nachher-Slider
-- Quiz zur Anfrage und zusätzliche Kontaktwege
-
-**Link:** [Projektvorschau öffnen](https://leoquent.github.io/ruempelross/) — öffnet in einem neuen Tab.
-
-**Nachsatz:**
-
-> Weitere Projekte entstehen gerade. Hier zeige ich sie, sobald sie bereit sind.
+**Nachsatz:** Zwei Unternehmen, zwei eigenständige Auftritte. Mehr zu Konzept und Gestaltung auf den Projektseiten.
 
 ## 02 / Was Ihre Website ausmacht
 

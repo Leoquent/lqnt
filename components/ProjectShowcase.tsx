@@ -1,66 +1,57 @@
 "use client";
 
-import { useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import s from "./project-showcase.module.css";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
-type Props = { name: string; domain: string; poster: string; mobile: string; screens: string[]; scrollImage?: { src: string; width: number; height: number }; color?: string };
+type Props = { name: string; domain: string; poster: string; mobile: string; color?: string };
 const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
-/** Real screenshots in a reusable, customer-coloured scroll stage. */
-export default function ProjectShowcase({ name, domain, poster, mobile, screens, scrollImage, color = "#141c22" }: Props) {
+/** Short reversible reveal; the page and screenshots never scroll independently. */
+export default function ProjectShowcase({ name, domain, poster, mobile, color = "#142333" }: Props) {
   const root = useRef<HTMLElement>(null);
-  const [staticView, setStaticView] = useState(false);
+  const [view, setView] = useState<"desktop" | "mobile" | null>(null);
+  const [smallScreen, setSmallScreen] = useState(false);
+  const selected = view ?? (smallScreen ? "mobile" : "desktop");
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 700px)");
+    const update = () => setSmallScreen(media.matches);
+    update(); media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
   useGSAP(() => {
-    if (staticView || !root.current) return;
-    const figure = root.current;
-    const stage = figure.querySelector<HTMLElement>("[data-project-stage]")!;
-    const track = figure.querySelector<HTMLElement>("[data-project-track]")!;
-    const screen = track.parentElement!;
     const mm = gsap.matchMedia();
-    mm.add("(prefers-reduced-motion: no-preference) and (min-height: 600px)", () => {
-      let context: gsap.Context | null = null;
-      const fit = () => {
-        const fits = stage.offsetHeight <= window.innerHeight - 110;
-        if (fits === Boolean(context)) return;
-        context?.revert(); context = null;
-        delete figure.dataset.scroll;
-        if (fits) {
-          figure.dataset.scroll = "true";
-          context = gsap.context(() => {
-            const timeline = gsap.timeline({ scrollTrigger: { trigger: figure, start: "top 80px", end: "bottom bottom", scrub: 0.4, invalidateOnRefresh: true } });
-            timeline.to(track, { y: () => -(track.scrollHeight - screen.clientHeight), ease: "none", duration: 1 }, 0);
-            timeline.fromTo("[data-project-tablet]", { y: 12, rotate: -1 }, { y: -12, rotate: 0.6, ease: "none", duration: 1 }, 0);
-            timeline.fromTo("[data-project-phone]", { y: 24 }, { y: -20, ease: "none", duration: 1 }, 0);
-            timeline.to("[data-project-light]", { y: -45, ease: "none", duration: 1 }, 0);
-          }, figure);
-        }
-        ScrollTrigger.refresh();
-      };
-      const observer = new ResizeObserver(fit); observer.observe(stage);
-      window.addEventListener("resize", fit); fit();
-      return () => { observer.disconnect(); window.removeEventListener("resize", fit); context?.revert(); delete figure.dataset.scroll; };
-    });
+    mm.add({ mobile: "(max-width: 700px)", desktop: "(min-width: 701px)", reduced: "(prefers-reduced-motion: reduce)" }, context => {
+      if (context.conditions?.reduced) return;
+      const small = context.conditions?.mobile;
+      gsap.fromTo("[data-project-frame]", { rotationX: small ? 4 : 12, scale: small ? .98 : .96, y: small ? 8 : 22 }, {
+        rotationX: 0, scale: 1, y: 0, ease: "none",
+        scrollTrigger: { trigger: root.current, start: "top 92%", end: "top 25%", scrub: .35 },
+      });
+    }, root);
     return () => mm.revert();
-  }, { scope: root, dependencies: [staticView], revertOnUpdate: true });
+  }, { scope: root });
 
   return <figure ref={root} className={s.showcase} style={{ "--project-color": color } as CSSProperties}>
-    <div className={s.stage} data-project-stage>
-      <div className={s.devices}>
-        <div className={s.light} data-project-light aria-hidden="true" />
-        <div className={s.tablet} data-project-tablet>
-          <div className={s.bar}><span aria-hidden="true">●</span><span>{domain}</span><span>Web</span></div>
-          <div className={s.screen}><div className={s.track} data-project-track>
-            {scrollImage ? <img className={s.longCapture} src={base + scrollImage.src} width={scrollImage.width} height={scrollImage.height} alt={`${name}: Website vom Einstieg über das Team bis zu den Leistungen`} loading="lazy" /> : [poster, ...screens].map((src, i) => <img key={src} src={base + src} width="1280" height="800" alt={i === 0 ? `${name}: Website mit eigenem Markenauftritt` : ""} loading="lazy" />)}
-          </div></div>
-        </div>
-        <div className={s.phone} data-project-phone><img src={base + mobile} width="390" height="844" alt={`${name}: Einstieg auf dem Smartphone`} loading="lazy" /></div>
+    <div className={s.toolbar}>
+      <span className={s.domain}>{domain}</span>
+      <div className={s.views} aria-label="Website-Ansicht">
+        <button className={s.desktopChoice} data-selected={view ?? "auto"} aria-pressed={selected === "desktop"} onClick={() => setView("desktop")}>Desktop</button>
+        <button className={s.mobileChoice} data-selected={view ?? "auto"} aria-pressed={selected === "mobile"} onClick={() => setView("mobile")}>Mobil</button>
       </div>
-      <figcaption><span className={s.scrollHint}>Beim Scrollen bewegt sich die Kundenwebsite im Tablet. </span>Markenauftritt auf großem und kleinem Bildschirm. Die Projektbeschreibung darunter zeigt die Gestaltung im Detail.</figcaption>
-      <button className={s.motionControl} aria-pressed={staticView} onClick={() => setStaticView(!staticView)}>{staticView ? "Scrollansicht einschalten" : "Ohne Bewegung ansehen"}</button>
     </div>
+    <div className={s.stage}>
+      <div className={s.frame} data-project-frame data-view={view ?? "auto"}>
+        <div className={s.bar} aria-hidden="true"><span>● ● ●</span><span>{domain}</span><span>↗</span></div>
+        <picture>
+          {view === null && <source media="(max-width: 700px)" srcSet={base + mobile} />}
+          <img src={base + (view === "mobile" ? mobile : poster)} alt={`${name}: ${selected === "mobile" ? "mobile Website" : "Website-Einstieg"}`} width="1280" height="800" loading="lazy" />
+        </picture>
+      </div>
+    </div>
+    <figcaption>Ein Auftritt, zwei Ansichten. Entdecken Sie die Website auf Desktop und Mobil.</figcaption>
   </figure>;
 }
