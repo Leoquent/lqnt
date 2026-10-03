@@ -21,12 +21,16 @@ export default function CopyStatement({ motionPaused }: { motionPaused: boolean 
       const penX = gsap.quickTo(pen, "x", { duration: .6, ease: "power3.out" });
       const penY = gsap.quickTo(pen, "y", { duration: .6, ease: "power3.out" });
       const penRotate = gsap.quickTo(pen, "rotation", { duration: .6, ease: "power3.out" });
-      let bounds = section.getBoundingClientRect();
-      const measure = () => { bounds = section.getBoundingClientRect(); };
+      let docBounds = { left: 0, top: 0, width: 0, height: 0 };
+      const measure = () => {
+        const rect = section.getBoundingClientRect();
+        docBounds = { left: rect.left + window.scrollX, top: rect.top + window.scrollY, width: rect.width, height: rect.height };
+      };
+      measure();
       const move = (event: PointerEvent) => {
         if (event.pointerType !== "mouse") return;
-        const x = gsap.utils.clamp(-1, 1, ((event.clientX - bounds.left) / bounds.width - .5) * 2);
-        const y = gsap.utils.clamp(-1, 1, ((event.clientY - bounds.top) / bounds.height - .5) * 2);
+        const x = gsap.utils.clamp(-1, 1, ((event.pageX - docBounds.left) / docBounds.width - .5) * 2);
+        const y = gsap.utils.clamp(-1, 1, ((event.pageY - docBounds.top) / docBounds.height - .5) * 2);
         rotateX(-y * 11); rotateY(x * 15); moveX(x * 16); moveY(y * 9);
         penX(x * 30); penY(y * 22); penRotate(x * 8);
       };
@@ -35,10 +39,9 @@ export default function CopyStatement({ motionPaused }: { motionPaused: boolean 
       section.addEventListener("pointermove", move);
       section.addEventListener("pointerleave", reset);
       window.addEventListener("resize", measure);
-      window.addEventListener("scroll", measure, { passive: true });
       return () => {
         section.removeEventListener("pointerenter", measure); section.removeEventListener("pointermove", move); section.removeEventListener("pointerleave", reset);
-        window.removeEventListener("resize", measure); window.removeEventListener("scroll", measure);
+        window.removeEventListener("resize", measure);
       };
     }, root);
     return () => mm.revert();
