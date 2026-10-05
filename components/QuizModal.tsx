@@ -425,6 +425,8 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                         <input
                                             id="quiz-name"
                                             type="text"
+                                            required
+                                            aria-required="true"
                                             autoComplete="name"
                                             placeholder="Max Mustermann"
                                             value={answers.name}
@@ -437,6 +439,8 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                         <input
                                             id="quiz-email"
                                             type="email"
+                                            required
+                                            aria-required="true"
                                             autoComplete="email"
                                             placeholder="ihre@email.com"
                                             value={answers.email}
@@ -449,6 +453,8 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                         <input
                                             id="quiz-phone"
                                             type="tel"
+                                            required
+                                            aria-required="true"
                                             autoComplete="tel"
                                             placeholder="+49 123 456 7890"
                                             value={answers.phone}
