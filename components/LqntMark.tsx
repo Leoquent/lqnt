@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 /**
  * Bildmarke LQNT — Master aus `brand/marks/lqnt-mark.svg`.
  *
@@ -5,8 +7,11 @@
  * damit die Farbe per CSS aus dem Elternelement kommt (Regel aus `brand/LOGO.md`).
  * `aria-hidden`, weil im Header direkt daneben der Text `leoquent` steht — sonst
  * liest ein Screenreader den Namen zweimal.
+ *
+ * ⚡ Bolt: Wrapped in React.memo() to prevent unnecessary re-rendering of this complex SVG
+ * when parent components (like SiteNav reacting to scroll events) re-render.
  */
-export default function LqntMark({ className }: { className?: string }) {
+function LqntMark({ className }: { className?: string }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -23,3 +28,5 @@ export default function LqntMark({ className }: { className?: string }) {
         </svg>
     );
 }
+
+export default memo(LqntMark);
