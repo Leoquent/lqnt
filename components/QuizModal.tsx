@@ -427,6 +427,8 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                             type="text"
                                             autoComplete="name"
                                             placeholder="Max Mustermann"
+                                            required
+                                            aria-required="true"
                                             value={answers.name}
                                             onChange={(e) => handleInput("name", e.target.value)}
                                             className="w-full bg-transparent border border-gridline text-white px-5 py-4 font-mono text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none"
@@ -439,6 +441,8 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                             type="email"
                                             autoComplete="email"
                                             placeholder="ihre@email.com"
+                                            required
+                                            aria-required="true"
                                             value={answers.email}
                                             onChange={(e) => handleInput("email", e.target.value)}
                                             className="w-full bg-transparent border border-gridline text-white px-5 py-4 font-mono text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none"
@@ -451,6 +455,8 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                             type="tel"
                                             autoComplete="tel"
                                             placeholder="+49 123 456 7890"
+                                            required
+                                            aria-required="true"
                                             value={answers.phone}
                                             onChange={(e) => handleInput("phone", e.target.value)}
                                             className="w-full bg-transparent border border-gridline text-white px-5 py-4 font-mono text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none"
