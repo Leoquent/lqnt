@@ -22,7 +22,18 @@ export default function CopyStatement({ motionPaused }: { motionPaused: boolean 
       const penY = gsap.quickTo(pen, "y", { duration: .6, ease: "power3.out" });
       const penRotate = gsap.quickTo(pen, "rotation", { duration: .6, ease: "power3.out" });
       let bounds = section.getBoundingClientRect();
-      const measure = () => { bounds = section.getBoundingClientRect(); };
+      let ticking = false;
+      // Throttled measurement to prevent synchronous layout thrashing (getBoundingClientRect)
+      // from firing multiple times per frame during unthrottled scroll events.
+      const measure = () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(() => {
+            bounds = section.getBoundingClientRect();
+            ticking = false;
+          });
+        }
+      };
       const move = (event: PointerEvent) => {
         if (event.pointerType !== "mouse") return;
         const x = gsap.utils.clamp(-1, 1, ((event.clientX - bounds.left) / bounds.width - .5) * 2);

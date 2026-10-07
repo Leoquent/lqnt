@@ -1,0 +1,3 @@
+## 2026-10-07 - Throttling Synchronous Layout Measurements in Scroll Listeners
+**Learning:** `getBoundingClientRect` forces a synchronous layout calculation. When placed inside an unthrottled `scroll` listener (which can fire > 60 times a second), it causes layout thrashing and severely impacts main thread performance, particularly when animations (like GSAP pointer tracking) share the thread.
+**Action:** Always wrap synchronous DOM measurement calls (`getBoundingClientRect`, `offsetHeight`, etc.) triggered by frequent events (scroll, resize, pointermove) within `requestAnimationFrame` to cap them at the display refresh rate.
