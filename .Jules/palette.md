@@ -1,0 +1,3 @@
+## 2026-10-09 - Custom form inputs and progress bar accessibility
+**Learning:** This app builds custom multi-step form modals without using native `<form>` wrappers or semantic progress elements, meaning out-of-the-box screen reader support is completely missing for required fields and completion tracking.
+**Action:** When building custom interactive components that bypass native HTML semantic patterns, manually add `required` and `aria-required="true"` to mandatory fields, and always use `role="progressbar"` with `aria-valuemin`, `aria-valuemax`, and `aria-valuenow` on visual progress indicators.
