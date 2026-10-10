@@ -435,20 +435,32 @@ export default function Page() {
     }, { dependencies: [motionPaused, processStatic], revertOnUpdate: true, scope: pageRef });
 
     // --- 3D INTERACTION ---
+    const moveTicking = useRef(false);
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!sqGeoCoreRef.current || motionPaused || !window.matchMedia("(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
+        if (!sqGeoCoreRef.current || motionPaused || !window.matchMedia("(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches || moveTicking.current) return;
 
-        const rect = e.currentTarget.getBoundingClientRect();
-        const x = Math.max(-1, Math.min(1, (e.clientX - rect.left - rect.width / 2) / (rect.width / 2)));
-        const y = Math.max(-1, Math.min(1, (e.clientY - rect.top - rect.height / 2) / (rect.height / 2)));
-        const rotX = -y * 20;
-        const rotY = (x * 35) - 15;
+        moveTicking.current = true;
+        // Native event properties need to be captured synchronously before the event is pooled/released in older Reacts (or before coordinates change)
+        const clientX = e.clientX;
+        const clientY = e.clientY;
+        const currentTarget = e.currentTarget;
 
-        sqGeoCoreRef.current.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+        requestAnimationFrame(() => {
+            const rect = currentTarget.getBoundingClientRect();
+            const x = Math.max(-1, Math.min(1, (clientX - rect.left - rect.width / 2) / (rect.width / 2)));
+            const y = Math.max(-1, Math.min(1, (clientY - rect.top - rect.height / 2) / (rect.height / 2)));
+            const rotX = -y * 20;
+            const rotY = (x * 35) - 15;
 
-        if (sqRingRef.current) {
-            sqRingRef.current.style.transform = `translateZ(20px) rotate(${12 + (x * 10)}deg)`;
-        }
+            if (sqGeoCoreRef.current) {
+                sqGeoCoreRef.current.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+            }
+
+            if (sqRingRef.current) {
+                sqRingRef.current.style.transform = `translateZ(20px) rotate(${12 + (x * 10)}deg)`;
+            }
+            moveTicking.current = false;
+        });
     };
 
     const handleMouseLeave = () => {

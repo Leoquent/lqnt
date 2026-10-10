@@ -64,6 +64,7 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
     useEffect(() => {
         sessionRef.current += 1;
         if (isOpen) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setCurrentStep(0);
             setDirection("forward");
             setIsAnimating(false);
