@@ -1,0 +1,3 @@
+## 2024-05-13 - [A11y Support for Custom Forms & Progress Bars]
+**Learning:** Custom multi-step forms and visual progress bars often lack native accessibility context. Screen readers cannot deduce that a `div` functions as a progress bar or that specific fields in a custom form flow are mandatory without explicit aria attributes.
+**Action:** Always add `role="progressbar"` with `aria-valuemin`, `aria-valuemax`, and `aria-valuenow` to visual progress bars. Annotate mandatory form fields in custom multi-step flows with `required` and `aria-required="true"` to ensure proper screen reader support.
