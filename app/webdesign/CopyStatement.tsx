@@ -22,13 +22,36 @@ export default function CopyStatement({ motionPaused }: { motionPaused: boolean 
       const penY = gsap.quickTo(pen, "y", { duration: .6, ease: "power3.out" });
       const penRotate = gsap.quickTo(pen, "rotation", { duration: .6, ease: "power3.out" });
       let bounds = section.getBoundingClientRect();
-      const measure = () => { bounds = section.getBoundingClientRect(); };
+      let measureTicking = false;
+      const measure = () => {
+        if (!measureTicking) {
+          measureTicking = true;
+          // ⚡ Bolt: Cache DOM reading inside rAF to avoid layout thrashing on resize/scroll
+          requestAnimationFrame(() => {
+            measureTicking = false;
+            bounds = section.getBoundingClientRect();
+          });
+        }
+      };
+
+      let moveTicking = false;
       const move = (event: PointerEvent) => {
         if (event.pointerType !== "mouse") return;
-        const x = gsap.utils.clamp(-1, 1, ((event.clientX - bounds.left) / bounds.width - .5) * 2);
-        const y = gsap.utils.clamp(-1, 1, ((event.clientY - bounds.top) / bounds.height - .5) * 2);
-        rotateX(-y * 11); rotateY(x * 15); moveX(x * 16); moveY(y * 9);
-        penX(x * 30); penY(y * 22); penRotate(x * 8);
+
+        if (!moveTicking) {
+          moveTicking = true;
+          const clientX = event.clientX;
+          const clientY = event.clientY;
+
+          // ⚡ Bolt: Cache layout writes inside rAF to avoid layout thrashing on pointermove
+          requestAnimationFrame(() => {
+            moveTicking = false;
+            const x = gsap.utils.clamp(-1, 1, ((clientX - bounds.left) / bounds.width - .5) * 2);
+            const y = gsap.utils.clamp(-1, 1, ((clientY - bounds.top) / bounds.height - .5) * 2);
+            rotateX(-y * 11); rotateY(x * 15); moveX(x * 16); moveY(y * 9);
+            penX(x * 30); penY(y * 22); penRotate(x * 8);
+          });
+        }
       };
       const reset = () => { rotateX(0); rotateY(0); moveX(0); moveY(0); penX(0); penY(0); penRotate(0); };
       section.addEventListener("pointerenter", measure);

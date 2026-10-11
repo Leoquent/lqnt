@@ -435,19 +435,33 @@ export default function Page() {
     }, { dependencies: [motionPaused, processStatic], revertOnUpdate: true, scope: pageRef });
 
     // --- 3D INTERACTION ---
+    const ticking = useRef(false);
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!sqGeoCoreRef.current || motionPaused || !window.matchMedia("(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
 
-        const rect = e.currentTarget.getBoundingClientRect();
-        const x = Math.max(-1, Math.min(1, (e.clientX - rect.left - rect.width / 2) / (rect.width / 2)));
-        const y = Math.max(-1, Math.min(1, (e.clientY - rect.top - rect.height / 2) / (rect.height / 2)));
-        const rotX = -y * 20;
-        const rotY = (x * 35) - 15;
+        if (!ticking.current) {
+            ticking.current = true;
+            const target = e.currentTarget;
+            const clientX = e.clientX;
+            const clientY = e.clientY;
 
-        sqGeoCoreRef.current.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+            // ⚡ Bolt: Cache DOM reading & writing inside rAF to avoid layout thrashing on mousemove
+            requestAnimationFrame(() => {
+                ticking.current = false;
+                const rect = target.getBoundingClientRect();
+                const x = Math.max(-1, Math.min(1, (clientX - rect.left - rect.width / 2) / (rect.width / 2)));
+                const y = Math.max(-1, Math.min(1, (clientY - rect.top - rect.height / 2) / (rect.height / 2)));
+                const rotX = -y * 20;
+                const rotY = (x * 35) - 15;
 
-        if (sqRingRef.current) {
-            sqRingRef.current.style.transform = `translateZ(20px) rotate(${12 + (x * 10)}deg)`;
+                if (sqGeoCoreRef.current) {
+                    sqGeoCoreRef.current.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+                }
+
+                if (sqRingRef.current) {
+                    sqRingRef.current.style.transform = `translateZ(20px) rotate(${12 + (x * 10)}deg)`;
+                }
+            });
         }
     };
 

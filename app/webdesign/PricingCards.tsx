@@ -82,10 +82,22 @@ export default function PricingCards({ motionPaused, children }: { motionPaused:
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
       draw();
     };
+    let moveTicking = false;
     const move = (event: PointerEvent) => {
       if (event.pointerType !== "mouse" || !animated()) return;
-      const box = area.getBoundingClientRect();
-      pointer = { x: event.clientX - box.left, y: event.clientY - box.top };
+
+      if (!moveTicking) {
+        moveTicking = true;
+        const clientX = event.clientX;
+        const clientY = event.clientY;
+
+        // ⚡ Bolt: Cache DOM reading & writing inside rAF to avoid layout thrashing on pointermove
+        requestAnimationFrame(() => {
+          moveTicking = false;
+          const box = area.getBoundingClientRect();
+          pointer = { x: clientX - box.left, y: clientY - box.top };
+        });
+      }
     };
     const leave = () => { pointer = null; };
     const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); });
