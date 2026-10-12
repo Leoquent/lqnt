@@ -435,24 +435,39 @@ export default function Page() {
     }, { dependencies: [motionPaused, processStatic], revertOnUpdate: true, scope: pageRef });
 
     // --- 3D INTERACTION ---
+    // ⚡ Bolt: Debounce mouse move to avoid synchronous layout thrashing
+    const rafRef = useRef<number>(0);
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!sqGeoCoreRef.current || motionPaused || !window.matchMedia("(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
+        if (!sqGeoCoreRef.current || motionPaused || rafRef.current || !window.matchMedia("(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
 
-        const rect = e.currentTarget.getBoundingClientRect();
-        const x = Math.max(-1, Math.min(1, (e.clientX - rect.left - rect.width / 2) / (rect.width / 2)));
-        const y = Math.max(-1, Math.min(1, (e.clientY - rect.top - rect.height / 2) / (rect.height / 2)));
-        const rotX = -y * 20;
-        const rotY = (x * 35) - 15;
+        const clientX = e.clientX;
+        const clientY = e.clientY;
+        const currentTarget = e.currentTarget;
 
-        sqGeoCoreRef.current.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+        rafRef.current = requestAnimationFrame(() => {
+            rafRef.current = 0;
+            if (!sqGeoCoreRef.current) return;
 
-        if (sqRingRef.current) {
-            sqRingRef.current.style.transform = `translateZ(20px) rotate(${12 + (x * 10)}deg)`;
-        }
+            const rect = currentTarget.getBoundingClientRect();
+            const x = Math.max(-1, Math.min(1, (clientX - rect.left - rect.width / 2) / (rect.width / 2)));
+            const y = Math.max(-1, Math.min(1, (clientY - rect.top - rect.height / 2) / (rect.height / 2)));
+            const rotX = -y * 20;
+            const rotY = (x * 35) - 15;
+
+            sqGeoCoreRef.current.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+
+            if (sqRingRef.current) {
+                sqRingRef.current.style.transform = `translateZ(20px) rotate(${12 + (x * 10)}deg)`;
+            }
+        });
     };
 
     const handleMouseLeave = () => {
         if (motionPaused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        if (rafRef.current) {
+            cancelAnimationFrame(rafRef.current);
+            rafRef.current = 0;
+        }
         if (sqGeoCoreRef.current) {
             sqGeoCoreRef.current.style.transform = `rotateX(0deg) rotateY(-15deg)`;
         }

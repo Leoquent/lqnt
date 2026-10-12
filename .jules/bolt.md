@@ -1,0 +1,5 @@
+## 2024-05-18 - Debounce synchronous getBoundingClientRect on pointer events
+
+**Learning:** When building complex React/GSAP interactive animations where DOM reads (`getBoundingClientRect()`) are triggered by high-frequency pointer and mouse events, doing so synchronously on every event blocks the main thread and introduces severe layout thrashing (jank) especially on non-flagship devices. While React wraps DOM events, executing DOM measurement inside its event listener still forces layout calculation instantly.
+
+**Action:** Always wrap `getBoundingClientRect()` inside a `requestAnimationFrame` and block consecutive calls within the same frame using a `ticking` boolean lock. Additionally, when using React synthetic events, extract the necessary event variables (e.g. `clientX`, `clientY`, `currentTarget`) into scope *before* scheduling the `requestAnimationFrame` block to ensure they remain accessible (and accurate) once the callback executes on the next frame.
