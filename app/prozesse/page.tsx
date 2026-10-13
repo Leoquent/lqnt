@@ -77,6 +77,7 @@ export default function Page() {
     const typewriterRef = useRef<HTMLSpanElement>(null);
     const sqGeoCoreRef = useRef<HTMLDivElement>(null);
     const sqRingRef = useRef<HTMLDivElement>(null);
+    const sqGeoCoreTicking = useRef(false);
     const [activeStep, setActiveStep] = useState(-1);
 
     const desktopProgressFillsRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -438,16 +439,34 @@ export default function Page() {
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!sqGeoCoreRef.current || motionPaused || !window.matchMedia("(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
 
-        const rect = e.currentTarget.getBoundingClientRect();
-        const x = Math.max(-1, Math.min(1, (e.clientX - rect.left - rect.width / 2) / (rect.width / 2)));
-        const y = Math.max(-1, Math.min(1, (e.clientY - rect.top - rect.height / 2) / (rect.height / 2)));
-        const rotX = -y * 20;
-        const rotY = (x * 35) - 15;
+        if (!sqGeoCoreTicking.current) {
+            // ⚡ Bolt Performance Optimization:
+            // High-frequency pointer events can cause severe layout thrashing and main-thread blocks if synchronous DOM measurement (like getBoundingClientRect) is executed on every tick.
+            // Wrapping these calculations in a requestAnimationFrame with a boolean lock (sqGeoCoreTicking) ensures the DOM changes wait for the next frame render, drastically reducing CPU load.
+            // Critical: Synthetic event values like `clientX` and `currentTarget` must be captured synchronously here since React nullifies the event object by the time the async rAF callback fires.
 
-        sqGeoCoreRef.current.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+            const clientX = e.clientX;
+            const clientY = e.clientY;
+            const currentTarget = e.currentTarget;
 
-        if (sqRingRef.current) {
-            sqRingRef.current.style.transform = `translateZ(20px) rotate(${12 + (x * 10)}deg)`;
+            requestAnimationFrame(() => {
+                const rect = currentTarget.getBoundingClientRect();
+                const x = Math.max(-1, Math.min(1, (clientX - rect.left - rect.width / 2) / (rect.width / 2)));
+                const y = Math.max(-1, Math.min(1, (clientY - rect.top - rect.height / 2) / (rect.height / 2)));
+                const rotX = -y * 20;
+                const rotY = (x * 35) - 15;
+
+                if (sqGeoCoreRef.current) {
+                    sqGeoCoreRef.current.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+                }
+
+                if (sqRingRef.current) {
+                    sqRingRef.current.style.transform = `translateZ(20px) rotate(${12 + (x * 10)}deg)`;
+                }
+                sqGeoCoreTicking.current = false;
+            });
+
+            sqGeoCoreTicking.current = true;
         }
     };
 
