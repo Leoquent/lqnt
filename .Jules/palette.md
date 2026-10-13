@@ -1,0 +1,3 @@
+## 2024-10-13 - [Quiz Modal Accessibility]
+**Learning:** Custom UI components bypassing native HTML semantic patterns (like multi-step form modals without `<form>` elements) require explicit accessibility annotations for screen readers. This means visual progress bars need `role="progressbar"` with `aria-valuemin`, `aria-valuemax`, and `aria-valuenow`, and custom required fields need explicit `required` and `aria-required="true"`.
+**Action:** Always verify proper ARIA attributes on custom UI controls mimicking native forms, ensuring all critical flow steps remain readable and accessible via screen readers.
