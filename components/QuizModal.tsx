@@ -240,7 +240,14 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                 </button>
 
                 {/* Progress Bar */}
-                <div className="w-full h-1 bg-gridline shrink-0 overflow-hidden">
+                <div
+                    className="w-full h-1 bg-gridline shrink-0 overflow-hidden"
+                    role="progressbar"
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-valuenow={progress}
+                    aria-label="Quiz-Fortschritt"
+                >
                     <div
                         className="h-full bg-lime transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
                         style={{ width: `${progress}%` }}
@@ -426,6 +433,7 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                             id="quiz-name"
                                             type="text"
                                             autoComplete="name"
+                                            required
                                             placeholder="Max Mustermann"
                                             value={answers.name}
                                             onChange={(e) => handleInput("name", e.target.value)}
@@ -438,6 +446,7 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                             id="quiz-email"
                                             type="email"
                                             autoComplete="email"
+                                            required
                                             placeholder="ihre@email.com"
                                             value={answers.email}
                                             onChange={(e) => handleInput("email", e.target.value)}
@@ -450,6 +459,7 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                             id="quiz-phone"
                                             type="tel"
                                             autoComplete="tel"
+                                            required
                                             placeholder="+49 123 456 7890"
                                             value={answers.phone}
                                             onChange={(e) => handleInput("phone", e.target.value)}
