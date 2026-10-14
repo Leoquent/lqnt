@@ -77,6 +77,7 @@ export default function Page() {
     const typewriterRef = useRef<HTMLSpanElement>(null);
     const sqGeoCoreRef = useRef<HTMLDivElement>(null);
     const sqRingRef = useRef<HTMLDivElement>(null);
+    const tickingRef = useRef(false);
     const [activeStep, setActiveStep] = useState(-1);
 
     const desktopProgressFillsRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -436,19 +437,35 @@ export default function Page() {
 
     // --- 3D INTERACTION ---
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!sqGeoCoreRef.current || motionPaused || !window.matchMedia("(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
+        if (!sqGeoCoreRef.current || motionPaused || tickingRef.current || !window.matchMedia("(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
 
-        const rect = e.currentTarget.getBoundingClientRect();
-        const x = Math.max(-1, Math.min(1, (e.clientX - rect.left - rect.width / 2) / (rect.width / 2)));
-        const y = Math.max(-1, Math.min(1, (e.clientY - rect.top - rect.height / 2) / (rect.height / 2)));
-        const rotX = -y * 20;
-        const rotY = (x * 35) - 15;
+        // Capture synthetic event properties to avoid nullification or pooling issues inside the async callback
+        const clientX = e.clientX;
+        const clientY = e.clientY;
+        const currentTarget = e.currentTarget;
 
-        sqGeoCoreRef.current.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+        tickingRef.current = true;
 
-        if (sqRingRef.current) {
-            sqRingRef.current.style.transform = `translateZ(20px) rotate(${12 + (x * 10)}deg)`;
-        }
+        requestAnimationFrame(() => {
+            // Read
+            const rect = currentTarget.getBoundingClientRect();
+
+            // Calculate
+            const x = Math.max(-1, Math.min(1, (clientX - rect.left - rect.width / 2) / (rect.width / 2)));
+            const y = Math.max(-1, Math.min(1, (clientY - rect.top - rect.height / 2) / (rect.height / 2)));
+            const rotX = -y * 20;
+            const rotY = (x * 35) - 15;
+
+            // Write
+            if (sqGeoCoreRef.current) {
+                sqGeoCoreRef.current.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+            }
+            if (sqRingRef.current) {
+                sqRingRef.current.style.transform = `translateZ(20px) rotate(${12 + (x * 10)}deg)`;
+            }
+
+            tickingRef.current = false;
+        });
     };
 
     const handleMouseLeave = () => {
