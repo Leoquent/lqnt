@@ -7,9 +7,11 @@
 > **Für Leo:** Diese Datei wird vom Business-Agent gepflegt. Stimmt sie nicht mehr, ist das
 > ein Fehler, der gemeldet gehört — keine Absicht.
 
-**Stand:** 28.09.2026 · geprüft gegen `main` @ `5c1bc8c` · Verfasser: Business-Agent
+**Stand:** 19.10.2026 · geprüft gegen `main` @ `e21b7e7` · Verfasser: Business-Agent
 **Architektur umgestellt:** GitHub liefert nicht mehr aus, der VPS tut es.
-**Vorherige Fassung:** 14.08.2026 — in mehreren Punkten falsch, siehe Abschnitt 10.
+**Neu am 19.10.2026:** Abschnitt 6 (Lead-Funnel) komplett neu geschrieben — die beiden Quizze
+senden an den eigenen Endpunkt `api.lqnt.de`, der Versand läuft über den Google-Workspace-Relay.
+**Vorherige Fassung:** 28.09.2026 — Abschnitt 6 war überholt, dazu zwei Einträge in Abschnitt 10.
 
 ---
 
@@ -145,17 +147,22 @@ Gegenüber Kunden gilt die Sie-Form. `/prozesse/` wurde am 28.09.2026 umgestellt
 
 ---
 
-## 5. Routen — Stand 28.09.2026
+## 5. Routen — Stand 19.10.2026
 
-Der Export erzeugt sieben Seiten:
+Der Export erzeugt zehn Seiten:
 
 - `/` — Einstieg (`app/page.tsx` mit `components/Gateway.tsx`): der Besucher wählt zwischen
   Webdesign und Prozessen
-- `/webdesign` — Einstiegsprodukt, eigene Sektionen in `app/webdesign/`
-- `/prozesse` — Automatisierung und Prozessarbeit; trägt das Quiz
+- `/webdesign` — Einstiegsprodukt, eigene Sektionen in `app/webdesign/`; trägt das Quiz
+  „Projekt besprechen" (Modus `webdesign`)
+- `/webdesign/seo-und-ki-suche` — Leistungsseite zur Sichtbarkeit in Suchmaschinen und KI-Antworten
+- `/prozesse` — Automatisierung und Prozessarbeit; trägt das Quiz „Potenzialanalyse"
+- `/referenzen/gebrueder-ross`, `/referenzen/ruempelross` — Projektseiten
 - `/impressum`, `/datenschutz` — Rechtstexte
 - `/demo-video` — Remotion-Player
 - `/404`
+
+Die Sitemap listet sechs dieser Seiten (ohne Rechtsseiten, `demo-video` und `404`).
 
 **Entfernt am 28.09.2026:** `/entwurf/filmisch` und `/entwurf/interaktiv`. Sie dienten nur der
 Wahl der Landingpage und werden nicht mehr gebraucht. Nicht wieder einführen.
@@ -164,22 +171,60 @@ Wahl der Landingpage und werden nicht mehr gebraucht. Nicht wieder einführen.
 
 ---
 
-## 6. Lead-Funnel
+## 6. Lead-Funnel — Stand 19.10.2026
 
-`components/QuizModal.tsx`, eingebunden **nur** in `app/prozesse/page.tsx`. Es gibt kein
-Formular-Element im Quelltext — der Kontakt läuft über `mailto:hi@lqnt.de` und Telefon.
+Der Kontakt läuft über **zwei Quizze** und den selbst gebauten Endpunkt auf dem VPS. Kein
+Web3Forms, kein `<form>`-Element, kein Nodemailer.
 
-**Stand:** Der Funnel verschickt derzeit nichts automatisch.
+### Quiz
 
-- Der Workflow reicht `NEXT_PUBLIC_WEB3FORMS_KEY` durch (Zeile aktiviert am 28.09.2026).
-- Das GitHub-Secret `WEB3FORMS_KEY` ist **nicht gesetzt**. Ohne Key wird gar nicht erst
-  gesendet: der Besucher sieht sofort den Ausweichweg mit Mailadresse und Telefonnummer.
-  Das ist beabsichtigt und besser als ein Fehlversuch.
-- **Entscheidung 28.09.2026:** Der Endpunkt wird selbst gebaut und läuft auf dem VPS.
-  Web3Forms wird nicht der Dauerzustand. Offen: DNS-Eintrag `api.lqnt.de`, Traefik-Zugang.
+`components/QuizModal.tsx`, Logik in `lib/quiz-flow.ts`:
 
-**Tote Abhängigkeit:** `nodemailer` und `@types/nodemailer` in `package.json` — Rest aus der
-Zeit vor Web3Forms, wird nicht benutzt.
+- `/prozesse/` — kostenlose Potenzialanalyse (Modus `prozesse`): Anliegen, Flaschenhals,
+  Teamgröße, Zeitrahmen, KI-Reife, dann Kontaktdaten. Name, E-Mail und Telefon sind Pflicht.
+- `/webdesign/` — „Projekt besprechen" (Modus `webdesign`): je nach Vorhaben Branding-,
+  Verbesserungs- oder Umfangsfragen. Die Detailangaben wandern gebündelt in das Feld `Ziel`
+  („Webdesign / Marke" plus beschriftete Zeilen).
+- Beide senden mit `fetch` an `NEXT_PUBLIC_LEAD_ENDPOINT`, im Build statisch auf
+  `https://api.lqnt.de/lead` gesetzt. Erfolg wird nur bei `res.ok` **und** `json.ok` angezeigt;
+  sonst greift der sichtbare Ausweichweg mit Mailadresse und Telefon.
+- Das versteckte Feld `firma` wird leer mitgeschickt. Es ist **nicht** mehr das Honeypot —
+  das heißt jetzt `botcheck` (siehe unten).
+
+### Endpunkt
+
+Eigener Dienst, Container `lqnt-api` unter `/docker/lqnt-api/` auf dem VPS, hinter Traefik als
+`https://api.lqnt.de`. Nur Standardbibliothek, keine Abhängigkeiten. `GET /health` meldet den
+Dienst und die Mandanten, `POST /lead` nimmt eine Anfrage an.
+
+- **Mandant aus dem Origin-Header**, nie aus dem Payload: `kunden.json` ordnet Origins einem
+  Kunden zu (Empfänger, Anzeigename, Betreff, optionale eigene Ablage). Aktuell `lqnt` und
+  `gebruederross`, jeweils mit `www`. Unbekannte Herkunft wird abgewiesen.
+  **Folge:** Ein neuer Kunde braucht nur einen Block in `kunden.json` und einen Neustart des
+  Containers — keine Codeänderung. Die Herkunftszeile der Mail leitet die Domain aus `origins`
+  ab; `"hinweis"` im Kundenblock überschreibt sie.
+- **Ablage:** jede Anfrage als JSON-Zeile — zuerst die Daten, dann das Mail-Ergebnis.
+  `/data/leads.jsonl` bzw. `/data/leads/<kunde>.jsonl`, wenn `ablage` gesetzt ist. Es geht
+  nichts verloren, wenn der Versand scheitert. Backup (3:30) und 12-Monats-Löschfrist liegen
+  in `/root/backups/` auf dem VPS.
+- **Spamschutz:** Honeypot-Feld `botcheck` (Name über `HONEYPOT_FIELD` änderbar) und
+  Ratenbegrenzung 5 Anfragen je 10 Minuten und IP.
+- **Mailversand:** Google-Workspace-SMTP-Relay `smtp-relay.gmail.com:587` mit STARTTLS,
+  **ohne Anmeldung** — Google erlaubt den Versand anhand der registrierten VPS-IPv4
+  `187.124.181.132`. Dafür nötig: EHLO mit `lqnt.de` und erzwungenes IPv4, weil der
+  IPv6-Ausgang des VPS im Workspace nicht hinterlegt ist. Schalter stehen in
+  `docker-compose.yml`: `SMTP_SECURITY`, `SMTP_AUTH`, `SMTP_HELO`, `SMTP_IPV4`.
+  Absender aller Formulare ist `noreply@lqnt.de`.
+  **Betriebsregel:** Ändert sich die VPS-IP, muss sie im Workspace nachgezogen werden — sonst
+  antwortet der Relay mit `550 5.7.1 Invalid credentials for relay`.
+- **Antwortweg:** `Reply-To` ist die Adresse des Besuchers (oder `antwort_an` aus dem
+  Kundenblock). Die Mail endet mit zwei Zeilen: der kundenspezifischen Herkunft („Automatisch
+  erzeugt über das Kontaktformular auf <domain>.") und dem Hinweis, an wen eine Antwort geht.
+  Weil der Absender `noreply@lqnt.de` ist, wäre eine Antwort sonst verloren.
+
+**Offen:** Die Beschriftung „Vorhaben" passt bei Website-Anfragen nur halb (dort steht der
+gebündelte Fragenblock darin). **Tote Abhängigkeit:** `nodemailer` und `@types/nodemailer` in
+`package.json`, ungenutzt.
 
 ---
 
@@ -254,8 +299,9 @@ im Lebenslauf „internationale Agenturnetzwerke". Das ist gewollte Sprache, kei
 Diese Aussagen stehen noch irgendwo im Repo und sind **falsch**:
 
 - „Die Seite ist noch nicht live" → sie ist live unter `lqnt.de`.
-- „Der Lead-Funnel verliert seit dem Live-Gang Anfragen" → er verliert keine, es greift ein
-  sichtbarer Ausweichweg mit Mail und Telefon. Der automatische Versand funktioniert nicht.
+- „Der Lead-Funnel verliert seit dem Live-Gang Anfragen" → er verliert keine. Beide Quizze
+  senden an `api.lqnt.de`, und jede Anfrage wird zuerst abgelegt. Fällt der Dienst aus, greift
+  der sichtbare Ausweichweg mit Mail und Telefon.
 - „Admirs Profilkarte steht in `app/page.tsx:1383-1445` und muss entfernt werden" → sie ist
   entfernt; im Quellcode gibt es 0 Fundstellen.
 - „Das generische wir darf bleiben" → widerspricht der Entscheidung vom 28.09.2026.
@@ -267,14 +313,18 @@ Diese Aussagen stehen noch irgendwo im Repo und sind **falsch**:
 - „Das Quiz ist ein Overlay auf `/`" → es liegt auf `/prozesse/`.
 - „Die Marketingseite steckt komplett in `app/page.tsx`" → inzwischen gibt es `app/webdesign/`
   und `app/prozesse/` als eigene Routen.
-- „E-Mail-Versand über Nodemailer und Gmail SMTP" → es ist Web3Forms, clientseitig.
+- „E-Mail-Versand über Nodemailer und Gmail SMTP" → es ist der eigene Endpunkt `api.lqnt.de`
+  auf dem VPS; versendet wird über den Google-Workspace-SMTP-Relay. Nodemailer bleibt ungenutzt.
+- „Das Quiz liegt nur auf `/prozesse/`" → es liegt auch auf `/webdesign/` (Modus `webdesign`).
+- „Der Lead-Funnel verschickt nichts automatisch" → überholt; der Versand funktioniert seit
+  dem 28.09.2026 über den eigenen Endpunkt.
 - „`/api/analyse` steht im Konflikt mit `output: 'export'`" → die Route existiert nicht.
 - „Repo-Remote `leoquentaddequat.git`" → `git@github.com:Leoquent/lqnt.git`.
 - „Die Wortmarke ist als Pfade in `brand/marks/` fertig" → Dateien prüfen; ob sie dem
   aktuellen Stand entsprechen, ist **ungeprüft**.
 
-**Offen und noch nicht korrekt:** `app/sitemap.ts` listet nur `/` und hat den Rückfallwert
-`https://leoquent.github.io` in der Konstante. Beides gehört bereinigt.
+**Bereinigt am 19.10.2026:** `app/sitemap.ts` listet jetzt sechs echte Routen und nutzt die
+richtige Domain.
 
 ---
 
@@ -305,8 +355,6 @@ und „KI" (Trendwort mit Zeitstempel — gehört in Website-Texte, nicht ins Lo
 - **Referenzen:** welche Projekte dürfen gezeigt werden? Ohne Antwort ist keine
   Referenzsektion baubar.
 - **Nische** — in `NEUAUSRICHTUNG_2026.md` bewusst offen gelassen.
-- **Formular-Endpunkt:** DNS-Eintrag `api.lqnt.de` und Traefik-Zugang auf dem VPS.
-- **Postfach `hi@lqnt.de`:** anlegen und Zugang hinterlegen (nur Lesen, kein Senden).
 - **Gewerbeanmeldung:** gewerblich oder freiberuflich — entscheidet über Gewerbesteuer und
   IHK-Beitrag.
 - **`design-system/` und `.design-sync/`:** entfernen oder umbenennen?

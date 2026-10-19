@@ -1,6 +1,6 @@
 # ROADMAP — Leoquent / lqnt.de
 
-> Gepflegt vom Business-Agent. Stand: 28.09.2026, geprüft gegen `main` @ `6c5c181`.
+> Gepflegt vom Business-Agent. Stand: 19.10.2026, geprüft gegen `main` @ `e21b7e7`.
 > Arbeitsweise: Der Agent arbeitet auf `agent/<thema>`, Leo prüft den Branch, der Merge nach
 > `main` ist der Deploy. Nichts geht ohne Freigabe live.
 > Regeln und Stand der Technik: **`AGENTS.md`**.
@@ -9,14 +9,18 @@
 
 ## Festgelegte Architektur
 
-- **GitHub Pages liefert die Website aus.** Push auf `main` → Actions → Pages → `lqnt.de`.
-  Kostenlos, HTTPS automatisch, läuft bereits. Kein Umzug.
-- **Der Hostinger-VPS macht die Prozesse dahinter** — Formular- und Lead-Verarbeitung,
-  Vorschau-Umgebungen, spätere Dienste.
-- **Previews unter `preview.lqnt.de`** — pro Branch ein eigener Pfad, auf dem VPS gebaut und
-  hinter Traefik ausgeliefert. Die Live-Seite bleibt unberührt.
-- **Formular-Endpunkt wird selbst gebaut** (entschieden 28.09.2026). Web3Forms wird nicht der
-  Dauerzustand. Offen: DNS `api.lqnt.de` und Traefik-Zugang.
+- **Der VPS liefert die Website aus.** Ein nginx-Container je Zweig unter `/docker/lqnt-web/`,
+  davor Traefik mit Let's-Encrypt-Zertifikat. GitHub ist Quelle, nicht Auslieferung: Actions
+  baut, die Zweige `site` und `live` werden auf dem VPS im Minutentakt abgeholt. Kein Zugang
+  von außen nötig — beide Zweige sind öffentlich lesbar.
+- **Der Hostinger-VPS macht die Prozesse dahinter** — Formular- und Lead-Verarbeitung
+  (`lqnt-api`), Vorschau, weitere Dienste.
+- **Vorschau unter `vorschau.lqnt.de`** — Zweig `site`, nach jedem Push auf `main`
+  automatisch. Veröffentlicht wird `lqnt.de` aus dem Zweig `live`, erst nach Freigabe im
+  GitHub-Environment `production`. `preview.lqnt.de` gibt es nicht.
+- **Formular-Endpunkt läuft** — `https://api.lqnt.de`, Container `lqnt-api`. Seit 19.10.2026
+  versendet er über den Google-Workspace-SMTP-Relay. Aufbau und Betriebsregeln:
+  `AGENTS.md` Abschnitt 6.
 - **Lunda-KI entfällt.** Verworfen am 28.09.2026.
 - **Ansprache: „ich".** Durchgehend. Firmen-„wir" raus, Partner-„wir" erlaubt.
 - **Sprache:** Deutsch. Ton direkt, ohne Agenturfloskeln.
@@ -35,6 +39,17 @@
 - **`ROADMAP.md` angelegt** — diese Liste.
 - **Deploy-Key** für `Leoquent/lqnt` eingetragen, Push verifiziert.
 - **Schrift** Outfit ist eingebaut. **Deploy** auf `lqnt.de` steht.
+- **Vorschau-Umgebung** — `vorschau.lqnt.de` läuft, Zweig `site`, automatisch nach jedem Push.
+- **Lead-Endpunkt in Betrieb** — `api.lqnt.de` hinter Traefik, Registry `kunden.json` mit
+  `lqnt` und `gebruederross`, Ablage unter `/data/leads/`, Backup und 12-Monats-Löschfrist per
+  Cron. Beide Quizze senden dorthin, live getestet.
+- **Mailversand auf Google Workspace umgestellt** (19.10.2026) — `smtp-relay.gmail.com:587`,
+  STARTTLS, ohne Anmeldung; Absender `noreply@lqnt.de`, `Reply-To` auf den Interessenten.
+- **Honeypot korrigiert** (19.10.2026) — das Feld hieß `firma` und hätte echte „Firma"-Felder
+  stillschweigend verschluckt. Jetzt `botcheck`.
+- **Schlusszeilen der Mail** (19.10.2026) — Herkunft kundenspezifisch („Automatisch erzeugt
+  über das Kontaktformular auf <domain>.") plus Hinweis, an wen eine Antwort geht.
+- **Dokumentation nachgezogen** (19.10.2026) — `AGENTS.md` Abschnitte 5, 6, 10, 12 und diese Liste.
 
 ---
 
@@ -42,11 +57,11 @@
 
 | Punkt | Befund |
 |---|---|
-| Deploy | `main` → Actions → GitHub Pages → `lqnt.de`. `public/CNAME` = `lqnt.de` |
-| Routen | 7 Seiten: `/`, `/webdesign`, `/prozesse`, `/impressum`, `/datenschutz`, `/demo-video`, `/404` |
-| Quiz | nur auf `/prozesse/`. Sendet derzeit nichts automatisch; Ausweichweg greift sofort |
-| Kontaktwege | kein `<form>` im Quelltext; 8 × `mailto:`, 4 × `tel:` |
-| Sitemap | listet nur `/`; Rückfallwert in `app/sitemap.ts` ist noch `https://leoquent.github.io` |
+| Deploy | `main` → Actions → Zweige `site`/`live` → VPS (nginx je Zweig hinter Traefik) → `vorschau.lqnt.de` / `lqnt.de` |
+| Routen | 10 Seiten: `/`, `/webdesign`, `/webdesign/seo-und-ki-suche`, `/prozesse`, `/referenzen/gebrueder-ross`, `/referenzen/ruempelross`, `/impressum`, `/datenschutz`, `/demo-video`, `/404` |
+| Quiz | auf `/prozesse/` (Potenzialanalyse) **und** `/webdesign/` (Projekt besprechen); beide senden an `api.lqnt.de` |
+| Kontaktwege | kein `<form>` im Quelltext; 11 × `mailto:`, 4 × `tel:`, dazu die beiden Quizze |
+| Sitemap | listet sechs Routen auf `lqnt.de` (Rechtsseiten, `demo-video`, `404` bewusst ausgenommen) |
 | Altlasten | `addequat` 75 Fundstellen in 34 Dateien, `Admir` 40 in 13 — **0** in `app/`, `components/`, `lib/`, `public/` |
 | `design-system/` + `.design-sync/` | 43 Dateien, Paketname `leoquent-addequat-brand`, Profilkarte „Admir" — **hängt nicht am Build** |
 | `graphify-out/` | veraltet (gebaut aus `2a3b3936`), trägt den Großteil der Altlasten |
@@ -58,11 +73,6 @@
 
 ## P0 — kostet Geld
 
-- [ ] **Formular-Endpunkt bauen.** Eigene Anwendung auf dem VPS: nimmt die Quiz-Antworten an,
-      prüft, speichert, schickt eine Mail an `hi@lqnt.de`. Ersetzt Web3Forms.
-      *Braucht von dir: DNS-Eintrag `api` und Traefik-Zugang.*
-- [ ] **Postfach `hi@lqnt.de` prüfen** — existiert es, kommt dort Post an, liest es jemand?
-      *Braucht von dir: Postfach in hPanel und das Passwort in der Instanz.*
 - [ ] **Impressum: USt-IdNr** eintragen, sobald erteilt.
 
 ## P1 — Auffindbarkeit und Ordnung
@@ -76,7 +86,6 @@
       alten Stand.
 - [ ] **Standard-Branch auf `main`** umstellen. *Dein Klick: Settings → General → Default branch.*
 - [ ] **Eigenes Formular** als zweiter Weg neben dem Quiz — für Besucher ohne Mailprogramm.
-- [ ] **Preview-Umgebung bauen** (`preview.lqnt.de`). *Braucht DNS und Traefik-Zugang.*
 - [ ] **Alte Dokumente aufräumen** — 11 historische Dateien im Wurzelverzeichnis einordnen oder
       nach `docs/archiv/` verschieben. Einordnung steht in `AGENTS.md` Abschnitt 8.
 
@@ -99,24 +108,23 @@
 
 ## Einrichtung auf deiner Seite — konkret
 
-### 1. Lead-Endpunkt auf dem VPS
+### 1. Lead-Endpunkt auf dem VPS — erledigt
 
-1. Hostinger **DNS → A-Record** `api` → `187.124.181.132`.
-2. Zugang zur Traefik-Konfiguration auf dem VPS bereitstellen (Compose-Datei und dynamische
-   Konfiguration). Ohne das wird nicht geraten.
-3. Danach baut der Agent den Endpunkt, testet ihn und stellt das Quiz darauf um.
+Der DNS-Eintrag `api` zeigt auf den VPS, der Dienst läuft hinter Traefik, beide Quizze senden
+dorthin. Offen bleibt nur der Betrieb: **ändert sich die IPv4 des VPS, muss sie im
+Google-Workspace-SMTP-Relay nachgezogen werden** — sonst kommt keine Mail mehr durch
+(`AGENTS.md` Abschnitt 6).
 
-### 2. Postfach
+### 2. Postfach — Post kommt an, IMAP fehlt
 
-Hostinger **hPanel → E-Mails** prüfen, ob `hi@lqnt.de` existiert. Für die E-Mail-Assistenz
-braucht es IMAP: Server `imap.hostinger.com:993`, Postfach-Passwort (nicht das hPanel-Login).
-Das Passwort kommt nicht durch den Chat, sondern in die Datei in der Instanz.
+`hi@lqnt.de` empfängt (Anfragen aus den Formularen landen dort). Für die E-Mail-Assistenz fehlt
+weiterhin der IMAP-Zugang; wo das Postfach liegt — Hostinger oder Google Workspace — ist
+**ungeprüft**. Zugangsdaten kommen nicht durch den Chat, sondern in die Datei in der Instanz.
 
-### 3. Previews (`preview.lqnt.de`)
+### 3. Previews — erledigt
 
-1. Hostinger **DNS → A-Record** `preview` → `187.124.181.132`.
-2. Zugang zur Traefik-Konfiguration bereitstellen.
-3. Der Agent baut je Branch eine Vorschau unter `preview.lqnt.de/<branch>`.
+Die Vorschau läuft unter `vorschau.lqnt.de` (Zweig `site`, nach jedem Push auf `main`).
+`preview.lqnt.de` existiert nicht; der Name stand hier falsch.
 
 ---
 
@@ -127,5 +135,5 @@ Das Passwort kommt nicht durch den Chat, sondern in die Datei in der Instanz.
 - **USt-IdNr:** sobald erteilt.
 - **`design-system/` und `.design-sync/`:** entfernen oder umbenennen?
 - **`CLAUDE.md`:** verweisen oder entfernen?
-- **Zugänge:** DNS, Traefik/SSH zum VPS, Mail-Postfach.
+- **Zugänge:** Mail-Postfach `hi@lqnt.de` per IMAP steht noch aus.
 - **Trennungsvereinbarung** mit Admir, inklusive `leoquent.de` und Postfach `lunda-ki.de`.
