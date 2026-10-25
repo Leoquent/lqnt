@@ -231,7 +231,7 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                 {/* Close Button */}
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20 w-10 h-10 flex items-center justify-center text-white/50 hover:text-lime transition-colors group"
+                    className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20 w-10 h-10 flex items-center justify-center text-white/50 hover:text-lime transition-colors group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime focus-visible:ring-offset-2 focus-visible:ring-offset-vanta rounded-sm"
                     aria-label="Schließen"
                 >
                     <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -551,6 +551,7 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                             <button
                                 onClick={handleSubmit}
                                 disabled={!isStepValid() || isAnimating || submitState === "sending"}
+                                aria-busy={submitState === "sending"}
                                 className={`font-mono text-sm uppercase tracking-wider px-6 py-3 border transition-all duration-300 flex items-center justify-center gap-2 ${
                                     isStepValid() && submitState !== "sending"
                                         ? "bg-lime text-vanta border-lime hover:bg-white hover:text-vanta hover:border-white btn-glitch"
