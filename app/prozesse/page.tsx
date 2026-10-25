@@ -77,11 +77,18 @@ export default function Page() {
     const typewriterRef = useRef<HTMLSpanElement>(null);
     const sqGeoCoreRef = useRef<HTMLDivElement>(null);
     const sqRingRef = useRef<HTMLDivElement>(null);
-    const tickingRef = useRef(false);
+    const mouseMoveFrameRef = useRef(0);
     const [activeStep, setActiveStep] = useState(-1);
 
     const desktopProgressFillsRef = useRef<(HTMLDivElement | null)[]>([]);
     const activeStepRef = useRef(-1);
+
+    useEffect(() => {
+        return () => {
+            cancelAnimationFrame(mouseMoveFrameRef.current);
+            mouseMoveFrameRef.current = 0;
+        };
+    }, [motionPaused, reducedMotion]);
 
     useEffect(() => {
         const query = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -445,16 +452,15 @@ export default function Page() {
 
     // --- 3D INTERACTION ---
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!sqGeoCoreRef.current || motionPaused || tickingRef.current || !window.matchMedia("(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
+        if (!sqGeoCoreRef.current || motionPaused || mouseMoveFrameRef.current || !window.matchMedia("(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
 
         // Capture synthetic event properties to avoid nullification or pooling issues inside the async callback
         const clientX = e.clientX;
         const clientY = e.clientY;
         const currentTarget = e.currentTarget;
 
-        tickingRef.current = true;
-
-        requestAnimationFrame(() => {
+        mouseMoveFrameRef.current = requestAnimationFrame(() => {
+            mouseMoveFrameRef.current = 0;
             // Read
             const rect = currentTarget.getBoundingClientRect();
 
@@ -471,12 +477,12 @@ export default function Page() {
             if (sqRingRef.current) {
                 sqRingRef.current.style.transform = `translateZ(20px) rotate(${12 + (x * 10)}deg)`;
             }
-
-            tickingRef.current = false;
         });
     };
 
     const handleMouseLeave = () => {
+        cancelAnimationFrame(mouseMoveFrameRef.current);
+        mouseMoveFrameRef.current = 0;
         if (motionPaused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
         if (sqGeoCoreRef.current) {
             sqGeoCoreRef.current.style.transform = `rotateX(0deg) rotateY(-15deg)`;
