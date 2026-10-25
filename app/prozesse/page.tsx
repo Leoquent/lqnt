@@ -99,21 +99,29 @@ export default function Page() {
             const available = window.innerHeight - 64;
             if (window.innerWidth < 768) {
                 const hero = root.querySelector<HTMLElement>('.process-hero-content');
-                if (hero) root.style.setProperty('--process-hero-height', `${hero.offsetHeight}px`);
+                const heroHeight = hero ? hero.offsetHeight : 0;
+
                 // Reserve the natural height of all four rows, as in the original
                 // accumulating scene. Short screens may scroll the intro above it.
-                setProcessStatic(false);
                 const intro = root.querySelector<HTMLElement>('.process-mobile-intro');
                 const footer = root.querySelector<HTMLElement>('.process-mobile-cta');
                 const cards = Array.from(root.querySelectorAll<HTMLElement>('.mobile-prozess-card'));
+
+                let needed = 0;
                 if (intro && footer && cards.length) {
-                    const needed = intro.offsetHeight + footer.offsetHeight + cards.reduce((total, card) => {
+                    needed = intro.offsetHeight + footer.offsetHeight + cards.reduce((total, card) => {
                         const style = getComputedStyle(card);
                         return total + Array.from(card.children).reduce((height, child) => {
                             const childStyle = getComputedStyle(child);
                             return height + (child as HTMLElement).offsetHeight + parseFloat(childStyle.marginTop) + parseFloat(childStyle.marginBottom);
                         }, 0) + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) + 1;
                     }, 0) + 2;
+                }
+
+                // Batch all DOM writes after all reads to prevent layout thrashing
+                if (hero) root.style.setProperty('--process-hero-height', `${heroHeight}px`);
+                setProcessStatic(false);
+                if (needed > 0) {
                     root.style.setProperty('--process-mobile-min-height', `${needed}px`);
                 }
             } else {
