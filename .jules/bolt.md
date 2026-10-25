@@ -1,0 +1,3 @@
+## 2025-02-23 - Prevented layout thrashing in pointermove handlers
+**Learning:** High frequency events like `pointermove` that measure DOM state (like `getBoundingClientRect()`) will cause severe layout thrashing and drop frames if not locked in `requestAnimationFrame`. React/DOM state reads in unthrottled event handlers block the main thread.
+**Action:** Always wrap synchronous DOM measurement calls (`getBoundingClientRect`, `offsetHeight`) inside `requestAnimationFrame` using a boolean `ticking` lock when they happen inside frequent events like `scroll`, `resize` or `pointermove`. Be sure to capture React event variables like `event.clientX` outside the async callback to avoid null refs.

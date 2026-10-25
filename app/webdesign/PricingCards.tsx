@@ -82,12 +82,26 @@ export default function PricingCards({ motionPaused, children }: { motionPaused:
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
       draw();
     };
+    let ticking = false;
+    let rAFId = 0;
     const move = (event: PointerEvent) => {
       if (event.pointerType !== "mouse" || !animated()) return;
-      const box = area.getBoundingClientRect();
-      pointer = { x: event.clientX - box.left, y: event.clientY - box.top };
+      if (!ticking) {
+        ticking = true;
+        const clientX = event.clientX;
+        const clientY = event.clientY;
+        rAFId = requestAnimationFrame(() => {
+          const box = area.getBoundingClientRect();
+          pointer = { x: clientX - box.left, y: clientY - box.top };
+          ticking = false;
+        });
+      }
     };
-    const leave = () => { pointer = null; };
+    const leave = () => {
+      if (rAFId) cancelAnimationFrame(rAFId);
+      ticking = false;
+      pointer = null;
+    };
     const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); });
     const sizing = new ResizeObserver(resize);
     observer.observe(area); sizing.observe(area); resize();
