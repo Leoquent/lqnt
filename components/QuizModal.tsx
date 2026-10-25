@@ -240,7 +240,14 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                 </button>
 
                 {/* Progress Bar */}
-                <div className="w-full h-1 bg-gridline shrink-0 overflow-hidden">
+                <div
+                    className="w-full h-1 bg-gridline shrink-0 overflow-hidden"
+                    role="progressbar"
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-valuenow={Math.round(progress)}
+                    aria-label="Quiz-Fortschritt"
+                >
                     <div
                         className="h-full bg-lime transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
                         style={{ width: `${progress}%` }}
@@ -429,6 +436,8 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                             placeholder="Max Mustermann"
                                             value={answers.name}
                                             onChange={(e) => handleInput("name", e.target.value)}
+                                            required
+                                            aria-required="true"
                                             className="w-full bg-transparent border border-gridline text-white px-5 py-4 font-mono text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none"
                                         />
                                     </div>
@@ -441,6 +450,8 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                             placeholder="ihre@email.com"
                                             value={answers.email}
                                             onChange={(e) => handleInput("email", e.target.value)}
+                                            required
+                                            aria-required="true"
                                             className="w-full bg-transparent border border-gridline text-white px-5 py-4 font-mono text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none"
                                         />
                                     </div>
@@ -453,6 +464,8 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                             placeholder="+49 123 456 7890"
                                             value={answers.phone}
                                             onChange={(e) => handleInput("phone", e.target.value)}
+                                            required
+                                            aria-required="true"
                                             className="w-full bg-transparent border border-gridline text-white px-5 py-4 font-mono text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none"
                                         />
                                     </div>
@@ -538,13 +551,19 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                             <button
                                 onClick={handleSubmit}
                                 disabled={!isStepValid() || isAnimating || submitState === "sending"}
-                                className={`font-mono text-sm uppercase tracking-wider px-6 py-3 border transition-all duration-300 ${
+                                className={`font-mono text-sm uppercase tracking-wider px-6 py-3 border transition-all duration-300 flex items-center justify-center gap-2 ${
                                     isStepValid() && submitState !== "sending"
                                         ? "bg-lime text-vanta border-lime hover:bg-white hover:text-vanta hover:border-white btn-glitch"
                                         : "bg-transparent text-mute/40 border-gridline/50 cursor-not-allowed"
                                 }`}
                             >
-                                {submitState === "sending" ? "Wird gesendet…" : "Anfrage senden"}
+                                {submitState === "sending" && (
+                                    <svg className="animate-spin h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                )}
+                                <span>{submitState === "sending" ? "Wird gesendet…" : "Anfrage senden"}</span>
                             </button>
                         </div>
                     )}

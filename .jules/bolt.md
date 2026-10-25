@@ -1,3 +1,3 @@
-## 2023-10-24 - Layout Thrashing in React Event Handlers
-**Learning:** Calling synchronous layout reads like `getBoundingClientRect()` inside a frequently firing React event handler (e.g., `onMouseMove`) causes severe layout thrashing by forcing main-thread recalculations on every pointer move.
-**Action:** When optimizing with `requestAnimationFrame` to debounce these reads/writes, ensure you capture the necessary React synthetic event properties (like `e.clientX`, `e.clientY`, and `e.currentTarget`) into local variables *before* the async callback. This prevents nullification or pooling issues while keeping DOM reads grouped before DOM writes within the frame.
+## 2025-02-23 - Avoid layout thrashing in pointer event handlers
+**Learning:** Frequent pointer events that read layout, such as `getBoundingClientRect()`, can trigger repeated layout calculations and reduce performance.
+**Action:** Coalesce updates with `requestAnimationFrame` and a pending-frame guard. Capture `clientX`, `clientY`, and `currentTarget` before the asynchronous callback, and group DOM reads before DOM writes.
