@@ -13,3 +13,7 @@
 ## 2024-05-15 - Prevent layout thrashing on frequent events
 **Learning:** Calling synchronous DOM measurement methods like `getBoundingClientRect`, `offsetHeight`, or `getComputedStyle` inside high-frequency event handlers (`scroll`, `resize`, `pointermove`) or `ResizeObserver` callbacks blocks the main thread and causes severe layout thrashing (synchronous layout recalculations).
 **Action:** Always wrap these measurement calls inside a `requestAnimationFrame` using a boolean `ticking` lock to ensure layout calculations are batched and deferred to the next render frame. Extract required event properties (like `event.clientX`) synchronously *before* the rAF callback.
+
+## 2026-10-07 - Throttling Synchronous Layout Measurements in Scroll Listeners
+**Learning:** `getBoundingClientRect` forces a synchronous layout calculation. When placed inside an unthrottled `scroll` listener (which can fire > 60 times a second), it causes layout thrashing and severely impacts main thread performance, particularly when animations (like GSAP pointer tracking) share the thread.
+**Action:** Always wrap synchronous DOM measurement calls (`getBoundingClientRect`, `offsetHeight`, etc.) triggered by frequent events (scroll, resize, pointermove) within `requestAnimationFrame` to cap them at the display refresh rate.
