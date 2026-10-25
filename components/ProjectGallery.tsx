@@ -6,6 +6,7 @@ const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const projects = [
   { slug: "gebrueder-ross", name: "Gebrüder Ross", category: "Recherche · Marke · Website", description: "Nachlassabwicklung verständlich machen. Leistungen ordnen. Persönliches Vertrauen aufbauen.", desktop: "gebrueder-ross-einstieg.webp", theme: "navy", number: "01" },
   { slug: "ruempelross", name: "Rümpelross", category: "Text · Webdesign · Interaktion", description: "Entrümpelung verständlich erklären. Leistungen zeigen. Den Weg zur Anfrage verkürzen.", desktop: "ruempelross-desktop.webp", theme: "yellow", number: "02" },
+  { slug: "andreas-moll", name: "Andreas Moll", category: "Website-Relaunch · Logo-Modernisierung", description: "Ein Nachlassbüro klarer präsentieren. Fachliche Inhalte ordnen. Eine vertraute Marke weiterentwickeln.", desktop: "moll-desktop.webp", theme: "moll", number: "03" },
 ];
 
 export default function ProjectGallery({ motionPaused = false }: { motionPaused?: boolean }) {

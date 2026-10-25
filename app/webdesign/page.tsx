@@ -124,7 +124,7 @@ export default function WebdesignPage() {
         <div className={s.sectionRule} data-line />
         <div className={s.sectionHeading + " " + s.headingStraight} data-reveal><p className={s.eyebrow}>01 / Aus der Arbeit</p><h2 id="work-title">Von der Idee<br /><span>zum Auftritt.</span></h2><p>Wie ich Angebot, Botschaft und Gestaltung zusammenbringe. Einblicke in meine Arbeit.</p></div>
         <ProjectGallery motionPaused={motionPaused} />
-        <p className={s.workNote}>Zwei Unternehmen, zwei eigenständige Auftritte. Mehr zu Konzept und Gestaltung auf den Projektseiten.</p>
+        <p className={s.workNote}>Drei Unternehmen, drei eigenständige Auftritte. Mehr zu Konzept und Gestaltung auf den Projektseiten.</p>
       </section>
 
       <section id="leistungen" className={s.section} aria-labelledby="services-title">
