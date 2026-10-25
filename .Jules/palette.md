@@ -35,3 +35,8 @@
 ## 2024-10-13 - [Quiz Modal Accessibility]
 **Learning:** Custom UI components bypassing native HTML semantic patterns (like multi-step form modals without `<form>` elements) require explicit accessibility annotations for screen readers. This means visual progress bars need `role="progressbar"` with `aria-valuemin`, `aria-valuemax`, and `aria-valuenow`, and custom required fields need explicit `required` and `aria-required="true"`.
 **Action:** Always verify proper ARIA attributes on custom UI controls mimicking native forms, ensuring all critical flow steps remain readable and accessible via screen readers.
+
+## 2026-10-14 - Progress Bar and Native Validation
+
+**Learning:** When using native HTML5 validation attributes like `required`, `aria-required="true"` is redundant as the semantics are implicitly handled by the browser for screen readers. In contrast, custom visual elements acting as progress bars *must* explicitly use `role="progressbar"` and `aria-value*` attributes because they lack native semantic meaning.
+**Action:** Only use `aria-required` when building fully custom non-native form controls; rely on native `required` for standard `<input>` elements. Always use explicit roles and `aria-value*` on custom visual progress indicators.
