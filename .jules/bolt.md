@@ -25,3 +25,9 @@
 ## 2025-02-18 - Prevent synchronous layout thrashing on high-frequency events using rAF
 **Learning:** High-frequency event listeners (like `mousemove`, `pointermove`, `scroll`, `resize`) that read DOM measurements (`getBoundingClientRect`, `offsetWidth`, etc.) and/or write DOM properties can cause severe layout thrashing and block the main thread.
 **Action:** Always wrap these measurements and writes in a `requestAnimationFrame` ticking lock. This ensures DOM reads and writes are properly batched by the browser during its rendering pipeline, avoiding main-thread congestion and jank.
+
+## 2024-05-18 - Debounce synchronous getBoundingClientRect on pointer events
+
+**Learning:** When building complex React/GSAP interactive animations where DOM reads (`getBoundingClientRect()`) are triggered by high-frequency pointer and mouse events, doing so synchronously on every event blocks the main thread and introduces severe layout thrashing (jank) especially on non-flagship devices. While React wraps DOM events, executing DOM measurement inside its event listener still forces layout calculation instantly.
+
+**Action:** Always wrap `getBoundingClientRect()` inside a `requestAnimationFrame` and block consecutive calls within the same frame using a `ticking` boolean lock. Additionally, when using React synthetic events, extract the necessary event variables (e.g. `clientX`, `clientY`, `currentTarget`) into scope *before* scheduling the `requestAnimationFrame` block to ensure they remain accessible (and accurate) once the callback executes on the next frame.
