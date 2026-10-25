@@ -12,7 +12,6 @@ export const mollReference: Reference = {
     description: "Ein Nachlassbüro klarer präsentieren. Fachliche Inhalte ordnen. Eine vertraute Marke weiterentwickeln.",
     poster: "/referenzen/moll-desktop.webp",
     theme: "red",
-    wide: true,
   },
   hero: {
     heading: ["Bewährtes erhalten.", "Klarer auftreten."],
