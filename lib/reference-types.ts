@@ -47,7 +47,6 @@ export type Reference = {
     description: string;
     poster: string;
     theme: "navy" | "yellow" | "red";
-    wide?: boolean;
   };
   hero: { heading: string[]; intro: string; poster: string; mobile: string; color: string };
   overview: { text: string; services: string };
