@@ -19,3 +19,7 @@
 ## 2024-05-15 - [Screen Reader Support for Custom Multi-Step Forms]
 **Learning:** Custom multi-step form modals without native `<form>` elements require manual annotation of mandatory inputs with `required` and `aria-required="true"`. Visual progress bars also need `role="progressbar"`, `aria-valuemin`, `aria-valuemax`, and `aria-valuenow` so screen readers can announce them.
 **Action:** Always manually add ARIA required attributes to inputs and progress bar roles in custom UI components that bypass native semantic HTML patterns.
+
+## 2026-10-09 - Custom form inputs and progress bar accessibility
+**Learning:** This app builds custom multi-step form modals without using native `<form>` wrappers or semantic progress elements, meaning out-of-the-box screen reader support is completely missing for required fields and completion tracking.
+**Action:** When building custom interactive components that bypass native HTML semantic patterns, manually add `required` and `aria-required="true"` to mandatory fields, and always use `role="progressbar"` with `aria-valuemin`, `aria-valuemax`, and `aria-valuenow` on visual progress indicators.
