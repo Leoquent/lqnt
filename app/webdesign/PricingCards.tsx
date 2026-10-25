@@ -75,41 +75,32 @@ export default function PricingCards({ motionPaused, children }: { motionPaused:
       if (visible && !document.hidden && animated()) { last = performance.now(); frame = requestAnimationFrame(tick); }
       else draw();
     };
+    let docBounds = { left: 0, top: 0 };
+    const measure = () => {
+      const rect = area.getBoundingClientRect();
+      docBounds = { left: rect.left + window.scrollX, top: rect.top + window.scrollY };
+    };
     const resize = () => {
       width = area.clientWidth; height = area.clientHeight;
       const ratio = Math.min(devicePixelRatio || 1, 2);
       surface.width = Math.round(width * ratio); surface.height = Math.round(height * ratio);
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      measure();
       draw();
     };
-    let ticking = false;
-    let rAFId = 0;
     const move = (event: PointerEvent) => {
       if (event.pointerType !== "mouse" || !animated()) return;
-      if (!ticking) {
-        ticking = true;
-        const clientX = event.clientX;
-        const clientY = event.clientY;
-        rAFId = requestAnimationFrame(() => {
-          const box = area.getBoundingClientRect();
-          pointer = { x: clientX - box.left, y: clientY - box.top };
-          ticking = false;
-        });
-      }
+      pointer = { x: event.pageX - docBounds.left, y: event.pageY - docBounds.top };
     };
-    const leave = () => {
-      if (rAFId) cancelAnimationFrame(rAFId);
-      ticking = false;
-      pointer = null;
-    };
+    const leave = () => { pointer = null; };
     const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); });
     const sizing = new ResizeObserver(resize);
     observer.observe(area); sizing.observe(area); resize();
-    area.addEventListener("pointermove", move); area.addEventListener("pointerleave", leave);
+    area.addEventListener("pointerenter", measure); area.addEventListener("pointermove", move); area.addEventListener("pointerleave", leave);
     document.addEventListener("visibilitychange", sync); reduced.addEventListener("change", sync);
     return () => {
       cancelAnimationFrame(frame); observer.disconnect(); sizing.disconnect();
-      area.removeEventListener("pointermove", move); area.removeEventListener("pointerleave", leave);
+      area.removeEventListener("pointerenter", measure); area.removeEventListener("pointermove", move); area.removeEventListener("pointerleave", leave);
       document.removeEventListener("visibilitychange", sync); reduced.removeEventListener("change", sync);
     };
   }, [motionPaused]);
