@@ -3,7 +3,7 @@ import LqntMark from "./LqntMark";
 import DirectionArrow from "./DirectionArrow";
 import s from "./editorial.module.css";
 
-export default function EditorialPage({ children, label, project }: { children: React.ReactNode; label: string; project?: "navy" | "yellow" }) {
+export default function EditorialPage({ children, label, project }: { children: React.ReactNode; label: string; project?: "navy" | "yellow" | "red" }) {
   return <div className={s.page} data-project={project}>
     <a className={s.skip} href="#inhalt">Zum Inhalt</a>
     <header className={s.header}><Link href="/" className={s.brand} aria-label="leoquent – Startseite"><LqntMark /><span>leoquent</span></Link><nav aria-label="Hauptnavigation"><Link href="/webdesign/">Webdesign</Link><a href="mailto:hi@lqnt.de">Projekt besprechen <DirectionArrow diagonal /></a></nav></header>
