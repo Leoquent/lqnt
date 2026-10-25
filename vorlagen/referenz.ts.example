@@ -1,0 +1,48 @@
+// Inhaltsvorlage, keine aktive Referenz. Als content/reference-PROJEKT.ts kopieren.
+// Ausfüllen und einmal in lib/references.ts registrieren.
+import type { Reference } from "@/lib/reference-types";
+
+export const neueReferenz: Reference = {
+  slug: "projektname",
+  name: "Kundenname",
+  metadata: {
+    title: "Kundenname: konkrete Projektleistung | leoquent",
+    description: "Kurze Beschreibung des tatsächlichen Projekts.",
+  },
+  gallery: {
+    category: "Konzept · Webdesign · Entwicklung",
+    description: "Aufgabe und Beitrag in zwei kurzen Sätzen.",
+    poster: "/referenzen/projekt-desktop.webp",
+    theme: "navy",
+    // wide: true, // Optional: breite Fläche statt Karte im Paar.
+  },
+  hero: {
+    heading: ["Erste Zeile.", "Zweite Zeile."],
+    intro: "Einordnung des Projekts in ein bis zwei Sätzen.",
+    poster: "/referenzen/projekt-desktop.webp",
+    mobile: "/referenzen/projekt-mobile.webp",
+    color: "#142333",
+  },
+  overview: { text: "Ausgangslage und mein Beitrag.", services: "Konzept · Text · Design · Entwicklung" },
+  facts: [
+    { label: "Unternehmen", value: ["Kundenname", "Tätigkeit"] },
+    { label: "Adressaten der Website", value: ["Für wen die Website gedacht ist."] },
+    { label: "Die Aufgabe", value: ["Was der Auftritt leisten sollte."] },
+  ],
+  blocks: [
+    { type: "section", heading: ["Konkrete Entscheidung.", "Ihr Zweck."], paragraphs: ["Was ich gemacht habe und warum.", "Was Besucher jetzt sehen oder tun können."] },
+    { type: "screenshot", src: "/referenzen/projekt-detail.webp", width: 1280, height: 800, alt: "Sachliche Bildbeschreibung", caption: "Was dieses Detail am Projekt erklärt." },
+    { type: "section", heading: ["Das fertige Ergebnis."], paragraphs: ["Belegbarer Stand und übergebene Leistungen."], link: { label: "Die Website besuchen", href: "https://example.com/" } },
+    // Weitere Bausteine: comparison (website oder logo) und brand.
+    // Vollständige Beispiele: content/reference-moll.ts und content/reference-existing.ts.
+  ],
+  relatedSlug: "andreas-moll",
+  relatedLabel: "Weiteres Projekt",
+  // Erst nach Freigabe des konkreten Wortlauts auf true setzen.
+  testimonial: { quote: "", name: "", role: "", approved: false },
+  closing: {
+    heading: ["Ein Auftritt,", "der zu Ihrer Arbeit passt."],
+    text: "Ich bringe Angebot, Inhalte und Gestaltung zusammen.",
+    link: { label: "Über Ihre Website sprechen", href: "/webdesign/#kontakt" },
+  },
+};

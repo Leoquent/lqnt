@@ -24,6 +24,14 @@ Die Seite verwendet die vorhandenen Komponenten für redaktionelle Projektseiten
 
 Die Veröffentlichung folgt dem bestehenden Branch- und Freigabeablauf. Ein Push des Case-Branches veröffentlicht noch keine neue Produktionsversion.
 
+## Wiederverwendbare Referenzvorlage
+
+Alle drei Projekte verwenden jetzt `components/ReferenceCase.tsx` und die gemeinsame Route `app/referenzen/[slug]/page.tsx`. Inhalte stehen separat in `content/reference-existing.ts` und `content/reference-moll.ts`. Die Registrierung in `lib/references.ts` erzeugt Galerieeintrag, Nummerierung, Unterseite und Sitemap. Normale Karten werden automatisch paarweise gruppiert; breite Einträge stehen einzeln.
+
+Die ausfüllbare Vorlage liegt unter `vorlagen/REFERENZ-AUSFUELLEN.md`, die technische Inhaltsvorlage daneben als `referenz.ts.example`. Ein freigegebenes Kundenzitat ist ein optionaler Datenbaustein. Nicht freigegebene Zitate werden weder angezeigt noch als Galeriedaten an den Browser übertragen.
+
+Die Umstellung wurde gegen die zuvor exportierten Seiten geprüft: sichtbare Texte, Bilder samt Alternativtexten und Links sind bei allen drei Cases identisch. Der neue Build erzeugt alle drei bisherigen Referenz-URLs. Es sind keine Änderungen an den noch separat liegenden FAQ-Commits enthalten.
+
 ## Prüfung am 25.10.2026
 
 - Produktionsbuild einschließlich TypeScript-Prüfung erfolgreich; neue Route statisch exportiert.

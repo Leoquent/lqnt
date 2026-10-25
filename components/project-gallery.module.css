@@ -19,12 +19,15 @@
 @media(max-width:700px){.gallery{display:grid;gap:44px;margin-top:28px}.visual{--visual-height:clamp(190px,58vw,330px);--browser-top:48px;--browser-overscan:48px;padding-inline:18px}.browser,.project[data-theme=yellow] .browser{width:112%;max-width:none;margin:0;transform:rotate(-2deg) translateY(6px);transform-origin:center top;border-radius:7px 7px 0 0}.browserBar{height:22px;padding:0 10px;font-size:8px}.browserBar span:first-child{font-size:6px}.description{padding-top:22px}.description h3{font-size:32px}.copy{font-size:16px}.open{width:44px;height:44px;right:16px;bottom:16px}.index{left:18px;top:17px;font-size:10px}}
 .gallery[data-paused=true] *{transition:none!important}.gallery[data-paused=true] .browser{transform:none!important}
 @media(prefers-reduced-motion:reduce){.gallery *{transition:none!important}.browser,.project[data-theme=yellow] .browser{transform:none!important}}
-.project[data-theme=moll] .visual{background:radial-gradient(ellipse at 44% 30%,#b42230 0%,#711923 60%,#381317 100%);border-color:#8d3940}.project[data-theme=moll] .index{color:#f4e9e4}.project[data-theme=moll] .open{background:#48151bd9}
-.gallery{flex-wrap:wrap;row-gap:44px}
-.project[data-theme=moll]{flex-basis:100%;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:40px;align-items:center}
-.project[data-theme=moll] .description{padding:0}
-.project[data-theme=moll] .visual{height:auto;aspect-ratio:1.55;--browser-top:clamp(42px,5vw,60px);padding:var(--browser-top) clamp(18px,2vw,26px) 0}
-.project[data-theme=moll] .browser{width:100%;height:auto}
-.project[data-theme=moll] .browser picture{flex:none}
-.project[data-theme=moll] .browser img{height:auto;object-fit:contain}
-@media(max-width:1000px){.project[data-theme=moll]{display:block}.project[data-theme=moll] .description{padding:26px 2px 0}}
+.project[data-theme=red] .visual{background:radial-gradient(ellipse at 44% 30%,#b42230 0%,#711923 60%,#381317 100%);border-color:#8d3940}.project[data-theme=red] .index{color:#f4e9e4}.project[data-theme=red] .open{background:#48151bd9}
+.gallery{display:grid;row-gap:44px}
+.row{display:flex;gap:24px;align-items:stretch;min-width:0}
+@media(min-width:701px) and (max-width:1000px){.row{gap:18px}}
+@media(max-width:700px){.row{display:grid;gap:44px}}
+.project[data-wide=true]{flex-basis:100%;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:40px;align-items:center}
+.project[data-wide=true] .description{padding:0}
+.project[data-wide=true] .visual{height:auto;aspect-ratio:1.55;--browser-top:clamp(42px,5vw,60px);padding:var(--browser-top) clamp(18px,2vw,26px) 0}
+.project[data-wide=true] .browser{width:100%;height:auto}
+.project[data-wide=true] .browser picture{flex:none}
+.project[data-wide=true] .browser img{height:auto;object-fit:contain}
+@media(max-width:1000px){.project[data-wide=true]{display:block}.project[data-wide=true] .description{padding:26px 2px 0}}
