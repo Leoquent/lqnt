@@ -31,3 +31,7 @@
 ## 2025-02-20 - Custom Modal Forms Accessibility
 **Learning:** When building custom UI components that bypass native HTML semantic patterns (like multi-step form modals without `<form>` elements), form validations don't automatically work for screen readers without proper aria attributes. Visual progress bars inside these forms also need semantic roles and values.
 **Action:** Manually annotate mandatory fields with `required` and `aria-required="true"`. For visual progress bars, add `role="progressbar"` with `aria-valuemin`, `aria-valuemax`, and `aria-valuenow` for proper screen reader support.
+
+## 2024-10-13 - [Quiz Modal Accessibility]
+**Learning:** Custom UI components bypassing native HTML semantic patterns (like multi-step form modals without `<form>` elements) require explicit accessibility annotations for screen readers. This means visual progress bars need `role="progressbar"` with `aria-valuemin`, `aria-valuemax`, and `aria-valuenow`, and custom required fields need explicit `required` and `aria-required="true"`.
+**Action:** Always verify proper ARIA attributes on custom UI controls mimicking native forms, ensuring all critical flow steps remain readable and accessible via screen readers.
