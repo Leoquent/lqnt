@@ -27,3 +27,7 @@
 ## 2024-05-13 - [A11y Support for Custom Forms & Progress Bars]
 **Learning:** Custom multi-step forms and visual progress bars often lack native accessibility context. Screen readers cannot deduce that a `div` functions as a progress bar or that specific fields in a custom form flow are mandatory without explicit aria attributes.
 **Action:** Always add `role="progressbar"` with `aria-valuemin`, `aria-valuemax`, and `aria-valuenow` to visual progress bars. Annotate mandatory form fields in custom multi-step flows with `required` and `aria-required="true"` to ensure proper screen reader support.
+
+## 2025-02-20 - Custom Modal Forms Accessibility
+**Learning:** When building custom UI components that bypass native HTML semantic patterns (like multi-step form modals without `<form>` elements), form validations don't automatically work for screen readers without proper aria attributes. Visual progress bars inside these forms also need semantic roles and values.
+**Action:** Manually annotate mandatory fields with `required` and `aria-required="true"`. For visual progress bars, add `role="progressbar"` with `aria-valuemin`, `aria-valuemax`, and `aria-valuenow` for proper screen reader support.
