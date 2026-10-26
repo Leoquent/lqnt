@@ -240,10 +240,18 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                 </button>
 
                 {/* Progress Bar */}
-                <div className="w-full h-1 bg-gridline shrink-0 overflow-hidden">
+                <div
+                    className="w-full h-1 bg-gridline shrink-0 overflow-hidden"
+                    role="progressbar"
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-valuenow={Math.round(progress)}
+                    aria-label="Fortschritt"
+                >
                     <div
                         className="h-full bg-lime transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
                         style={{ width: `${progress}%` }}
+                        aria-hidden="true"
                     />
                 </div>
 
@@ -430,6 +438,8 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                             value={answers.name}
                                             onChange={(e) => handleInput("name", e.target.value)}
                                             className="w-full bg-transparent border border-gridline text-white px-5 py-4 font-mono text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none"
+                                            required
+                                            aria-required="true"
                                         />
                                     </div>
                                     <div>
@@ -442,6 +452,8 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                             value={answers.email}
                                             onChange={(e) => handleInput("email", e.target.value)}
                                             className="w-full bg-transparent border border-gridline text-white px-5 py-4 font-mono text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none"
+                                            required
+                                            aria-required="true"
                                         />
                                     </div>
                                     <div>
@@ -454,6 +466,8 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                             value={answers.phone}
                                             onChange={(e) => handleInput("phone", e.target.value)}
                                             className="w-full bg-transparent border border-gridline text-white px-5 py-4 font-mono text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none"
+                                            required
+                                            aria-required="true"
                                         />
                                     </div>
 

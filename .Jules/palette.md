@@ -1,0 +1,3 @@
+## 2026-10-26 - Manual Accessibility in Custom Modals
+**Learning:** When building custom UI components that bypass native HTML semantic patterns (like multi-step form modals without `<form>` elements), mandatory fields need explicit `required` and `aria-required="true"` attributes for screen readers to recognize them correctly. Similarly, visual progress bars need explicit `role="progressbar"` and related `aria-value*` properties to be understood.
+**Action:** For custom forms, always manually annotate mandatory fields with `required` and `aria-required="true"`. For custom visual progress indicators, always apply `role="progressbar"` with `aria-valuemin`, `aria-valuemax`, and `aria-valuenow`.
