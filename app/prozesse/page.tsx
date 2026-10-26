@@ -116,12 +116,26 @@ export default function Page() {
 
                 let needed = 0;
                 if (intro && footer && cards.length) {
+                    // Extract styles from the first card outside the loop to prevent repeated
+                    // getComputedStyle calls causing layout thrashing in the reduce operations below.
+                    const firstCard = cards[0];
+                    const firstCardStyle = getComputedStyle(firstCard);
+                    const paddingTop = parseFloat(firstCardStyle.paddingTop) || 0;
+                    const paddingBottom = parseFloat(firstCardStyle.paddingBottom) || 0;
+
+                    const childrenMargins = Array.from(firstCard.children).map(child => {
+                        const childStyle = getComputedStyle(child);
+                        return {
+                            marginTop: parseFloat(childStyle.marginTop) || 0,
+                            marginBottom: parseFloat(childStyle.marginBottom) || 0
+                        };
+                    });
+
                     needed = intro.offsetHeight + footer.offsetHeight + cards.reduce((total, card) => {
-                        const style = getComputedStyle(card);
-                        return total + Array.from(card.children).reduce((height, child) => {
-                            const childStyle = getComputedStyle(child);
-                            return height + (child as HTMLElement).offsetHeight + parseFloat(childStyle.marginTop) + parseFloat(childStyle.marginBottom);
-                        }, 0) + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) + 1;
+                        return total + Array.from(card.children).reduce((height, child, index) => {
+                            const margins = childrenMargins[index] || { marginTop: 0, marginBottom: 0 };
+                            return height + (child as HTMLElement).offsetHeight + margins.marginTop + margins.marginBottom;
+                        }, 0) + paddingTop + paddingBottom + 1;
                     }, 0) + 2;
                 }
 
