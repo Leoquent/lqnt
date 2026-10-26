@@ -33,6 +33,11 @@ export default function ProjectGallery({ projects, motionPaused = false }: { pro
         const fraction = Math.min(1, rail.clientWidth / rail.scrollWidth);
         progress.current.style.width = `${fraction * 100}%`;
         progress.current.style.transform = `translateX(${max > 0 ? rail.scrollLeft / max * (1 - fraction) / fraction * 100 : 0}%)`;
+        if (progress.current.parentElement) {
+          // Track overall progress visually based on current item vs total max scroll
+          const percent = max > 0 ? Math.round((rail.scrollLeft / max) * 100) : 100;
+          progress.current.parentElement.setAttribute("aria-valuenow", percent.toString());
+        }
       }
     }
     function onScroll() {
@@ -131,7 +136,7 @@ export default function ProjectGallery({ projects, motionPaused = false }: { pro
     </div>
     {projects.length > 1 && <div className={s.controls}>
       <div className={s.position}><span>{projects.length} Projekte</span><span className={s.hint}>Ziehen, wischen, entdecken</span></div>
-      <div className={s.progress} aria-hidden="true"><span ref={progress} /></div>
+      <div className={s.progress} role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={0} aria-label="Galerie-Fortschritt"><span ref={progress} /></div>
       <div className={s.arrows}>
         <button type="button" className={`${s.arrow} ${s.previous}`} aria-label="Vorherige Projekte" aria-controls={id} disabled={edges.start} onClick={() => step(-1)}><DirectionArrow /></button>
         <button type="button" className={s.arrow} aria-label="Weitere Projekte" aria-controls={id} disabled={edges.end} onClick={() => step(1)}><DirectionArrow /></button>
