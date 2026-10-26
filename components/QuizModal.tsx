@@ -325,6 +325,8 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                                     onChange={(e) => handleInput(`${step.id}Other` as keyof QuizAnswers, e.target.value)}
                                                     className="w-full bg-transparent border border-lime/30 text-white px-5 py-4 font-mono text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none quiz-field-enter"
                                                     autoFocus
+                                                    required
+                                                    aria-required="true"
                                                 />
                                             )}
                                         </div>
@@ -377,6 +379,8 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                                     onChange={(e) => handleInput("painpointOther", e.target.value)}
                                                     className="w-full bg-transparent border border-lime/30 text-white px-5 py-4 font-mono text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none quiz-field-enter"
                                                     autoFocus
+                                                    required
+                                                    aria-required="true"
                                                 />
                                             )}
                                         </div>
