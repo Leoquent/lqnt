@@ -23,17 +23,35 @@ export default function ProjectGallery({ projects, motionPaused = false }: { pro
     let drag: { id: number; x: number; scroll: number; moved: boolean } | null = null;
     let suppressClickUntil = 0;
     let timer: ReturnType<typeof setTimeout> | undefined;
+    let updateFrame = 0;
 
     function update() {
-      if (!rail) return;
-      const max = rail.scrollWidth - rail.clientWidth;
-      const start = rail.scrollLeft <= 3, end = max - rail.scrollLeft <= 3;
-      setEdges(old => old.start === start && old.end === end ? old : { start, end });
-      if (progress.current) {
-        const fraction = Math.min(1, rail.clientWidth / rail.scrollWidth);
-        progress.current.style.width = `${fraction * 100}%`;
-        progress.current.style.transform = `translateX(${max > 0 ? rail.scrollLeft / max * (1 - fraction) / fraction * 100 : 0}%)`;
-      }
+      if (!rail || updateFrame) return;
+
+      updateFrame = requestAnimationFrame(() => {
+        updateFrame = 0;
+        if (!rail) return;
+
+        // Group DOM reads first to avoid layout thrashing
+        const scrollWidth = rail.scrollWidth;
+        const clientWidth = rail.clientWidth;
+        const scrollLeft = rail.scrollLeft;
+
+        // Perform calculations
+        const max = scrollWidth - clientWidth;
+        const start = scrollLeft <= 3;
+        const end = max - scrollLeft <= 3;
+
+        // State update
+        setEdges(old => old.start === start && old.end === end ? old : { start, end });
+
+        // Group DOM writes
+        if (progress.current) {
+          const fraction = Math.min(1, clientWidth / scrollWidth);
+          progress.current.style.width = `${fraction * 100}%`;
+          progress.current.style.transform = `translateX(${max > 0 ? scrollLeft / max * (1 - fraction) / fraction * 100 : 0}%)`;
+        }
+      });
     }
     function onScroll() {
       update(); clearTimeout(timer);
@@ -87,7 +105,7 @@ export default function ProjectGallery({ projects, motionPaused = false }: { pro
     rail.addEventListener("dragstart", preventDrag); window.addEventListener("pointerup", finish);
     update();
     return () => {
-      finish(); observer.disconnect(); clearTimeout(timer);
+      finish(); observer.disconnect(); clearTimeout(timer); cancelAnimationFrame(updateFrame);
       rail.removeEventListener("scroll", onScroll);
       rail.removeEventListener("pointerdown", down); rail.removeEventListener("pointermove", move);
       rail.removeEventListener("pointerup", finish); rail.removeEventListener("pointercancel", finish);
