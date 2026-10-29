@@ -26,12 +26,14 @@
 **Learning:** High-frequency event listeners (like `mousemove`, `pointermove`, `scroll`, `resize`) that read DOM measurements (`getBoundingClientRect`, `offsetWidth`, etc.) and/or write DOM properties can cause severe layout thrashing and block the main thread.
 **Action:** Always wrap these measurements and writes in a `requestAnimationFrame` ticking lock. This ensures DOM reads and writes are properly batched by the browser during its rendering pipeline, avoiding main-thread congestion and jank.
 
-## 2024-05-18 - Debounce synchronous getBoundingClientRect on pointer events
-
+## 2024-05-18 - Prevent synchronous layout thrashing on pointer events
 **Learning:** When building complex React/GSAP interactive animations where DOM reads (`getBoundingClientRect()`) are triggered by high-frequency pointer and mouse events, doing so synchronously on every event blocks the main thread and introduces severe layout thrashing (jank) especially on non-flagship devices. While React wraps DOM events, executing DOM measurement inside its event listener still forces layout calculation instantly.
-
 **Action:** Always wrap `getBoundingClientRect()` inside a `requestAnimationFrame` and block consecutive calls within the same frame using a `ticking` boolean lock. Additionally, when using React synthetic events, extract the necessary event variables (e.g. `clientX`, `clientY`, `currentTarget`) into scope *before* scheduling the `requestAnimationFrame` block to ensure they remain accessible (and accurate) once the callback executes on the next frame.
 
-## 2026-10-13 - [Debounce Layout Thrashing in requestAnimationFrame]
+## 2026-10-13 - Debounce Layout Thrashing in requestAnimationFrame
 **Learning:** React synthetic events are pooled/reused. When debouncing DOM reads/writes via `requestAnimationFrame` (like to prevent layout thrashing from `getBoundingClientRect()`), `e.clientX` / `e.currentTarget` etc. must be copied into local variables *before* the async callback. Furthermore, `getBoundingClientRect()` should be grouped *before* any `style` mutations to prevent interleaving reads/writes.
 **Action:** Always cache synthetic event properties when debouncing layout changes, and group DOM reads first.
+
+## 2024-10-27 - Extract getComputedStyle from Loops
+**Learning:** Using `getComputedStyle` inside a loop, particularly inside high-frequency event handlers or `ResizeObserver` callbacks, causes severe performance degradation and layout thrashing due to continuous DOM style computations.
+**Action:** Measure the styles on a single representative element (e.g., the first item) outside of the loop and reuse those values, provided the elements share the same CSS structure.
