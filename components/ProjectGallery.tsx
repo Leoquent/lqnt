@@ -35,8 +35,17 @@ export default function ProjectGallery({ projects, motionPaused = false }: { pro
         progress.current.style.transform = `translateX(${max > 0 ? rail.scrollLeft / max * (1 - fraction) / fraction * 100 : 0}%)`;
       }
     }
+    let scrollTicking = false;
     function onScroll() {
-      update(); clearTimeout(timer);
+      // Throttle synchronous scroll updates to prevent layout thrashing and maintain 60fps
+      if (!scrollTicking) {
+        requestAnimationFrame(() => {
+          update();
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
+      clearTimeout(timer);
       timer = setTimeout(() => {
         if (!rail) return;
         const bounds = rail.getBoundingClientRect();
