@@ -483,7 +483,12 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                         />
                                     </div>
                                     {isWebsite && <div>
-                                        <label htmlFor="quiz-notes" className="text-sm text-bone block mb-2">Was ist Ihnen noch wichtig? <span className="text-bone/60">(optional)</span></label>
+                                        <div className="flex justify-between items-end mb-2">
+                                            <label htmlFor="quiz-notes" className="text-sm text-bone block">Was ist Ihnen noch wichtig? <span className="text-bone/60">(optional)</span></label>
+                                            <span className={`font-mono text-[10px] ${answers.notes.length >= 950 ? "text-red-500" : answers.notes.length >= 800 ? "text-amber-500" : "text-bone/40"}`}>
+                                                {answers.notes.length} / 1000
+                                            </span>
+                                        </div>
                                         <textarea id="quiz-notes" rows={3} maxLength={1000} value={answers.notes} onChange={e => handleInput("notes", e.target.value)} placeholder="Ihr Unternehmen, besondere Wünsche oder eine Frage an mich …" className="w-full resize-y bg-transparent border border-gridline text-white px-4 py-3 text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none" />
                                     </div>}
                                     <p className="text-sm text-bone/80">Mit dem Absenden fragen Sie ein unverbindliches Gespräch an. Informationen zur Verarbeitung Ihrer Angaben finden Sie in der <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/datenschutz/`} className="text-lime underline" target="_blank" rel="noreferrer">Datenschutzerklärung</a>.</p>
