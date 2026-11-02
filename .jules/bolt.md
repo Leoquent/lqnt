@@ -35,3 +35,7 @@
 ## 2026-10-13 - [Debounce Layout Thrashing in requestAnimationFrame]
 **Learning:** React synthetic events are pooled/reused. When debouncing DOM reads/writes via `requestAnimationFrame` (like to prevent layout thrashing from `getBoundingClientRect()`), `e.clientX` / `e.currentTarget` etc. must be copied into local variables *before* the async callback. Furthermore, `getBoundingClientRect()` should be grouped *before* any `style` mutations to prevent interleaving reads/writes.
 **Action:** Always cache synthetic event properties when debouncing layout changes, and group DOM reads first.
+
+## 2025-02-23 - Extracting getComputedStyle out of loops for uniform elements
+**Learning:** Using `getComputedStyle` inside iterative methods like `.reduce` or `.map` can cause severe performance drops due to the repetitive layout calculations. If iterating over uniform elements (e.g., list items, identical cards) or identical internal structures, running `getComputedStyle` on each element separately is redundant and causes continuous DOM polling.
+**Action:** When calculating cumulative layouts across multiple uniform elements, extract the `getComputedStyle` out of the loop. Cache the styles from the first item and reuse these measurements for the rest of the array to batch DOM reads.

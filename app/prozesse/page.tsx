@@ -116,12 +116,20 @@ export default function Page() {
 
                 let needed = 0;
                 if (intro && footer && cards.length) {
+                    // Bolt: Cache computed styles of the first card and its children to avoid layout thrashing in the loop
+                    const firstCardStyle = getComputedStyle(cards[0]);
+                    const cardPaddingTop = parseFloat(firstCardStyle.paddingTop);
+                    const cardPaddingBottom = parseFloat(firstCardStyle.paddingBottom);
+                    const childrenStyles = Array.from(cards[0].children).map(child => {
+                        const style = getComputedStyle(child);
+                        return { mt: parseFloat(style.marginTop), mb: parseFloat(style.marginBottom) };
+                    });
+
                     needed = intro.offsetHeight + footer.offsetHeight + cards.reduce((total, card) => {
-                        const style = getComputedStyle(card);
-                        return total + Array.from(card.children).reduce((height, child) => {
-                            const childStyle = getComputedStyle(child);
-                            return height + (child as HTMLElement).offsetHeight + parseFloat(childStyle.marginTop) + parseFloat(childStyle.marginBottom);
-                        }, 0) + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) + 1;
+                        return total + Array.from(card.children).reduce((height, child, idx) => {
+                            const margins = childrenStyles[idx] || { mt: 0, mb: 0 };
+                            return height + (child as HTMLElement).offsetHeight + margins.mt + margins.mb;
+                        }, 0) + cardPaddingTop + cardPaddingBottom + 1;
                     }, 0) + 2;
                 }
 
