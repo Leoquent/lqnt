@@ -40,3 +40,7 @@
 
 **Learning:** When using native HTML5 validation attributes like `required`, `aria-required="true"` is redundant as the semantics are implicitly handled by the browser for screen readers. In contrast, custom visual elements acting as progress bars *must* explicitly use `role="progressbar"` and `aria-value*` attributes because they lack native semantic meaning.
 **Action:** Only use `aria-required` when building fully custom non-native form controls; rely on native `required` for standard `<input>` elements. Always use explicit roles and `aria-value*` on custom visual progress indicators.
+
+## 2026-11-03 - Textarea Character Count
+**Learning:** Textareas with `maxLength` attributes often lack clear visual feedback for users on how many characters they have left, especially for longer inputs (e.g. 1000 characters).
+**Action:** Always include a visual character count indicator (using mono-spaced font for alignment) that changes color (e.g., to a warning color like red) as the user approaches the maximum character limit.
