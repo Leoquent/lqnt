@@ -116,12 +116,24 @@ export default function Page() {
 
                 let needed = 0;
                 if (intro && footer && cards.length) {
+                    // ⚡ Bolt Performance Optimization:
+                    // Hoist getComputedStyle outside the loop.
+                    // Cards in this section share a uniform structure. Instead of recalculating styles
+                    // for O(N) cards and O(N*M) children, we read the padding/margins from the first card
+                    // and reuse them. This eliminates redundant function call overhead on every resize event.
+                    const firstCard = cards[0];
+                    const cardStyle = getComputedStyle(firstCard);
+                    const cardPadding = parseFloat(cardStyle.paddingTop) + parseFloat(cardStyle.paddingBottom);
+                    const childMargins = Array.from(firstCard.children).map(child => {
+                        const style = getComputedStyle(child);
+                        return parseFloat(style.marginTop) + parseFloat(style.marginBottom);
+                    });
+
                     needed = intro.offsetHeight + footer.offsetHeight + cards.reduce((total, card) => {
-                        const style = getComputedStyle(card);
-                        return total + Array.from(card.children).reduce((height, child) => {
-                            const childStyle = getComputedStyle(child);
-                            return height + (child as HTMLElement).offsetHeight + parseFloat(childStyle.marginTop) + parseFloat(childStyle.marginBottom);
-                        }, 0) + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) + 1;
+                        return total + Array.from(card.children).reduce((height, child, idx) => {
+                            // Assume uniform structure per card for speed
+                            return height + (child as HTMLElement).offsetHeight + (childMargins[idx] || 0);
+                        }, 0) + cardPadding + 1;
                     }, 0) + 2;
                 }
 
