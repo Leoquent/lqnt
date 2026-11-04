@@ -78,6 +78,7 @@ export default function Page() {
     const sqGeoCoreRef = useRef<HTMLDivElement>(null);
     const sqRingRef = useRef<HTMLDivElement>(null);
     const mouseMoveFrameRef = useRef(0);
+    const sqBoundsRef = useRef<{ left: number; top: number; width: number; height: number } | null>(null);
     const [activeStep, setActiveStep] = useState(-1);
 
     const desktopProgressFillsRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -451,22 +452,40 @@ export default function Page() {
     }, { dependencies: [motionPaused, processStatic], revertOnUpdate: true, scope: pageRef });
 
     // --- 3D INTERACTION ---
+    const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!sqGeoCoreRef.current || motionPaused || !window.matchMedia("(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
+
+        // Cache bounds to prevent layout thrashing on mousemove
+        const rect = e.currentTarget.getBoundingClientRect();
+        sqBoundsRef.current = {
+            left: rect.left + window.scrollX,
+            top: rect.top + window.scrollY,
+            width: rect.width,
+            height: rect.height
+        };
+    };
+
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!sqGeoCoreRef.current || motionPaused || mouseMoveFrameRef.current || !window.matchMedia("(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
 
-        // Capture synthetic event properties to avoid nullification or pooling issues inside the async callback
-        const clientX = e.clientX;
-        const clientY = e.clientY;
-        const currentTarget = e.currentTarget;
+        // Ensure bounds are cached
+        if (!sqBoundsRef.current) return;
+
+        // ⚡ Bolt: Cache bounds on enter to prevent layout thrashing on mousemove
+        const bounds = sqBoundsRef.current;
+        const pageX = e.pageX;
+        const pageY = e.pageY;
 
         mouseMoveFrameRef.current = requestAnimationFrame(() => {
             mouseMoveFrameRef.current = 0;
-            // Read
-            const rect = currentTarget.getBoundingClientRect();
+
+            // Calculate offset based on document relative coordinates without forcing synchronous layout
+            const offsetX = pageX - bounds.left;
+            const offsetY = pageY - bounds.top;
 
             // Calculate
-            const x = Math.max(-1, Math.min(1, (clientX - rect.left - rect.width / 2) / (rect.width / 2)));
-            const y = Math.max(-1, Math.min(1, (clientY - rect.top - rect.height / 2) / (rect.height / 2)));
+            const x = Math.max(-1, Math.min(1, (offsetX - bounds.width / 2) / (bounds.width / 2)));
+            const y = Math.max(-1, Math.min(1, (offsetY - bounds.height / 2) / (bounds.height / 2)));
             const rotX = -y * 20;
             const rotY = (x * 35) - 15;
 
@@ -481,6 +500,7 @@ export default function Page() {
     };
 
     const handleMouseLeave = () => {
+        sqBoundsRef.current = null;
         cancelAnimationFrame(mouseMoveFrameRef.current);
         mouseMoveFrameRef.current = 0;
         if (motionPaused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -635,7 +655,7 @@ export default function Page() {
                         <span>VERBUNDENE SYSTEME</span> <span className="opacity-30">/</span>
                     </div>
                 </div>
-                <section id="status-quo-section" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} className="border-b border-gridline bg-[#080808] text-white overflow-hidden flex justify-center">
+                <section id="status-quo-section" onMouseEnter={handleMouseEnter} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} className="border-b border-gridline bg-[#080808] text-white overflow-hidden flex justify-center">
                     <div className="w-full max-w-[1440px] relative">
                         <div className="absolute inset-0 flex items-center justify-center lg:justify-end lg:pr-[5%] pointer-events-none z-0 overflow-hidden opacity-20 lg:opacity-60 mix-blend-screen" style={{ perspective: '1200px' }}>
                         <div id="sq-geo-core" ref={sqGeoCoreRef} className="hidden lg:block relative w-[350px] h-[350px] sm:w-[600px] sm:h-[600px] lg:w-[650px] lg:h-[650px] preserve-3d transition-transform duration-300 ease-out" style={{ transform: "rotateX(0deg) rotateY(-15deg)" }}>
