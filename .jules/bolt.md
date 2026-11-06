@@ -35,3 +35,7 @@
 ## 2026-10-13 - [Debounce Layout Thrashing in requestAnimationFrame]
 **Learning:** React synthetic events are pooled/reused. When debouncing DOM reads/writes via `requestAnimationFrame` (like to prevent layout thrashing from `getBoundingClientRect()`), `e.clientX` / `e.currentTarget` etc. must be copied into local variables *before* the async callback. Furthermore, `getBoundingClientRect()` should be grouped *before* any `style` mutations to prevent interleaving reads/writes.
 **Action:** Always cache synthetic event properties when debouncing layout changes, and group DOM reads first.
+
+## 2026-10-18 - Avoid layout thrashing during mousemove by caching document-relative bounds
+**Learning:** Frequent pointer events that read layout (like `getBoundingClientRect()`) inside `mousemove` trigger continuous synchronous forced layouts (layout thrashing) and degrade performance.
+**Action:** When implementing interactions that require element bounds, read `getBoundingClientRect()` once during a less frequent event (like `mouseenter`) and cache the document-relative coordinates (`rect.left + window.scrollX`, `rect.top + window.scrollY`). In the high-frequency `mousemove` handler, compute relative position using `e.pageX/pageY` and the cached document-relative bounds. Always include a fallback check inside the move handler to initialize the bounds if the component mounts while the cursor is already over it.
