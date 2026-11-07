@@ -13,7 +13,9 @@ export function useScrollDirection(threshold = 10) {
     const lastScrollY = useRef(0);
 
     useEffect(() => {
-        const handleScroll = () => {
+        let ticking = false;
+
+        const update = () => {
             const currentY = window.scrollY;
             const heroHeight = window.innerHeight;
 
@@ -30,10 +32,23 @@ export function useScrollDirection(threshold = 10) {
             }
 
             lastScrollY.current = currentY;
+            ticking = false;
+        };
+
+        let frameId = 0;
+
+        const handleScroll = () => {
+            if (!ticking) {
+                ticking = true;
+                frameId = requestAnimationFrame(update);
+            }
         };
 
         window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
+        return () => {
+            cancelAnimationFrame(frameId);
+            window.removeEventListener('scroll', handleScroll);
+        };
     }, [threshold]);
 
     return { isVisible, isPastHero };
