@@ -116,12 +116,18 @@ export default function Page() {
 
                 let needed = 0;
                 if (intro && footer && cards.length) {
+                    const firstCardStyle = getComputedStyle(cards[0]);
+                    const cardVerticalPadding = parseFloat(firstCardStyle.paddingTop) + parseFloat(firstCardStyle.paddingBottom);
+
+                    const childVerticalMargins = Array.from(cards[0].children).map(child => {
+                        const style = getComputedStyle(child);
+                        return parseFloat(style.marginTop) + parseFloat(style.marginBottom);
+                    });
+
                     needed = intro.offsetHeight + footer.offsetHeight + cards.reduce((total, card) => {
-                        const style = getComputedStyle(card);
-                        return total + Array.from(card.children).reduce((height, child) => {
-                            const childStyle = getComputedStyle(child);
-                            return height + (child as HTMLElement).offsetHeight + parseFloat(childStyle.marginTop) + parseFloat(childStyle.marginBottom);
-                        }, 0) + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) + 1;
+                        return total + Array.from(card.children).reduce((height, child, index) => {
+                            return height + (child as HTMLElement).offsetHeight + (childVerticalMargins[index] || 0);
+                        }, 0) + cardVerticalPadding + 1;
                     }, 0) + 2;
                 }
 
