@@ -482,9 +482,19 @@ export default function QuizModal({ isOpen, onClose, mode = "prozesse" }: QuizMo
                                             className="w-full bg-transparent border border-gridline text-white px-5 py-4 font-mono text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none"
                                         />
                                     </div>
-                                    {isWebsite && <div>
-                                        <label htmlFor="quiz-notes" className="text-sm text-bone block mb-2">Was ist Ihnen noch wichtig? <span className="text-bone/60">(optional)</span></label>
-                                        <textarea id="quiz-notes" rows={3} maxLength={1000} value={answers.notes} onChange={e => handleInput("notes", e.target.value)} placeholder="Ihr Unternehmen, besondere Wünsche oder eine Frage an mich …" className="w-full resize-y bg-transparent border border-gridline text-white px-4 py-3 text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none" />
+                                    {isWebsite && <div className="relative">
+                                        <label htmlFor="quiz-notes" className="text-sm text-bone block mb-2 flex justify-between items-end">
+                                            <span>Was ist Ihnen noch wichtig? <span className="text-bone/60">(optional)</span></span>
+                                        </label>
+                                        <div className="relative">
+                                            <textarea id="quiz-notes" aria-describedby="quiz-notes-counter" rows={3} maxLength={1000} value={answers.notes} onChange={e => handleInput("notes", e.target.value)} placeholder="Ihr Unternehmen, besondere Wünsche oder eine Frage an mich …" className="w-full resize-y bg-transparent border border-gridline text-white px-4 py-3 text-sm focus:outline-none focus:border-lime transition-colors placeholder:text-white/50 rounded-none" />
+                                            <div
+                                                id="quiz-notes-counter"
+                                                className={`absolute bottom-2 right-2 font-mono text-[10px] pointer-events-none transition-colors ${answers.notes.length >= 900 ? 'text-red-400' : 'text-bone/40'}`}
+                                            >
+                                                {answers.notes.length}/1000
+                                            </div>
+                                        </div>
                                     </div>}
                                     <p className="text-sm text-bone/80">Mit dem Absenden fragen Sie ein unverbindliches Gespräch an. Informationen zur Verarbeitung Ihrer Angaben finden Sie in der <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/datenschutz/`} className="text-lime underline" target="_blank" rel="noreferrer">Datenschutzerklärung</a>.</p>
                                 </div>

@@ -40,3 +40,9 @@
 
 **Learning:** When using native HTML5 validation attributes like `required`, `aria-required="true"` is redundant as the semantics are implicitly handled by the browser for screen readers. In contrast, custom visual elements acting as progress bars *must* explicitly use `role="progressbar"` and `aria-value*` attributes because they lack native semantic meaning.
 **Action:** Only use `aria-required` when building fully custom non-native form controls; rely on native `required` for standard `<input>` elements. Always use explicit roles and `aria-value*` on custom visual progress indicators.
+## 2026-10-14 - Character count on Textarea
+**Learning:** Visual character counts should explicitly use `aria-live="polite"` so they are properly announced to screen reader users as they type. Using discrete mono-spaced fonts and dynamic color changes to indicate approaching limits helps normal users, but screen reader users rely on the aria attributes.
+**Action:** Always add an accessible character count component to text areas that use a `maxLength` attribute.
+## 2026-10-14 - Character count on Textarea Live Announcements
+**Learning:** Applying `aria-live="polite"` directly to a dynamically updating character count is an accessibility anti-pattern. Screen readers will announce the character count on every keystroke, which is intrusive and overwhelms the user. Instead, `aria-describedby` should be used to provide context about the limits without spamming announcements.
+**Action:** When implementing character counts, use `aria-describedby` pointing to the count id. Avoid `aria-live` unless triggering a specific warning only when approaching limits.
